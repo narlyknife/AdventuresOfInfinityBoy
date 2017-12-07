@@ -6,6 +6,8 @@ public class Engine {
 		// TODO Auto-generated method stub
 		System.out.println("Cancer är gott!!!");
 		System.out.println("ja det är de brorsan!!!!");
+		System.out.println("ja det är de brorsan!!!!");
+		System.out.println("ja det är de brorsan!!!!");
 	}
 
 }
