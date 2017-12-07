@@ -6,6 +6,8 @@ public class Engine {
 		// TODO Auto-generated method stub
 		//Cancer är gott tycker folke
 		
+		//Herman din lilla kvinliga k�nsorgan
+		
 		System.out.println("Cancer är gott!!!");
 		for (int i = 1; i < 3; i++) {
 			System.out.println("ja det är de brorsan!!!!");
