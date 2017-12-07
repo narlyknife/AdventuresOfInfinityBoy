@@ -12,6 +12,10 @@ public class Engine {
 		}
 		System.out.println("Cancer Ã¤r gott!!!");
 		//NICE MAN
+		
+		for (int i = 1; i < 10; i++) {
+			System.out.println("Hoppa då!");
+		}
 	}
 
 }
