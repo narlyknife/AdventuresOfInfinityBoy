@@ -4,10 +4,11 @@ public class Engine {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println("Cancer är gott!!!");
-		System.out.println("ja det är de brorsan!!!!");
-		System.out.println("ja det är de brorsan!!!!");
-		System.out.println("ja det är de brorsan!!!!");
+		//Cancer Ã¤r gott tycker folke
+    System.out.println("Cancer Ã¤r gott!!!");
+		System.out.println("ja det Ã¤r de brorsan!!!!");
+		System.out.println("ja det Ã¤r de brorsan!!!!");
+		System.out.println("ja det Ã¤r de brorsan!!!!");
 	}
 
 }
