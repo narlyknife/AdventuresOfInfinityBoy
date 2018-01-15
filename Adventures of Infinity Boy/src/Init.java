@@ -1,8 +1,18 @@
+import java.awt.List;
+import java.util.ArrayList;
+
 public class Init {
 	
 	//Variable holding different Frames Per Second
-	public int[] _FPS = {60,30,20,10};
+	ArrayList<Integer> fps = new ArrayList<Integer>();
+	final int PLATFORM_COUNT;
+	
+	Init() {
+	//The Main threads FPS
+	fps.add(60);
 	
 	// Variable for maximum amount of platforms that will appear on screen
-	public int platformCount = 10; 	
+	PLATFORM_COUNT = 10;
+	}
+	
 }
