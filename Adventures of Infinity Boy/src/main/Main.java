@@ -13,6 +13,7 @@ import jpanels.ScoreBoard;
 import jpanels.Settings;
 import jpanels.SubPanels.*;
 
+
 public class Main {
 	public static final JFrame _frame = new JFrame();
 	public static final Init _init = new Init();
@@ -21,9 +22,11 @@ public class Main {
 	static Map<String, JPanel> subPanelMap = new HashMap<String, JPanel>();
 	
 	public static void main(String[] args) {
+
 		// Creating a map with all the panel objects and their preferred key names, because.. you know objects have genders to... i guess?
 		panelMap.put("credits", new Credits());							panelMap.put("gamepanel", new GamePanel());			panelMap.put("mainmenu", new MainMenu());	
 		panelMap.put("scoreboard", new ScoreBoard());					panelMap.put("settings", new Settings());			
+
 		
 		// Creating another map for all the sub-panels, #subpanelLivesMatter
 		subPanelMap.put("charactersettings", new CharacterSettings());	subPanelMap.put("difficultysettings", new DifficultySettings());	
