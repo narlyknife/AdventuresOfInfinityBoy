@@ -14,7 +14,7 @@ public class MainMenu extends JPanel implements ActionListener{
 	// Button for "Start game", "Settings", "Scoreboard", "Credits" 
 	
 	JButton startGame, settings, scoreBoard, credits;
-	static JFrame mainMenuFrame = new JFrame();
+	//static JFrame mainMenuFrame = new JFrame();
 	
 	public MainMenu() {
 		
@@ -25,7 +25,7 @@ public class MainMenu extends JPanel implements ActionListener{
 		credits = new JButton("Credits");
 		
 		// Outline
-		startGame.setBounds(/* 45%*/, /* 40% */, /* 55% */, /* 45% */);
+		// startGame.setBounds(Main._init.getResX(), /* 40% */, /* 55% */, /* 45% */);
 		
 		// Adding
 		add(startGame);	add(settings);	add(scoreBoard);	add(credits);
@@ -42,7 +42,7 @@ public class MainMenu extends JPanel implements ActionListener{
 	}
 	
 	public static void main(String[] args) {
-		mainMenuFrame.setLayout(null);
+		//mainMenuFrame.setLayout(null);
 		
 	}
 }

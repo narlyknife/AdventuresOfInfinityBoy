@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 public class Init {
 
-	
 	// Variable holding different Frames Per Second
 
 	ArrayList<Integer> fps = new ArrayList<Integer>();
@@ -22,7 +21,7 @@ public class Init {
 		
 		// Screen Resolutions in X and Y format
 		SCREEN_RES_X = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-		SCREEN_RES_Y = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+		SCREEN_RES_Y = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	}
 	
 	public void setFps(int position, int value) {
@@ -40,5 +39,4 @@ public class Init {
 	public int getResY() {
 		return SCREEN_RES_Y;
 	}
-}
 }
