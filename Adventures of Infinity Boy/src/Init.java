@@ -2,13 +2,9 @@ import java.awt.Toolkit;
 import java.util.ArrayList;
 
 public class Init {
-	
-<<<<<<< HEAD
-	// Variable holding different Frames Per Second
-=======
+
 
 	//Variable holding different Frames Per Second
->>>>>>> master
 	ArrayList<Integer> fps = new ArrayList<Integer>();
 	final int PLATFORM_COUNT;
 	final int SCREEN_RES_X;
