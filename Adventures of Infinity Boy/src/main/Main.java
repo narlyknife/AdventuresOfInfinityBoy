@@ -9,9 +9,6 @@ import javax.swing.JPanel;
 import jpanels.*;
 
 
-import javax.swing.JFrame;
-
-
 public class Main {
 	public static final JFrame _frame = new JFrame();
 	public static final Init _init = new Init();
@@ -21,10 +18,6 @@ public class Main {
 	public static void main(String[] args) {
 		panelMap.put("credits", new Credits());
 		
-		setFullscreen();
-
-	
-	public static void main(String[] args) {
 		setFullscreen();
 		
 		
