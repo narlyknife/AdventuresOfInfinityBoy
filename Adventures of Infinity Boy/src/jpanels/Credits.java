@@ -1,8 +1,10 @@
 package jpanels;
 
-public class Credits {
+import javax.swing.JPanel;
 
-	public static void main(String[] args) {
+public class Credits extends JPanel{
+
+	public static void main(String[] args){
 		// TODO Auto-generated method stub
 
 	}
