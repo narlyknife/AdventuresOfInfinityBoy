@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 public class Init {
 
-	
 	// Variable holding different Frames Per Second
 
 	ArrayList<Integer> fps = new ArrayList<Integer>();
