@@ -11,6 +11,7 @@ public class Init {
 	final int PLATFORM_COUNT;
 	final int SCREEN_RES_X;
 	final int SCREEN_RES_Y;
+	final String font = "Arial";
 	
 	Init() {
 		// The Main threads FPS
@@ -38,5 +39,9 @@ public class Init {
 	
 	public int getResY() {
 		return SCREEN_RES_Y;
+	}
+	
+	public String getOurFont() {
+		return font;
 	}
 }

@@ -12,12 +12,8 @@ import main.Main;
 
 public class MainMenu extends JPanel implements ActionListener{
 	
-	// Button for "Start game", "Settings", "Scoreboard", "Credits" 	
-	JButton startGame, settings, scoreBoard, credits;
-	//static JFrame mainMenuFrame = new JFrame();
-	
-	static int resX = Main._init.getResX();
-	static int resY = Main._init.getResY();
+	// Button for "Start game", "Settings", "Scoreboard", "Credits", "Quit game" 	
+	JButton startGame, settings, scoreBoard, credits, quit;
 	
 	public MainMenu() {
 		
@@ -26,6 +22,7 @@ public class MainMenu extends JPanel implements ActionListener{
 		settings = new JButton("Settings");
 		scoreBoard = new JButton("Scoreboard");
 		credits = new JButton("Credits");
+		quit = new JButton("Quit Game");
 		
 		// Aligning everything
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -33,11 +30,12 @@ public class MainMenu extends JPanel implements ActionListener{
 		settings.setAlignmentX(CENTER_ALIGNMENT);
 		scoreBoard.setAlignmentX(CENTER_ALIGNMENT);
 		credits.setAlignmentX(CENTER_ALIGNMENT);
+		quit.setAlignmentX(CENTER_ALIGNMENT);
 				
 		// Adding components and adding spacing between them
 		Dimension minSize = new Dimension(40,10);
-		Dimension prefSize = new Dimension(40, 20);
-		Dimension maxSize = new Dimension(40, 30);
+		Dimension prefSize = new Dimension(40, 15);
+		Dimension maxSize = new Dimension(40, 20);
 		Dimension maxSizeAbove = new Dimension(40,600);
 		add(new Box.Filler(minSize, prefSize, maxSizeAbove));
 		add(startGame);	
@@ -47,6 +45,10 @@ public class MainMenu extends JPanel implements ActionListener{
 		add(scoreBoard);
 		add(new Box.Filler(minSize, prefSize, maxSize));
 		add(credits);
+		add(new Box.Filler(minSize, prefSize, maxSize));
+		add(new Box.Filler(minSize, prefSize, maxSize));
+		add(new Box.Filler(minSize, prefSize, maxSize));
+		add(quit);
 		Dimension maxSizeBelow = new Dimension(40,200);
 		add(new Box.Filler(minSize, prefSize, maxSizeBelow));
 		
@@ -56,11 +58,27 @@ public class MainMenu extends JPanel implements ActionListener{
 		scoreBoard.addActionListener(this);
 		credits.addActionListener(this);
 		
-		
-		
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == startGame) {
+			Main._frame.setContentPane(Main.panelMap.get("gamepanel"));
+		}
+		if (e.getSource() == settings) {
+			Main._frame.setContentPane(Main.panelMap.get("settings"));
+		}
+		if (e.getSource() == scoreBoard) {
+			Main._frame.setContentPane(Main.panelMap.get("scoreboard"));
+		}
+		if (e.getSource() == credits) {
+			Main._frame.setContentPane(Main.panelMap.get("credits"));
+		}
+		if (e.getSource() == quit) {
+			
+		}
 		
+	}
+	public static void main(String[] args) {
+	
 	}
 }
