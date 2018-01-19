@@ -3,18 +3,17 @@ package jpanels;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import engine.MainActionListener;
 import main.Main;
 
 @SuppressWarnings("serial")
-public class ScoreBoard extends JPanel implements ActionListener{
+public class ScoreBoard extends JPanel{
 	
 	// Declarations
 	static int resX = Main._init.getResX();
@@ -23,38 +22,30 @@ public class ScoreBoard extends JPanel implements ActionListener{
 	
 	private String[] scores = new String[10];
 	
-	JButton back;
+	JButton[] buttons = {new JButton("Back")};
 	
 	// Constructor
 	public ScoreBoard() {
 		
-		// Declarations
-		back = new JButton("Main Menu");
-		
 		//Positioning and alignment
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		back.setAlignmentX(CENTER_ALIGNMENT);
+		buttons[0].setAlignmentX(CENTER_ALIGNMENT);
 		
 		// Adding
 		Dimension minSizeBelow = new Dimension(100, 750);
 		Dimension prefSizeBelow = new Dimension(100, 825);
 		Dimension maxSizeBelow = new Dimension(100, 900);
 		add(new Box.Filler(minSizeBelow, prefSizeBelow, maxSizeBelow));
-		add(back);
+		add(buttons[0]);
 		
-		// Action listener
-		back.addActionListener(this);
+		MainActionListener.addButton(buttons[0], "back");
+		
+		// Add custom actionListener
+		buttons[0].addActionListener(Main.actionListener);
 		
 		// Method calling
 		setScores();
 		repaint();
-	}
-	
-	// Method
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == back) {
-			
-		}
 	}
 	
 	public void paintComponent(Graphics g) {

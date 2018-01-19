@@ -1,25 +1,36 @@
 package main;
 
+import java.awt.CardLayout;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import engine.MainActionListener;
 import jpanels.Credits;
 import jpanels.GamePanel;
 import jpanels.MainMenu;
 import jpanels.ScoreBoard;
 import jpanels.Settings;
-import jpanels.SubPanels.*;
+import jpanels.SubPanels.CharacterSettings;
+import jpanels.SubPanels.DifficultySettings;
+import jpanels.SubPanels.GameOver;
+import jpanels.SubPanels.GameSettings;
+import jpanels.SubPanels.Pause;
+import jpanels.SubPanels.SplashScreen;
 
 
 public class Main {
 	public static final JFrame _frame = new JFrame();
 	public static final Init _init = new Init();
 
-	static Map<String, JPanel> panelMap = new HashMap<String, JPanel>();
-	static Map<String, JPanel> subPanelMap = new HashMap<String, JPanel>();
+	public static Map<String, JPanel> panelMap = new HashMap<String, JPanel>();
+	public static Map<String, JPanel> subPanelMap = new HashMap<String, JPanel>();
+	public static MainActionListener actionListener = new MainActionListener();
+	
+	public static CardLayout cardlayout = new CardLayout();
+	public static JPanel mainPanel = new JPanel(cardlayout);
 	
 	public static void main(String[] args) {
 
@@ -34,7 +45,8 @@ public class Main {
 		subPanelMap.put("pause", new Pause());							subPanelMap.put("splashscreen", new SplashScreen());
 		
 		// Switching displaying panel to the main menu
-		_frame.setContentPane(panelMap.get("mainmenu"));
+		_frame.setContentPane(mainPanel);
+		setPanel("mainmenu");
 		
 		setFullscreen();
 		_frame.setVisible(true);
@@ -44,6 +56,11 @@ public class Main {
 	private static void setFullscreen() {
 		_frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		_frame.setUndecorated(true);
+	}
+	
+	public static void setPanel(String panel) {
+		mainPanel.add(panelMap.get(panel), panel);
+		cardlayout.show(mainPanel, panel);
 	}
 	
 }
