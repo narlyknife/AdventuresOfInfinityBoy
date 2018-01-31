@@ -10,6 +10,10 @@ import engine.MainActionListener;
 import main.Main;
 
 public class MainMenu extends JPanel{
+	// Changes to be made
+	// 
+	//	 - Clean the code!
+	//
 	
 	public MainMenu() {
 		

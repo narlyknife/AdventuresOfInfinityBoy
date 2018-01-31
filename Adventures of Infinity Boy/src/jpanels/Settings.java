@@ -3,8 +3,6 @@ package jpanels;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -16,6 +14,13 @@ import engine.MainActionListener;
 import main.Main;
 
 public class Settings extends JPanel{
+	// Changes to be made
+	//
+	//	 - Clean up the code.
+	// 
+	//	 - Setup the sub panels containing the settings and all the methods for it
+	//
+	
 	
 	// Declarations
 	static int resX = Main._init.getResX();
@@ -47,7 +52,7 @@ public class Settings extends JPanel{
 		Dimension minMiddle = new Dimension(40, 500);		Dimension prefMiddle = new Dimension(40, 550);			Dimension maxMiddle = new Dimension(40, 600);
 		settingsPanel.add(new Box.Filler(minMiddle, prefMiddle, maxMiddle));
 		
-		// Middle pane
+		// Middle panel
 		JPanel midPanel = new JPanel();
 		midPanel.setLayout(new BoxLayout(midPanel, BoxLayout.Y_AXIS));
 		
@@ -73,8 +78,9 @@ public class Settings extends JPanel{
 		add(new Box.Filler(minSide, prefSide, maxSide )); add(midPanel); add(new Box.Filler(minSide, prefSide, maxSide ));
 		
 		// Applying action Listener
+		MainActionListener.addButton(buttons[3], "cancel");
 		for(int i = 0; i < buttons.length; i++) {
-		buttons[i].addActionListener(Main.actionListener);
+			buttons[i].addActionListener(Main.actionListener);
 		}
 		
 
