@@ -12,9 +12,10 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import engine.MainActionListener;
 import main.Main;
 
-public class Settings extends JPanel implements ActionListener{
+public class Settings extends JPanel{
 	
 	// Declarations
 	static int resX = Main._init.getResX();
@@ -22,33 +23,28 @@ public class Settings extends JPanel implements ActionListener{
 	static String font = Main._init.getOurFont();
 	
 	JLabel title;
-	JButton game, difficulty, character, save, cancel;
+	JButton[] buttons = {new JButton("Game Settings"), new JButton("Difficulty Settings"), new JButton("Character Settings"), new JButton("Cancel"), new JButton("Save")};
 	
 	public Settings() {
 		
 		// Declarations
 		title = new JLabel("Settings");
-		game = new JButton("Game Settings");
-		difficulty = new JButton("Difficulty Settings");
-		character = new JButton("Character Settings");
-		save = new JButton("Save");
-		cancel = new JButton("Cancel");
 		
 		title.setFont(new Font(font, Font.PLAIN, 40));
 		title.setAlignmentX(CENTER_ALIGNMENT);
 		
 		// ButtonPanel
 		JPanel buttonPanel = new JPanel(new GridLayout(1,0,40,0));
-		buttonPanel.add(game);	buttonPanel.add(difficulty);	buttonPanel.add(character);
+		buttonPanel.add(buttons[0]);	buttonPanel.add(buttons[1]);	buttonPanel.add(buttons[2]);
 		
 		// Bottom buttonPanel
 		JPanel bottomButtonPanel = new JPanel(new GridLayout(1,0,40,0));
-		bottomButtonPanel.add(cancel);	bottomButtonPanel.add(save);
+		bottomButtonPanel.add(buttons[3]);	bottomButtonPanel.add(buttons[4]);
 		
 		// Settings panel
 		JPanel settingsPanel = new JPanel();
 		settingsPanel.setLayout(new BoxLayout(settingsPanel, BoxLayout.Y_AXIS));
-		Dimension minMiddle = new Dimension(40, 500);		Dimension prefMiddle = new Dimension(40, 550);		Dimension maxMiddle = new Dimension(40, 600);
+		Dimension minMiddle = new Dimension(40, 500);		Dimension prefMiddle = new Dimension(40, 550);			Dimension maxMiddle = new Dimension(40, 600);
 		settingsPanel.add(new Box.Filler(minMiddle, prefMiddle, maxMiddle));
 		
 		// Middle pane
@@ -77,29 +73,10 @@ public class Settings extends JPanel implements ActionListener{
 		add(new Box.Filler(minSide, prefSide, maxSide )); add(midPanel); add(new Box.Filler(minSide, prefSide, maxSide ));
 		
 		// Applying action Listener
-		game.addActionListener(this);
-		difficulty.addActionListener(this);
-		character.addActionListener(this);
-		save.addActionListener(this);
-		cancel.addActionListener(this);
+		for(int i = 0; i < buttons.length; i++) {
+		buttons[i].addActionListener(Main.actionListener);
+		}
+		
 
-	}
-	
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == game) {
-			
-		}
-		if (e.getSource() == difficulty) {
-			
-		}
-		if (e.getSource() == character) {
-			
-		}
-		if (e.getSource() == save) {
-			
-		}
-		if (e.getSource() == cancel) {
-			
-		}
 	}
 }
