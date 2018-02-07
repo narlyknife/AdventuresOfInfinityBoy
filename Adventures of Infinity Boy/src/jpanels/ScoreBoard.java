@@ -38,11 +38,11 @@ public class ScoreBoard extends JPanel{
 		/////////////
 		// Dimensions
 		Dimension minSize = new Dimension(40,30);							Dimension prefSize = new Dimension(40, 35);								Dimension maxSize = new Dimension(40, 40);
-		Dimension minSizeAbove = new Dimension((int)(resX * 0.33),100);		Dimension prefSizeAbove = new Dimension((int)(resX * 0.33), 150);		Dimension maxSizeAbove = new Dimension((int)(resX * 0.33), 200);
+		Dimension minSizeAbove = new Dimension((int)(resX * 0.33), 75);		Dimension prefSizeAbove = new Dimension((int)(resX * 0.33), 125);		Dimension maxSizeAbove = new Dimension((int)(resX * 0.33), 150);
 		Dimension minHalf = new Dimension((int) (resX * 0.2), 300);			Dimension prefHalf = new Dimension((int) (resX * 0.2) + 10, 300);		Dimension maxHalf = new Dimension((int) (resX * 0.2) + 15, 300);
-		Dimension minSizeBelow = new Dimension(100, 25);					Dimension prefSizeBelow = new Dimension(100, 50); 						Dimension maxSizeBelow = new Dimension(100, 75);
+		Dimension minSizeBelow = new Dimension(100, 15);					Dimension prefSizeBelow = new Dimension(100, 35); 						Dimension maxSizeBelow = new Dimension(100, 50);
 		Dimension minSide = new Dimension((int) (resX * 0.33), resY);		Dimension prefSide = new Dimension((int) ((resX * 0.33) + 25), resY); 	Dimension maxSide = new Dimension((int) ((resX * 0.33) + 50), resY);
-		Dimension minMiddle = new Dimension((int) (resX * 0.33), 100);
+		Dimension minMiddle = new Dimension((int) (resX * 0.33), 60);
 		
 		//////////////
 		// Score panel

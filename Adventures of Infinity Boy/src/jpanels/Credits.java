@@ -2,7 +2,6 @@ package jpanels;
 
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -16,11 +15,8 @@ import main.Main;
 public class Credits extends JPanel {
 	// CHANGES TO BE MADE
 	//
-	//	 - Polish up the code a little bit. 
+	//	- N/A
 	//
-	//	 - Introduce Hash maps to make headlines and people more smoothly?
-	//
-	
 	
 	// Declarations
 	static int resX = Main._init.getResX();
@@ -28,61 +24,48 @@ public class Credits extends JPanel {
 	static String font = Main._init.getOurFont();
 	
 	JLabel mainHeader = new JLabel("Credits");
-	JLabel[] headers = {new JLabel("Programmers")};
-	JLabel[] programmers = {new JLabel("Herman Eriksson"), new JLabel("Folke Johansson")};
+	
+	// Each title gets their own Array of labels. The first element is used for a title or description of what the people under it did.
+	JLabel[] programmers = {new JLabel("Programmers"), new JLabel("Herman Eriksson"), new JLabel("Folke Johansson")};
 	JButton[] buttons = {new JButton("Back")};
+	
+	
+	
 	public Credits() {
 		
-
 		///////////////
 		// Setting font
-		mainHeader.setFont(new Font(font, Font.BOLD, 50));
+		mainHeader.setFont(new Font(font, Font.BOLD, 60));
+		programmers = setFontAndAlign(programmers);
 		
-		// Headers
-		for (int i = 0; i < headers.length; i++) {
-			headers[i].setFont(new Font(font, Font.PLAIN, 30));
-		}
-		
-		// Programmers
-		for (int i = 0; i < programmers.length; i++) {
-			programmers[i].setFont(new Font(font, Font.PLAIN, 18));
-		}
-
 		///////////////////////////
 		//Positioning and alignment
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		
 		mainHeader.setAlignmentX(CENTER_ALIGNMENT);
-		
-		// Headers
-		for (int i = 0; i < headers.length; i++) {
-			headers[i].setAlignmentX(CENTER_ALIGNMENT);
-		}
-		
-		// Programmers
-		for (int i = 0; i < programmers.length; i++) {
-			programmers[i].setAlignmentX(CENTER_ALIGNMENT);
-		}
-		
-		// Buttons
+				
 		for (int i = 0; i < buttons.length; i++) {
 			buttons[i].setAlignmentX(CENTER_ALIGNMENT);
 		}
 		
+		//////////////////////////////////////////
+		// Setting new dimensions for filler boxes
+		Dimension minSize = new Dimension(40,10);			Dimension prefSize = new Dimension(40, 20);				Dimension maxSize = new Dimension(40, 30);
+		Dimension minSizeAbove = new Dimension(40,200);		Dimension prefSizeAbove = new Dimension(40, 250);		Dimension maxSizeAbove = new Dimension(40, 300);
+		Dimension minSizeBelow = new Dimension(100, 100);	Dimension prefSizeBelow = new Dimension(100, 150);		Dimension maxSizeBelow = new Dimension(100, 200);
+
 		/////////
 		// Adding
-		Dimension minSize = new Dimension(40,10);		Dimension prefSize = new Dimension(40, 20);		Dimension maxSize = new Dimension(40, 30);
-		Dimension minSizeAbove = new Dimension(40,200);		Dimension prefSizeAbove = new Dimension(40, 250);		Dimension maxSizeAbove = new Dimension(40, 300);
 		add(new Box.Filler(minSizeAbove, prefSizeAbove, maxSizeAbove));
 		add(mainHeader);
 		add(new Box.Filler(minSize, prefSize, maxSize));
-		add(headers[0]); 		// Title
 		add(new Box.Filler(minSize, prefSize, maxSize));
-		add(programmers[0]);	// Person
-		add(new Box.Filler(minSize, prefSize, maxSize));
-		add(programmers[1]);	//Person
-		Dimension minSizeBelow = new Dimension(100, 100);
-		Dimension prefSizeBelow = new Dimension(100, 150);
-		Dimension maxSizeBelow = new Dimension(100, 200);
+		
+		for (int i = 0; i < programmers.length; i++) {
+			add(programmers[i]);
+			add(new Box.Filler(minSize, prefSize, maxSize));
+		}
+	
 		add(new Box.Filler(minSizeBelow, prefSizeBelow, maxSizeBelow));
 		add(buttons[0]);
 		
@@ -91,6 +74,25 @@ public class Credits extends JPanel {
 		MainActionListener.addButton(buttons[0], "back");
 		buttons[0].addActionListener(Main.actionListener);
 		
+
 	}
-	
+	//////////
+	// Methods
+	public JLabel[] setFontAndAlign(JLabel[] array) {
+		JLabel[] data = array;
+		int length = data.length;
+		
+		for (int i = 0; i < length; i++) {
+			if (i == 0) {
+				data[i].setFont(new Font(font, Font.BOLD, 30));
+				data[i].setAlignmentX(CENTER_ALIGNMENT);
+			}
+			else {
+				data[i].setFont(new Font(font, Font.PLAIN, 18));
+				data[i].setAlignmentX(CENTER_ALIGNMENT);
+			}
+		}
+		
+		return data;
+	}
 }

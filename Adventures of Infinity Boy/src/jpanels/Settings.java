@@ -30,6 +30,7 @@ public class Settings extends JPanel{
 	JLabel title;
 	JButton[] buttons = {new JButton("Game Settings"), new JButton("Difficulty Settings"), new JButton("Character Settings"), new JButton("Cancel"), new JButton("Save")};
 	
+	
 	public Settings() {
 		
 		// Declarations
