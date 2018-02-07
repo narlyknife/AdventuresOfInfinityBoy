@@ -28,7 +28,7 @@ public class MainActionListener implements ActionListener{
 			Main.setPanel("credits");
 		}
 		if(e.getSource() == buttonMap.get("quitgame")) {
-			// Kill it with fire!
+			System.exit(0); // KILL IT WITH FIRE!
 		}
 		if(e.getSource() == buttonMap.get("back") || e.getSource() == buttonMap.get("cancel") || e.getSource() == buttonMap.get("mainMenu")) {
 			Main.setPanel("mainmenu");
