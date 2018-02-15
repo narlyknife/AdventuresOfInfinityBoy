@@ -21,7 +21,7 @@ public class GroundBlocks extends JPanel{
 	
 	public GroundBlocks() {
 		System.out.println("GroundBlock created");
-		getScaleIndex();
+		createScaleIndex();
 		setScaleIndex();
 	}
 		
@@ -32,7 +32,7 @@ public class GroundBlocks extends JPanel{
 	
 	// Getting a scaled index to reference how large if any the scaling of the ground object will be.
 	// A resolution of 2x will result in a scaleIndex of 2.
-	public void getScaleIndex() {
+	public void createScaleIndex() {
 		scaleIndex = (int) resX / Init.getGroundSize(0);
 	}
 	
