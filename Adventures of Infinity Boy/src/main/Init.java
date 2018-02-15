@@ -12,6 +12,7 @@ public class Init {
 	final int SCREEN_RES_X;
 	final int SCREEN_RES_Y;
 	final String font = "Arial";
+	final static int[] GROUND_SIZE = {1920, 150};
 	
 	Init() {
 		// The Main threads FPS
@@ -39,6 +40,10 @@ public class Init {
 	
 	public int getResY() {
 		return SCREEN_RES_Y;
+	}
+	
+	public static int getGroundSize(int element) {
+		return GROUND_SIZE[element];
 	}
 	
 	public String getOurFont() {
