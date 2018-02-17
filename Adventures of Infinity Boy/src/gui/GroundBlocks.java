@@ -3,7 +3,6 @@ package gui;
 import java.awt.Graphics;
 import java.awt.Image;
 
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import main.Init;
@@ -15,38 +14,37 @@ public class GroundBlocks extends JPanel{
 	static int resX = Main._init.getResX();
 	static int resY = Main._init.getResY();
 	static String font = Main._init.getOurFont();
-	private int scaleIndex = 1;
-	private int groundWidth, groundHeight;
-	private Image img = new ImageIcon(this.getClass().getResource("/Pictures/Ground1.png")).getImage();
+	public static int groundWidth;
+	private static int groundHeight;
+	private Image choosenImage;
 	
 	public GroundBlocks() {
 		System.out.println("GroundBlock created");
-		createScaleIndex();
 		setScaleIndex();
 	}
 		
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(img, 0, 0, null);
+		
+		//Draw image background
+		g.drawImage(choosenImage, 0, 0, this);
 	}
 	
-	// Getting a scaled index to reference how large if any the scaling of the ground object will be.
-	// A resolution of 2x will result in a scaleIndex of 2.
-	public void createScaleIndex() {
-		scaleIndex = (int) resX / Init.getGroundSize(0);
-	}
-	
-	// Applying the claedIndex to the ground objects X and Y dimensions.
+	// Applying the scaleIndex to the ground objects X and Y dimensions.
 	public void setScaleIndex() {
-		groundWidth = (int) (Init.getGroundSize(0) * scaleIndex);
-		groundHeight = (int) (Init.getGroundSize(1) * scaleIndex);
+		groundWidth = (int) (Init.getGroundSize(0) * Main._init.getScaleIndex());
+		groundHeight = (int) (Init.getGroundSize(1) * Main._init.getScaleIndex());
 	}
 	
 	public int getGroundWidth() {
 		return groundWidth;
 	}
 	
-	public int getGroundHeight() {
+	public static int getGroundHeight() {
 		return groundHeight;
+	}
+	
+	public void setGroundImage(Image image) {
+		choosenImage = image;
 	}
 }

@@ -38,7 +38,6 @@ public class Main {
 		panelMap.put("credits", new Credits());							panelMap.put("gamepanel", new GamePanel());			panelMap.put("mainmenu", new MainMenu());	
 		panelMap.put("scoreboard", new ScoreBoard());					panelMap.put("settings", new Settings());			
 
-		
 		// Creating another map for all the sub-panels, #subpanelLivesMatter
 		subPanelMap.put("charactersettings", new CharacterSettings());	subPanelMap.put("difficultysettings", new DifficultySettings());	
 		subPanelMap.put("gameover", new GameOver());					subPanelMap.put("gamesettings", new GameSettings());				
@@ -63,4 +62,8 @@ public class Main {
 		cardlayout.show(mainPanel, panel);
 	}
 	
+	// Getting a scaled index to reference how large if any the scaling of the ground object will be.
+	// A resolution of 2x will result in a scaleIndex of 2.
+	
+
 }
