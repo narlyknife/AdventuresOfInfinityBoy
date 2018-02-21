@@ -38,8 +38,8 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	final int GROUND_WIDTH = ground[1].getGroundWidth();
 	int[] groundX = {0, GROUND_WIDTH, GROUND_WIDTH*2};
 	
-	final int OBSTACLE_HEIGHT = obstacle[0].getHeight();
-	final int OBSTACLE_WIDTH = obstacle[0].getWidth();
+	final int OBSTACLE_HEIGHT = obstacle[0].getObstacleHeight();
+	final int OBSTACLE_WIDTH = obstacle[0].getObstacleWidth();
 	int[] obstacleX = {newCoord(0), newCoord(0), newCoord(0), newCoord(0), newCoord(0)};
 	int[] obstacleY = {newCoord(1), newCoord(1), newCoord(1), newCoord(1), newCoord(1)};
 	
@@ -52,6 +52,7 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	
 	public void run() {
 		System.out.println("A new MainThread has been initiated");
+		System.out.println(OBSTACLE_HEIGHT + ", " + OBSTACLE_WIDTH);
 		time.start();
 		
 		// Setting ground block size, starting location and image

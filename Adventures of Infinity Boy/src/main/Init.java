@@ -28,13 +28,7 @@ public class Init {
 		SCREEN_RES_X = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 		SCREEN_RES_Y = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 		
-		scaleIndex = getResX() / 1920;
-//		System.out.println(SCREEN_RES_X);
-//		System.out.println(GROUND_SIZE[0]);
-//		System.out.println(scaleIndex);
-		System.out.println(1680/1920);
-		
-		
+		scaleIndex = getResX() / 1920;	
 	}
 	
 	public void setFps(int position, int value) {

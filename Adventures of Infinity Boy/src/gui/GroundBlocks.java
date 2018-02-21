@@ -25,7 +25,6 @@ public class GroundBlocks extends JPanel{
 		
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
 		//Draw image background
 		g.drawImage(chosenImage, 0, 0, this);
 	}
