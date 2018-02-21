@@ -3,7 +3,8 @@ package jpanels;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
-import gui.*;
+import gui.GroundBlocks;
+import gui.Obstacles;
 import pui.*;
 
 import main.Main;
@@ -18,9 +19,10 @@ public class GamePanel extends JPanel{
 	// Creating a new thread for the processing of world movement.
 	static gameGeneralThread mainThread = new gameGeneralThread();
 	
+	@SuppressWarnings("static-access")
 	public GamePanel() {
 		System.out.println("New Gameobject Created");
-		
+		 
 		// Allowing for a XY precise placement, beneficial for a JPanel with the purpose of multiple object placements.
 		this.setLayout(null);
 		

@@ -32,7 +32,7 @@ public class Init {
 //		System.out.println(SCREEN_RES_X);
 //		System.out.println(GROUND_SIZE[0]);
 //		System.out.println(scaleIndex);
-		System.out.println(SCREEN_RES_X/1920);
+		System.out.println(1680/1920);
 		
 		
 	}
