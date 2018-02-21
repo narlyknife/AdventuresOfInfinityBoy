@@ -13,7 +13,9 @@ public class Init {
 	final int SCREEN_RES_Y;
 	final String font = "Arial";
 	final static int[] GROUND_SIZE = {1920, 150};
-	static float scaleIndex = 1;
+	final static int[] OBSTACLE_SIZE = {200, 15};
+	final static int OBSTACLE_AMOUNT = 5;
+	static double scaleIndex = 1;
 	
 	Init() {
 		// The Main threads FPS
@@ -26,7 +28,13 @@ public class Init {
 		SCREEN_RES_X = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 		SCREEN_RES_Y = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 		
-		scaleIndex = (float) (getResX() / getGroundSize(0));
+		scaleIndex = getResX() / 1920;
+//		System.out.println(SCREEN_RES_X);
+//		System.out.println(GROUND_SIZE[0]);
+//		System.out.println(scaleIndex);
+		System.out.println(SCREEN_RES_X/1920);
+		
+		
 	}
 	
 	public void setFps(int position, int value) {
@@ -49,7 +57,15 @@ public class Init {
 		return GROUND_SIZE[element];
 	}
 	
-	public static float getScaleIndex() {
+	public static int getObstacleSize(int element) {
+		return OBSTACLE_SIZE[element];
+	}
+	
+	public static int getObstacleAmount() {
+		return OBSTACLE_AMOUNT;
+	}
+	
+	public static double getScaleIndex() {
 		return scaleIndex;
 	}
 	

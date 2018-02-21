@@ -26,6 +26,8 @@ public class GamePanel extends JPanel{
 		
 		// Setting the grounds size, placement and z position on the gamePanel.
 		for(int i = 0; i < mainThread.ground.length; i++) this.add(mainThread.ground[i]);
+		
+		for(int i = 0; i < mainThread.obstacle.length; i++) this.add(mainThread.obstacle[i]);
 	}
 	
 	// Starting new thread

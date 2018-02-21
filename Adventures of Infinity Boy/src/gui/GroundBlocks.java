@@ -14,9 +14,9 @@ public class GroundBlocks extends JPanel{
 	static int resX = Main._init.getResX();
 	static int resY = Main._init.getResY();
 	static String font = Main._init.getOurFont();
-	public static int groundWidth;
+	private static int groundWidth;
 	private static int groundHeight;
-	private Image choosenImage;
+	private Image chosenImage;
 	
 	public GroundBlocks() {
 		System.out.println("GroundBlock created");
@@ -25,15 +25,16 @@ public class GroundBlocks extends JPanel{
 		
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
+		System.out.println("Painted ground");
 		//Draw image background
-		g.drawImage(choosenImage, 0, 0, this);
+		g.drawImage(chosenImage, 0, 0, this);
 	}
 	
 	// Applying the scaleIndex to the ground objects X and Y dimensions.
+	// Size changes can be made manually in Init.
 	public void setScaleIndex() {
-		groundWidth = (int) (Init.getGroundSize(0) * Main._init.getScaleIndex());
-		groundHeight = (int) (Init.getGroundSize(1) * Main._init.getScaleIndex());
+		groundWidth = (int) (Init.getGroundSize(0) * Init.getScaleIndex());
+		groundHeight = (int) (Init.getGroundSize(1) * Init.getScaleIndex());
 	}
 	
 	public int getGroundWidth() {
@@ -45,6 +46,6 @@ public class GroundBlocks extends JPanel{
 	}
 	
 	public void setGroundImage(Image image) {
-		choosenImage = image;
+		chosenImage = image;
 	}
 }
