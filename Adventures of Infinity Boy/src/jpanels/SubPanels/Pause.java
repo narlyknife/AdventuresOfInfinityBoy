@@ -1,5 +1,6 @@
 package jpanels.SubPanels;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -24,6 +25,8 @@ public class Pause extends JPanel implements ActionListener{
 		JButton keepGoing, retry, back;
 		
 	public Pause() {
+		System.out.println("Pause Object created");
+		
 		// Declarations
 		title = new JLabel("Pause");
 		keepGoing = new JButton("Continue");
@@ -42,19 +45,22 @@ public class Pause extends JPanel implements ActionListener{
 		// Adding
 		Dimension minSize = new Dimension(40,10);		Dimension prefSize = new Dimension(40, 20);		Dimension maxSize = new Dimension(40, 30);
 		Dimension minSizeAbove = new Dimension(40,300);		Dimension prefSizeAbove = new Dimension(40, 350);		Dimension maxSizeAbove = new Dimension(40, 400);
+		
 		add(new Box.Filler(minSizeAbove, prefSizeAbove, maxSizeAbove));
-		add(title);
 		add(new Box.Filler(minSize, prefSize, maxSize));
-		add(keepGoing);
+		add(keepGoing, 1);
 		add(new Box.Filler(minSize, prefSize, maxSize));
-		add(retry);
+		add(retry, 1);
 		add(new Box.Filler(minSize, prefSize, maxSize));
-		add(back);
+		add(back, 1);
+		add(title, 1);
 		
 		// Applying action listener
 		keepGoing.addActionListener(this);
 		retry.addActionListener(this);
 		back.addActionListener(this);
+		
+		this.setBackground(Color.black);
 	}
 	
 	public void actionPerformed(ActionEvent e) {

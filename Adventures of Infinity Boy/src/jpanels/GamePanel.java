@@ -1,12 +1,12 @@
 package jpanels;
 
-import java.awt.Graphics;
-
+import javax.swing.JComponent;
 import javax.swing.JPanel;
-import gui.*;
-import pui.*;
+import javax.swing.KeyStroke;
 
+import engine.KeyHandler;
 import main.Main;
+import pui.gameGeneralThread;
 
 public class GamePanel extends JPanel{
 	
@@ -14,6 +14,7 @@ public class GamePanel extends JPanel{
 	static int resX = Main._init.getResX();
 	static int resY = Main._init.getResY();
 	static String font = Main._init.getOurFont();
+	KeyHandler keyHandler = new KeyHandler();
 	
 	// Creating a new thread for the processing of world movement.
 	static gameGeneralThread mainThread = new gameGeneralThread();
@@ -24,8 +25,10 @@ public class GamePanel extends JPanel{
 		// Allowing for a XY precise placement, beneficial for a JPanel with the purpose of multiple object placements.
 		this.setLayout(null);
 		
-		// Setting the grounds size, placement and z position on the gamePanel.
-		for(int i = 0; i < mainThread.ground.length; i++) this.add(mainThread.ground[i]);
+		// Adding events to the key bindings
+		this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ESCAPE"), "showPauseMenu");
+		this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("PAUSE"), "showPauseMenu");
+		this.getActionMap().put("showPauseMenu", keyHandler.getPauseAction());
 		
 		for(int i = 0; i < mainThread.obstacle.length; i++) this.add(mainThread.obstacle[i]);
 	}
