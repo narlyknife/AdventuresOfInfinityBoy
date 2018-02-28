@@ -34,7 +34,7 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	public static Obstacles[] obstacle = {new Obstacles(), new Obstacles(), new Obstacles(), new Obstacles(), new Obstacles()};
 	
 	// Creating block dimensions
-	final int GROUND_HEIGHT = resY - GroundBlocks.getGroundHeight();
+	final int GROUND_HEIGHT = GroundBlocks.getGroundHeight();
 	final int GROUND_WIDTH = ground[1].getGroundWidth();
 	int[] groundX = {0, GROUND_WIDTH, GROUND_WIDTH*2};
 	
@@ -44,10 +44,11 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	int[] obstacleY = {newCoord(1), newCoord(1), newCoord(1), newCoord(1), newCoord(1)};
 	
 	// Setting game animation movement
-	final int MOVEMENT_SPEED = 7;
+	static final int MOVEMENT_SPEED = (int) (Main._init.getCharacterMovement() * Main._init.getScaleIndex());
+	static int currentSpeed = MOVEMENT_SPEED;
 	
 	// Setting timer object with preferred FPS
-	Timer time = new Timer(Init.getFps(0), this);
+	public Timer time = new Timer(Init.getFps(0), this);
 	
 	
 	public void run() {
@@ -55,9 +56,12 @@ public class gameGeneralThread extends Thread implements ActionListener{
 		System.out.println(OBSTACLE_HEIGHT + ", " + OBSTACLE_WIDTH);
 		time.start();
 		
+		for(int i = 0; i < gameGeneralThread.ground.length; i++) Main.getPanel("gamepanel").add(gameGeneralThread.ground[i]);
+		
 		// Setting ground block size, starting location and image
 		for(int i = 0; i < ground.length; i++) {
-			ground[i].setLocation(groundX[i], GROUND_HEIGHT);
+			ground[i].setLocation(groundX[i], resY - GROUND_HEIGHT);
+			System.out.println("New Location: " + (resY - GROUND_HEIGHT));
 			ground[i].setSize(GROUND_WIDTH, GROUND_HEIGHT);
 			ground[i].setGroundImage(pickRandomGroundImage());
 		}
@@ -65,23 +69,24 @@ public class gameGeneralThread extends Thread implements ActionListener{
 		// Setting background image for obstacles
 		for (int i = 0; i < obstacle.length; i++) {
 			obstacle[i].setSize(OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
+			obstacle[i].setObstacleImage(pickRandomObstacleImage());
 			obstacle[i].setLocation(obstacleX[i], obstacleY[i]);
-			obstacle[i].setObstacleImage(img5);
-//			System.out.println(obstacle[i].getLocation());
+
 		}
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
+	public void actionPerformed(ActionEvent e) {
 		for(int i = 0; i < ground.length; i++) {
 			// Respawning ground block
 			if(groundX[i] <= -resX) {
-				groundX[i] = GROUND_WIDTH*2 - MOVEMENT_SPEED;
+				groundX[i] = GROUND_WIDTH*2 - currentSpeed;
 				ground[i].setGroundImage(pickRandomGroundImage());
 			}
 			
 			// Animating ground block
-			ground[i].setLocation(groundX[i] -= MOVEMENT_SPEED, GROUND_HEIGHT);
+			ground[i].setLocation(groundX[i] -= currentSpeed, resY - GROUND_HEIGHT);
+			System.out.println("New Location: " + (resY - GROUND_HEIGHT));
 		}
 		
 		for (int i = 0; i < obstacle.length; i++) {
@@ -93,7 +98,9 @@ public class gameGeneralThread extends Thread implements ActionListener{
 			}
 			
 			// Animating obstacle block
-			obstacle[i].setLocation(obstacleX[i] -= MOVEMENT_SPEED, obstacleY[i]);
+			obstacle[i].setPosX(obstacle[i].getPosX() - currentSpeed);
+			obstacle[i].setLocation(obstacle[i].getPosX(), obstacle[i].getPosY());
+
 //			if (i == 0) {
 //				System.out.println(obstacle[i].getLocation());
 //			}
@@ -119,9 +126,10 @@ public class gameGeneralThread extends Thread implements ActionListener{
 		else if(i >= 5 && i < 7) return img7;
 		else return img8;
 	}
-	
+  
 	// Method for getting new coordinates for obstacles
 	public static int newCoord(int axis) {
+
 		int pos = 0;
 		switch(axis) {
 		// X
@@ -145,5 +153,15 @@ public class gameGeneralThread extends Thread implements ActionListener{
 			randomNum();
 		}
 		return random;
+	}
+	
+	// Pause game
+	public static void pauseGame() {
+		currentSpeed = 0;
+	}
+	
+	// Resume game
+	public static void resumeGame() {
+		currentSpeed = MOVEMENT_SPEED;
 	}
 }
