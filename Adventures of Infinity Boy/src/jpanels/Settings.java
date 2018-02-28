@@ -76,7 +76,7 @@ public class Settings extends JPanel{
 		// Main panel
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		Dimension minSide = new Dimension((int) (resX * 0.33), resY);		Dimension prefSide = new Dimension((int) ((resX * 0.33) + 200), resY); Dimension maxSide = new Dimension((int) ((resX * 0.33) + 400), resY);
-		add(new Box.Filler(minSide, prefSide, maxSide )); add(midPanel); add(new Box.Filler(minSide, prefSide, maxSide ));
+		this.add(new Box.Filler(minSide, prefSide, maxSide )); this.add(midPanel); this.add(new Box.Filler(minSide, prefSide, maxSide ));
 		
 		// Applying action Listener
 		MainActionListener.addButton(buttons[3], "cancel");
