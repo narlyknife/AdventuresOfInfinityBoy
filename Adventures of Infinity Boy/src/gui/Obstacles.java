@@ -32,7 +32,6 @@ public class Obstacles extends JPanel{
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		System.out.println("Painted obstacle");
 		//Draw image background
 		g.drawImage(chosenImage, 0, 0, this);
 	}

@@ -31,16 +31,20 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	
 	// Creating objects
 	public static GroundBlocks[] ground = {new GroundBlocks(), new GroundBlocks(), new GroundBlocks()};
-	public static Obstacles[] obstacle = {new Obstacles(newCoord(0, true), newCoord(1, true)), new Obstacles(newCoord(0, true), newCoord(1, true)), new Obstacles(newCoord(0, true), newCoord(1, true)), new Obstacles(newCoord(0, true), newCoord(1, true)), new Obstacles(newCoord(0, true), newCoord(1, true))};
+	public static Obstacles[] obstacle = {	new Obstacles(), new Obstacles(), new Obstacles(), new Obstacles(), new Obstacles(),
+											new Obstacles(), new Obstacles(), new Obstacles(), new Obstacles(), new Obstacles(), 
+											new Obstacles()};
 	
 	// Creating block dimensions
-	final int GROUND_HEIGHT = GroundBlocks.getGroundHeight();
+	final static int GROUND_HEIGHT = GroundBlocks.getGroundHeight();
 	final int GROUND_WIDTH = ground[1].getGroundWidth();
 	int[] groundX = {0, GROUND_WIDTH, GROUND_WIDTH*2};
 	
-	final int OBSTACLE_HEIGHT = obstacle[0].getHeight();
-	final int OBSTACLE_WIDTH = obstacle[0].getWidth();
-		
+	final int OBSTACLE_HEIGHT = obstacle[0].getObstacleHeight();
+	final int OBSTACLE_WIDTH = obstacle[0].getObstacleWidth();
+	int[] obstacleX = {newCoord(0), newCoord(0), newCoord(0), newCoord(0), newCoord(0), newCoord(0), newCoord(0), newCoord(0), newCoord(0), newCoord(0), newCoord(0)};
+	int[] obstacleY = {newCoord(1), newCoord(1), newCoord(1), newCoord(1), newCoord(1), newCoord(1), newCoord(1), newCoord(1), newCoord(1), newCoord(1), newCoord(1)};
+	
 	// Setting game animation movement
 	static final int MOVEMENT_SPEED = (int) (Main._init.getCharacterMovement() * Main._init.getScaleIndex());
 	static int currentSpeed = MOVEMENT_SPEED;
@@ -48,8 +52,10 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	// Setting timer object with preferred FPS
 	public Timer time = new Timer(Init.getFps(0), this);
 	
+	
 	public void run() {
 		System.out.println("A new MainThread has been initiated");
+		System.out.println(OBSTACLE_HEIGHT + ", " + OBSTACLE_WIDTH);
 		time.start();
 		
 		for(int i = 0; i < gameGeneralThread.ground.length; i++) Main.getPanel("gamepanel").add(gameGeneralThread.ground[i]);
@@ -57,19 +63,15 @@ public class gameGeneralThread extends Thread implements ActionListener{
 		// Setting ground block size, starting location and image
 		for(int i = 0; i < ground.length; i++) {
 			ground[i].setLocation(groundX[i], resY - GROUND_HEIGHT);
-			System.out.println("New Location: " + (resY - GROUND_HEIGHT));
 			ground[i].setSize(GROUND_WIDTH, GROUND_HEIGHT);
 			ground[i].setGroundImage(pickRandomGroundImage());
 		}
 		
 		// Setting background image for obstacles
 		for (int i = 0; i < obstacle.length; i++) {
-			int posX = obstacle[i].getPosX();
-			int posY = obstacle[i].getPosY();
-			obstacle[i].setLocation(posX, posY);
+			obstacle[i].setLocation(obstacleX[i], obstacleY[i]);
 			obstacle[i].setSize(OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
 			obstacle[i].setObstacleImage(pickRandomObstacleImage());
-		//System.out.println(obstacle[i].getLocation());
 		}
 	}
 
@@ -78,30 +80,24 @@ public class gameGeneralThread extends Thread implements ActionListener{
 		for(int i = 0; i < ground.length; i++) {
 			// Respawning ground block
 			if(groundX[i] <= -resX) {
-				groundX[i] = GROUND_WIDTH*2 - currentSpeed;
+				groundX[i] = GROUND_WIDTH * 2 - currentSpeed;
 				ground[i].setGroundImage(pickRandomGroundImage());
 			}
 			
 			// Animating ground block
 			ground[i].setLocation(groundX[i] -= currentSpeed, resY - GROUND_HEIGHT);
-			System.out.println("New Location: " + (resY - GROUND_HEIGHT));
 		}
 		
 		for (int i = 0; i < obstacle.length; i++) {
-
 			// Resetting obstacle block
-			if (obstacle[i].getPosX() + OBSTACLE_WIDTH <= -10) {
-				obstacle[i].setPosX(newCoord(0,false));
-				obstacle[i].setPosY(newCoord(1,false));
-				obstacle[i].setLocation(obstacle[i].getPosX(), obstacle[i].getPosY());
+			if ((obstacleX[i] + OBSTACLE_WIDTH) <= -10) {
+				obstacleX[i] = newCoord(0);
+				obstacleY[i] = newCoord(1);
+				obstacle[i].setObstacleImage(img5);
 			}
 			
 			// Animating obstacle block
-			obstacle[i].setPosX(obstacle[i].getPosX() - currentSpeed);
-			obstacle[i].setLocation(obstacle[i].getPosX(), obstacle[i].getPosY());
-//			if (i == 0) {
-//				System.out.println(obstacle[i].getLocation());
-//			}
+			obstacle[i].setLocation(obstacleX[i] -= currentSpeed, obstacle[i].getY());
 		}
 	}
 	
@@ -124,25 +120,20 @@ public class gameGeneralThread extends Thread implements ActionListener{
 		else if(i >= 5 && i < 7) return img7;
 		else return img8;
 	}
-	
-	// Method for randomizing new coordinates for new obstacles
-	public static int newCoord(int axis, boolean first) {
+  
+	// Method for getting new coordinates for obstacles
+	public static int newCoord(int axis) {
+
 		int pos = 0;
 		switch(axis) {
 		// X
 		case 0:
-			if (first) {
-				pos = (int) (resX*randomNum()) + resX;
-				System.out.println(pos + "");
-				return pos;
-			}
-			else {
-				pos =	(int) (resX*randomNum()) + resX;
-				return pos;
-			}
+			pos = (int) (resX *  Math.random() + resX);
+			return pos;
 		// Y	
 		case 1:
-			pos = (int) (resY*randomNum());
+			pos = (int) ((resY - GROUND_HEIGHT) - (randomYOffset() * Init.getScaleIndex()));
+			System.out.println("Y offset: " + randomYOffset());
 			return pos;
 		}
 		System.out.println("Failed to create new coordinates for obstacle!");
@@ -150,13 +141,13 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	}
 	
 	// Generate multiplier for obstacle coordinate randomization
-	public static double randomNum() {
-		double random = Math.random();
+	public static int randomYOffset() {
+		double random = Math.random() * 10;
 
-		if (random > 0.75 || random < 0.1) {
-			randomNum();
-		}
-		return random;
+		if(random >= 0 && random <= 3) return 100;
+		else if(random > 3 && random <= 5) return 200;
+		else if (random > 5 && random <= 7) return 300;
+		else return 400;
 	}
 	
 	// Pause game
