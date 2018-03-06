@@ -19,9 +19,16 @@ public class ScoreBoard extends JPanel{
 	//	
 	//	 - The scores need to be taken from a file. Fix plz.
 	//
-
-	///////////////
-	// Declarations
+	
+	// The structure is built on JPanels on top of JPanels.
+	// Visual representation of structure from top to bottom:
+	//  - Score panel
+	//  - Filler panel
+	//  - Mid panel
+	//  - JFrame (base)
+	
+	//////////////////////////////////
+	// Getting values from "init" file
 	static int resX = Main._init.getResX();
 	static int resY = Main._init.getResY();
 	static String font = Main._init.getOurFont();
@@ -33,6 +40,8 @@ public class ScoreBoard extends JPanel{
 	//////////////
 	// Constructor
 	public ScoreBoard() {
+		
+		// Accessing scores and then putting them into the JLabel array for later use
 		setScores();
 		
 		/////////////

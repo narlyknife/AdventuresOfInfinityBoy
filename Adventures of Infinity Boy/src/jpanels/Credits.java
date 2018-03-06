@@ -18,7 +18,7 @@ public class Credits extends JPanel {
 	//	- N/A
 	//
 	
-	// Declarations
+	// Getting values from "init" file
 	static int resX = Main._init.getResX();
 	static int resY = Main._init.getResY();
 	static String font = Main._init.getOurFont();
@@ -29,17 +29,15 @@ public class Credits extends JPanel {
 	JLabel[] programmers = {new JLabel("Programmers"), new JLabel("Herman Eriksson"), new JLabel("Folke Johansson")};
 	JButton[] buttons = {new JButton("Back")};
 	
-	
-	
 	public Credits() {
 		
 		///////////////
 		// Setting font
-		mainHeader.setFont(new Font(font, Font.BOLD, 60));
+		mainHeader.setFont(new Font(font, Font.BOLD, 50));
 		programmers = setFontAndAlign(programmers);
 		
-		///////////////////////////
-		//Positioning and alignment
+		////////////////////////////////////
+		// Layout, positioning and alignment
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		mainHeader.setAlignmentX(CENTER_ALIGNMENT);

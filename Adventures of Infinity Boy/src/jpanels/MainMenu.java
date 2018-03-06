@@ -24,14 +24,16 @@ public class MainMenu extends JPanel{
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		for(int i = 0; i < buttons.length; i++) buttons[i].setAlignmentX(CENTER_ALIGNMENT);
 		
-		
-		// Adding components and spacing between them
+		/////////////
+		// Dimensions
 		Dimension minSize = new Dimension(40,10);		Dimension prefSize = new Dimension(40, 15);		Dimension maxSize = new Dimension(40, 20);
 		Dimension maxSizeAbove = new Dimension(40,600);	Dimension maxSizeBelow = new Dimension(40,200);
 		
+		// Adding components and spacing between them
 		add(new Box.Filler(minSize, prefSize, maxSizeAbove));
 		
 		for (int i = 0; i < buttons.length; i++) {
+			// Adding more space between "quit game" button and the rest so that quit game is separated.
 			if (i == buttons.length - 1 ) {
 				add(new Box.Filler(minSize, prefSize, maxSize));
 				add(new Box.Filler(minSize, prefSize, maxSize));
