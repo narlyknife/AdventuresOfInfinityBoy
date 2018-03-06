@@ -15,6 +15,11 @@ import javax.swing.JPanel;
 import main.Main;
 
 public class Pause extends JPanel implements ActionListener{
+	// - Fix buttons so they do something
+	//
+	// - Fix up the spacing of the objects
+	//
+	
 	
 	// Declarations
 		static int resX = Main._init.getResX();

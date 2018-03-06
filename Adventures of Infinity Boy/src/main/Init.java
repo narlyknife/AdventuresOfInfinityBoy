@@ -15,7 +15,8 @@ public class Init {
 	final int DEFAULT_X_VALUE = 1920;
 	final static int[] GROUND_SIZE = {1920, 150};
 	final static int[] OBSTACLE_SIZE = {200, 15};
-	final static int OBSTACLE_AMOUNT = 5;
+	final static int[] CHARACTER_SIZE = {150, 75};
+	final static int OBSTACLE_AMOUNT = 6;
 	static int characterMovement = 7;
 	static float scaleIndex = 1;
 	
@@ -59,6 +60,10 @@ public class Init {
 	
 	public static int getObstacleAmount() {
 		return OBSTACLE_AMOUNT;
+	}
+	
+	public static int getCharacterSize(int element) {
+		return CHARACTER_SIZE[element];
 	}
 	
 	public static int getCharacterMovement() {
