@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import engine.KeyHandler;
 import engine.MainActionListener;
 import jpanels.Credits;
 import jpanels.GamePanel;
@@ -33,19 +34,23 @@ public class Main {
 	public static JPanel mainPanel = new JPanel(cardlayout);
 	
 	public static void main(String[] args) {
-
-		// Creating a map with all the panel objects and their preferred key names, because.. you know objects have genders to... i guess?
-		panelMap.put("credits", new Credits());							panelMap.put("gamepanel", new GamePanel());			panelMap.put("mainmenu", new MainMenu());	
-		panelMap.put("scoreboard", new ScoreBoard());					panelMap.put("settings", new Settings());			
-
 		// Creating another map for all the sub-panels, #subpanelLivesMatter
 		subPanelMap.put("charactersettings", new CharacterSettings());	subPanelMap.put("difficultysettings", new DifficultySettings());	
 		subPanelMap.put("gameover", new GameOver());					subPanelMap.put("gamesettings", new GameSettings());				
 		subPanelMap.put("pause", new Pause());							subPanelMap.put("splashscreen", new SplashScreen());
 		
+		// Creating a map with all the panel objects and their preferred key names, because.. you know objects have genders to... i guess?
+		panelMap.put("credits", new Credits());							panelMap.put("gamepanel", new GamePanel());			panelMap.put("mainmenu", new MainMenu());	
+		panelMap.put("scoreboard", new ScoreBoard());					panelMap.put("settings", new Settings());			
+		
 		// Switching displaying panel to the main menu
 		_frame.setContentPane(mainPanel);
 		setPanel("mainmenu");
+		
+		getPanel("gamepanel").add(getSubPanel("pause"), 0);
+		getSubPanel("pause").setSize(_init.SCREEN_RES_X, _init.SCREEN_RES_Y);
+		getSubPanel("pause").setLocation(0, 0);
+		getSubPanel("pause").setVisible(false);
 		
 		setFullscreen();
 		_frame.setVisible(true);
@@ -57,13 +62,22 @@ public class Main {
 		_frame.setUndecorated(true);
 	}
 	
+	// Set and show a specific panel
 	public static void setPanel(String panel) {
 		mainPanel.add(panelMap.get(panel), panel);
 		cardlayout.show(mainPanel, panel);
 	}
 	
-	// Getting a scaled index to reference how large if any the scaling of the ground object will be.
-	// A resolution of 2x will result in a scaleIndex of 2.
+	public static JPanel getPanel(String name) {
+		return panelMap.get(name);
+	}
 	
-
+	public static JPanel getSubPanel(String name) {
+		return subPanelMap.get(name);
+	}
+	
+	// Show/Hide selected subpanel
+	public static void showSubPanel(JPanel panel, boolean flag) {
+		panel.setVisible(flag);
+	}
 }
