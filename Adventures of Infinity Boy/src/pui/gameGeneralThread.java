@@ -3,12 +3,14 @@ package pui;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.stream.Collector.Characteristics;
 
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
 import gui.GroundBlocks;
 import gui.Obstacles;
+import gui.Character;
 import main.Init;
 import main.Main;
 
@@ -16,6 +18,7 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	
 	static int resX = Main._init.getResX();
 	static int resY = Main._init.getResY();
+	static int MAX_OBSTACLES = Main._init.getObstacleAmount(); // Used for for loops that instantiates unique values for obstacles
 
 	// Images for the ground blocks
 	private static Image img1 = new ImageIcon(GroundBlocks.class.getResource("/Pictures/Ground1.png")).getImage();
@@ -29,11 +32,20 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	private static Image img7 = new ImageIcon(Obstacles.class.getResource("/Pictures/Obstacle3.png")).getImage();
 	private static Image img8 = new ImageIcon(Obstacles.class.getResource("/Pictures/Obstacle4.png")).getImage();
 	
+	// Image for the character
+	private static Image img9 = new ImageIcon(Character.class.getResource("/Pictures/Character1.png")).getImage();
+	
 	// Creating objects
 	public static GroundBlocks[] ground = {new GroundBlocks(), new GroundBlocks(), new GroundBlocks()};
-	public static Obstacles[] obstacle = {	new Obstacles(), new Obstacles(), new Obstacles(), new Obstacles(), new Obstacles(),
-											new Obstacles(), new Obstacles(), new Obstacles(), new Obstacles(), new Obstacles(), 
-											new Obstacles()};
+
+	public static Character character = new Character();
+	
+	public static Obstacles[] obstacle = {new Obstacles(), new Obstacles(), new Obstacles(),
+										  new Obstacles(), new Obstacles(), new Obstacles(),
+										  new Obstacles(), new Obstacles(), new Obstacles(),
+										  new Obstacles(), new Obstacles(), new Obstacles(),
+										  new Obstacles(), new Obstacles(), new Obstacles(),
+										  new Obstacles(), new Obstacles(), new Obstacles(),};
 	
 	// Creating block dimensions
 	final static int GROUND_HEIGHT = GroundBlocks.getGroundHeight();
@@ -42,11 +54,31 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	
 	final int OBSTACLE_HEIGHT = obstacle[0].getObstacleHeight();
 	final int OBSTACLE_WIDTH = obstacle[0].getObstacleWidth();
-	int[] obstacleX = {newCoord(0), newCoord(0), newCoord(0), newCoord(0), newCoord(0), newCoord(0), newCoord(0), newCoord(0), newCoord(0), newCoord(0), newCoord(0)};
-	int[] obstacleY = {newCoord(1), newCoord(1), newCoord(1), newCoord(1), newCoord(1), newCoord(1), newCoord(1), newCoord(1), newCoord(1), newCoord(1), newCoord(1)};
+	
+	// Used for storing unique coordinates for obstacles
+	int[] obstacleX = new int[MAX_OBSTACLES];
+	int[] obstacleY = new int[MAX_OBSTACLES];
+	
+	// Setting coordinate values into shorter names for easier use in ex. collision handling
+	int[] oTop = new int[MAX_OBSTACLES];
+	int[] oBot = new int[MAX_OBSTACLES];
+	int[] oX = new int[MAX_OBSTACLES];
+	
+	final int CHARACTER_HEIGHT = character.getCharacterHeight();
+	final int CHARACTER_WIDTH = character.getCharacterWidth();
+	
+	// Setting coordinate values into shorter names for easier use in ex. collision handling
+	int cTop;
+	int cBot;
+	int cX;
+	
+	// Settings coordinate system for placement of obstacles
+	int[][] obstacleCoordSystemX = new int[4][3];
+	int[][] obstacleCoordSystemY = new int[4][3];
 	
 	// Setting game animation movement
-	static final int MOVEMENT_SPEED = (int) (Main._init.getCharacterMovement() * Main._init.getScaleIndex());
+	// Double increase = -1.0001;
+	static final int MOVEMENT_SPEED = (int) (Init.getCharacterMovement() * Init.getScaleIndex());
 	static int currentSpeed = MOVEMENT_SPEED;
 	
 	// Setting timer object with preferred FPS
@@ -55,7 +87,6 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	
 	public void run() {
 		System.out.println("A new MainThread has been initiated");
-		System.out.println(OBSTACLE_HEIGHT + ", " + OBSTACLE_WIDTH);
 		time.start();
 		
 		for(int i = 0; i < gameGeneralThread.ground.length; i++) Main.getPanel("gamepanel").add(gameGeneralThread.ground[i]);
@@ -67,12 +98,41 @@ public class gameGeneralThread extends Thread implements ActionListener{
 			ground[i].setGroundImage(pickRandomGroundImage());
 		}
 		
-		// Setting background image for obstacles
+		System.out.println("\nCoordinate System for obstacle placement");
+		for(int i = 0; i < groundX.length; i++) {
+			System.out.println("Groundblock: " + i);
+			
+			for(int j = 0; j < 3; j++) {
+				for(int k = 0; k < 4; k++) {
+					obstacleCoordSystemX[k][j] = groundX[i] + (int) (96 * Init.getScaleIndex() + ((OBSTACLE_WIDTH + 96) * Init.getScaleIndex() * j));
+					obstacleCoordSystemY[k][j] = (int) ((resY - GROUND_HEIGHT) - ((CHARACTER_HEIGHT * 1.5 + OBSTACLE_HEIGHT) * k));
+					
+					System.out.println("I: " + i + "	J: " + j + "	K: " + k + "	X and Y: " + obstacleCoordSystemX[k][j] + " " + obstacleCoordSystemY[k][j]);
+				}
+				System.out.println("\n");
+			}
+		}
+			
+		// Setting start values for obstacles
 		for (int i = 0; i < obstacle.length; i++) {
+			obstacleX[i] = newCoord(0);
+			obstacleY[i] = newCoord(1);
 			obstacle[i].setLocation(obstacleX[i], obstacleY[i]);
 			obstacle[i].setSize(OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
 			obstacle[i].setObstacleImage(pickRandomObstacleImage());
+			
+			oTop[i] = obstacle[i].getY();
+			oBot[i] = oTop[i] + OBSTACLE_HEIGHT;
+			oX[i] = obstacle[i].getX();
 		}
+		
+		// Setting start values for character
+		character.setLocation((int) (resX * 0.15), resY - (GroundBlocks.getGroundHeight() + CHARACTER_HEIGHT));
+		character.setSize(CHARACTER_WIDTH, CHARACTER_HEIGHT);
+		character.setCharacterImage(img9);
+		cTop = character.getY();
+		cBot = cTop + CHARACTER_HEIGHT;
+		cX = character.getX();
 	}
 
 	@Override
@@ -93,11 +153,24 @@ public class gameGeneralThread extends Thread implements ActionListener{
 			if ((obstacleX[i] + OBSTACLE_WIDTH) <= -10) {
 				obstacleX[i] = newCoord(0);
 				obstacleY[i] = newCoord(1);
-				obstacle[i].setObstacleImage(img5);
+				oTop[i] = obstacle[i].getY();
+				oBot[i] = oTop[i] + OBSTACLE_HEIGHT;
+				obstacle[i].setObstacleImage(pickRandomObstacleImage());
+
+			}
+			
+			// Collision handling between obstacles and character. Needs expansion for later use if it is
+			// to be used for the character to stand on top of the obstacles.
+			//
+			// Works by checking the front corners of the obstacle and seeing if they are within the front
+			// corners of the character.
+			if (oX[i] <= (cX + CHARACTER_WIDTH) && ((oTop[i] >= cTop && oTop[i] <= cBot) || (oBot[i] >= cTop && oBot[i] <= cBot))) {
+				currentSpeed = 0;
 			}
 			
 			// Animating obstacle block
 			obstacle[i].setLocation(obstacleX[i] -= currentSpeed, obstacle[i].getY());
+			oX[i] = obstacle[i].getX();
 		}
 	}
 	
@@ -120,7 +193,7 @@ public class gameGeneralThread extends Thread implements ActionListener{
 		else if(i >= 5 && i < 7) return img7;
 		else return img8;
 	}
-  
+
 	// Method for getting new coordinates for obstacles
 	public static int newCoord(int axis) {
 
@@ -133,21 +206,22 @@ public class gameGeneralThread extends Thread implements ActionListener{
 		// Y	
 		case 1:
 			pos = (int) ((resY - GROUND_HEIGHT) - (randomYOffset() * Init.getScaleIndex()));
-			System.out.println("Y offset: " + randomYOffset());
+//			System.out.println("Y offset: " + randomYOffset());
 			return pos;
 		}
 		System.out.println("Failed to create new coordinates for obstacle!");
 		return pos;
 	}
 	
-	// Generate multiplier for obstacle coordinate randomization
+	// Generate multiplier for obstacle coordinate randomization 
+	// (Change if you like Folke. You know height of character better than me.)
 	public static int randomYOffset() {
 		double random = Math.random() * 10;
 
-		if(random >= 0 && random <= 3) return 100;
-		else if(random > 3 && random <= 5) return 200;
-		else if (random > 5 && random <= 7) return 300;
-		else return 400;
+		if(random >= 0 && random <= 3) return 50;
+		else if(random > 3 && random <= 5) return 125;
+		else if (random > 5 && random <= 7) return 180;
+		else return 220;
 	}
 	
 	// Pause game
