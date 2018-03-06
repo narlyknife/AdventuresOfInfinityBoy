@@ -30,6 +30,8 @@ public class GamePanel extends JPanel{
 		for(int i = 0; i < mainThread.ground.length; i++) this.add(mainThread.ground[i]);
 		
 		for(int i = 0; i < mainThread.obstacle.length; i++) this.add(mainThread.obstacle[i]);
+		
+		this.add(mainThread.character);
 	}
 	
 	// Starting new thread

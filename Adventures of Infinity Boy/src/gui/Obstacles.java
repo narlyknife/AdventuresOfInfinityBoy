@@ -19,14 +19,12 @@ public class Obstacles extends JPanel{
 	private Image chosenImage;
 	
 	public Obstacles() {
-		System.out.println("New obstacle object created!");
+		System.out.println("Obstacle created");
 		setScaleIndex();
-		repaint();
 	}
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		System.out.println("Printed obstacle");
 		g.drawImage(chosenImage, 0, 0, this);
 	}
 	

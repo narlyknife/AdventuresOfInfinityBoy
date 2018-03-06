@@ -14,7 +14,7 @@ public class Init {
 	final String font = "Arial";
 	final static int[] GROUND_SIZE = {1920, 150};
 	final static int[] OBSTACLE_SIZE = {200, 15};
-	final static int OBSTACLE_AMOUNT = 5;
+	final static int[] CHARACTER_SIZE = {150, 75};
 	static double scaleIndex = 1;
 	
 	Init() {
@@ -55,8 +55,8 @@ public class Init {
 		return OBSTACLE_SIZE[element];
 	}
 	
-	public static int getObstacleAmount() {
-		return OBSTACLE_AMOUNT;
+	public static int getCharacterSize(int element) {
+		return CHARACTER_SIZE[element];
 	}
 	
 	public static double getScaleIndex() {

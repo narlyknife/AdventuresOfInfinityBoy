@@ -9,6 +9,7 @@ import javax.swing.Timer;
 
 import gui.GroundBlocks;
 import gui.Obstacles;
+import gui.Character;
 import main.Init;
 import main.Main;
 
@@ -29,9 +30,14 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	private static Image img7 = new ImageIcon(Obstacles.class.getResource("/Pictures/Obstacle3.png")).getImage();
 	private static Image img8 = new ImageIcon(Obstacles.class.getResource("/Pictures/Obstacle4.png")).getImage();
 	
+	// Image for the character
+	private static Image img9 = new ImageIcon(Character.class.getResource("/Pictures/Character1.png")).getImage();
+	
 	// Creating objects
 	public static GroundBlocks[] ground = {new GroundBlocks(), new GroundBlocks(), new GroundBlocks()};
 	public static Obstacles[] obstacle = {new Obstacles(), new Obstacles(), new Obstacles(), new Obstacles(), new Obstacles()};
+	public static Character character = new Character();
+	
 	
 	// Creating block dimensions
 	final int GROUND_HEIGHT = resY - GroundBlocks.getGroundHeight();
@@ -43,8 +49,12 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	int[] obstacleX = {newCoord(0), newCoord(0), newCoord(0), newCoord(0), newCoord(0)};
 	int[] obstacleY = {newCoord(1), newCoord(1), newCoord(1), newCoord(1), newCoord(1)};
 	
+	final int CHARACTER_HEIGHT = character.getCharacterHeight();
+	final int CHARACTER_WIDTH = character.getCharacterWidth();
+	
 	// Setting game animation movement
-	final int MOVEMENT_SPEED = 7;
+	int MOVEMENT_SPEED = 7;
+//	double increase = -1.0001;
 	
 	// Setting timer object with preferred FPS
 	Timer time = new Timer(Init.getFps(0), this);
@@ -52,7 +62,6 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	
 	public void run() {
 		System.out.println("A new MainThread has been initiated");
-		System.out.println(OBSTACLE_HEIGHT + ", " + OBSTACLE_WIDTH);
 		time.start();
 		
 		// Setting ground block size, starting location and image
@@ -66,9 +75,14 @@ public class gameGeneralThread extends Thread implements ActionListener{
 		for (int i = 0; i < obstacle.length; i++) {
 			obstacle[i].setSize(OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
 			obstacle[i].setLocation(obstacleX[i], obstacleY[i]);
-			obstacle[i].setObstacleImage(img5);
+			obstacle[i].setObstacleImage(pickRandomObstacleImage());
 //			System.out.println(obstacle[i].getLocation());
 		}
+		
+		// Setting start values for character
+		character.setLocation((int) (resX * 0.15), resY - (GroundBlocks.getGroundHeight() + CHARACTER_HEIGHT));
+		character.setSize(CHARACTER_WIDTH, CHARACTER_HEIGHT);
+		character.setCharacterImage(img9);
 	}
 
 	@Override
@@ -89,14 +103,18 @@ public class gameGeneralThread extends Thread implements ActionListener{
 			if ((obstacleX[i] + OBSTACLE_WIDTH) <= -10) {
 				obstacleX[i] = newCoord(0);
 				obstacleY[i] = newCoord(1);
-				obstacle[i].setObstacleImage(img5);
+//				System.out.println(increase + MOVEMENT_SPEED);
+				obstacle[i].setObstacleImage(pickRandomObstacleImage());
+
 			}
 			
 			// Animating obstacle block
-			obstacle[i].setLocation(obstacleX[i] -= MOVEMENT_SPEED, obstacleY[i]);
-//			if (i == 0) {
-//				System.out.println(obstacle[i].getLocation());
+			obstacle[i].setLocation(obstacleX[i] -= (MOVEMENT_SPEED /*+ increase*/), obstacleY[i]);
+//			if (obstacle[i].getX() <= character.getX() + CHARACTER_WIDTH) {
+//				time.stop();
 //			}
+			
+//			increase += 0.0001;
 		}
 	}
 	
@@ -119,14 +137,14 @@ public class gameGeneralThread extends Thread implements ActionListener{
 		else if(i >= 5 && i < 7) return img7;
 		else return img8;
 	}
-	
+	 
 	// Method for getting new coordinates for obstacles
 	public static int newCoord(int axis) {
 		int pos = 0;
 		switch(axis) {
 		// X
 		case 0:
-			pos = (int) (resX*randomNum()) + resX;
+			pos = (int) ((resX * Math.random()) + resX );
 			return pos;
 		// Y	
 		case 1:
@@ -139,11 +157,11 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	
 	// Generate multiplier for obstacle coordinate randomization
 	public static double randomNum() {
-		double random = Math.random();
-
-		if (random > 0.75 || random < 0.1) {
-			randomNum();
+		double random = (Math.random() * 0.84) + 0.75;
+		if (random > 0.85) {
+			return randomNum();
 		}
+//		System.out.println(random);
 		return random;
 	}
 }
