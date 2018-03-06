@@ -18,7 +18,7 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	
 	static int resX = Main._init.getResX();
 	static int resY = Main._init.getResY();
-	static int MAX_OBSTACLES = Main._init.getObstacleAmount();
+	static int MAX_OBSTACLES = Main._init.getObstacleAmount(); // Used for for loops that instantiates unique values for obstacles
 
 	// Images for the ground blocks
 	private static Image img1 = new ImageIcon(GroundBlocks.class.getResource("/Pictures/Ground1.png")).getImage();
@@ -50,14 +50,20 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	
 	final int OBSTACLE_HEIGHT = obstacle[0].getObstacleHeight();
 	final int OBSTACLE_WIDTH = obstacle[0].getObstacleWidth();
+	
+	// Used for storing unique coordinates for obstacles
 	int[] obstacleX = new int[MAX_OBSTACLES];
 	int[] obstacleY = new int[MAX_OBSTACLES];
+	
+	// Setting coordinate values into shorter names for easier use in ex. collision handling
 	int[] oTop = new int[MAX_OBSTACLES];
 	int[] oBot = new int[MAX_OBSTACLES];
 	int[] oX = new int[MAX_OBSTACLES];
 	
 	final int CHARACTER_HEIGHT = character.getCharacterHeight();
 	final int CHARACTER_WIDTH = character.getCharacterWidth();
+	
+	// Setting coordinate values into shorter names for easier use in ex. collision handling
 	int cTop;
 	int cBot;
 	int cX;
@@ -85,16 +91,14 @@ public class gameGeneralThread extends Thread implements ActionListener{
 			ground[i].setGroundImage(pickRandomGroundImage());
 		}
 		
-		// Setting background image for obstacles
+		// Setting start values for obstacles
 		for (int i = 0; i < obstacle.length; i++) {
 			obstacleX[i] = newCoord(0);
 			obstacleY[i] = newCoord(1);
 			obstacle[i].setLocation(obstacleX[i], obstacleY[i]);
 			obstacle[i].setSize(OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
 			obstacle[i].setObstacleImage(pickRandomObstacleImage());
-		}
-		
-		for (int i = 0; i < obstacle.length; i++) {
+			
 			oTop[i] = obstacle[i].getY();
 			oBot[i] = oTop[i] + OBSTACLE_HEIGHT;
 			oX[i] = obstacle[i].getX();
@@ -133,11 +137,16 @@ public class gameGeneralThread extends Thread implements ActionListener{
 
 			}
 			
-			// Animating obstacle block
+			// Collision handling between obstacles and character. Needs expansion for later use if it is
+			// to be used for the character to stand on top of the obstacles.
+			//
+			// Works by checking the front corners of the obstacle and seeing if they are within the front
+			// corners of the character.
 			if (oX[i] <= (cX + CHARACTER_WIDTH) && ((oTop[i] >= cTop && oTop[i] <= cBot) || (oBot[i] >= cTop && oBot[i] <= cBot))) {
 				currentSpeed = 0;
 			}
 			
+			// Animating obstacle block
 			obstacle[i].setLocation(obstacleX[i] -= currentSpeed, obstacle[i].getY());
 			oX[i] = obstacle[i].getX();
 		}
@@ -182,7 +191,8 @@ public class gameGeneralThread extends Thread implements ActionListener{
 		return pos;
 	}
 	
-	// Generate multiplier for obstacle coordinate randomization
+	// Generate multiplier for obstacle coordinate randomization 
+	// (Change if you like Folke. You know height of character better than me.)
 	public static int randomYOffset() {
 		double random = Math.random() * 10;
 
