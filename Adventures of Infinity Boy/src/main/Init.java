@@ -14,15 +14,15 @@ public class Init {
 	final String font = "Arial";
 	final int DEFAULT_X_VALUE = 1920;
 	final static int[] GROUND_SIZE = {1920, 150};
-	final static int[] OBSTACLE_SIZE = {200, 15};
+	final static int[] OBSTACLE_SIZE = {600, 30};
 	final static int[] CHARACTER_SIZE = {150, 75};
-	final static int OBSTACLE_AMOUNT = 6;
-	static int characterMovement = 7;
+	final static int OBSTACLE_AMOUNT = 12;
+	static int characterMovement = 6;
 	static float scaleIndex = 1;
 	
 	Init() {
 		// The Main threads FPS
-		setFps(0, 60);
+		setFps(0, 80);
 		
 		// Variable for maximum amount of platforms that will appear on screen
 		PLATFORM_COUNT = 10;

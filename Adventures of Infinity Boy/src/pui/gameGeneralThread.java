@@ -43,14 +43,12 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	public static Obstacles[] obstacle = {new Obstacles(), new Obstacles(), new Obstacles(),
 										  new Obstacles(), new Obstacles(), new Obstacles(),
 										  new Obstacles(), new Obstacles(), new Obstacles(),
-										  new Obstacles(), new Obstacles(), new Obstacles(),
-										  new Obstacles(), new Obstacles(), new Obstacles(),
 										  new Obstacles(), new Obstacles(), new Obstacles(),};
 	
 	// Creating block dimensions
 	final static int GROUND_HEIGHT = GroundBlocks.getGroundHeight();
-	final int GROUND_WIDTH = ground[1].getGroundWidth();
-	int[] groundX = {0, GROUND_WIDTH, GROUND_WIDTH*2};
+	final static int GROUND_WIDTH = ground[1].getGroundWidth();
+	static int[] groundX = {0, GROUND_WIDTH, GROUND_WIDTH*2};
 	
 	final int OBSTACLE_HEIGHT = obstacle[0].getObstacleHeight();
 	final int OBSTACLE_WIDTH = obstacle[0].getObstacleWidth();
@@ -73,8 +71,13 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	int cX;
 	
 	// Settings coordinate system for placement of obstacles
-	int[][] obstacleCoordSystemX = new int[4][3];
-	int[][] obstacleCoordSystemY = new int[4][3];
+	static int[][] obstacleCoordSystemX = new int[4][3];
+	static int[][] obstacleCoordSystemY = new int[4][3];
+	static int amountSpawnedOnRow = 0;
+	static int currentColumn = 0;
+	static int choosenYPointAmount = 0;
+	static int lastChoosenYPoint = 0;
+	static boolean firstTimeSpawn = true;
 	
 	// Setting game animation movement
 	// Double increase = -1.0001;
@@ -98,23 +101,22 @@ public class gameGeneralThread extends Thread implements ActionListener{
 			ground[i].setGroundImage(pickRandomGroundImage());
 		}
 		
+		// Creating a coordinate system for all the obstacles possible placements
+		// Further data in console
 		System.out.println("\nCoordinate System for obstacle placement");
-		for(int i = 0; i < groundX.length; i++) {
-			System.out.println("Groundblock: " + i);
-			
 			for(int j = 0; j < 3; j++) {
 				for(int k = 0; k < 4; k++) {
-					obstacleCoordSystemX[k][j] = groundX[i] + (int) (96 * Init.getScaleIndex() + ((OBSTACLE_WIDTH + 96) * Init.getScaleIndex() * j));
-					obstacleCoordSystemY[k][j] = (int) ((resY - GROUND_HEIGHT) - ((CHARACTER_HEIGHT * 1.5 + OBSTACLE_HEIGHT) * k));
+					obstacleCoordSystemX[k][j] = (int) (40 * Init.getScaleIndex() + ((OBSTACLE_WIDTH + 40) * Init.getScaleIndex() * j));
+					obstacleCoordSystemY[k][j] = (int) ((resY - GROUND_HEIGHT) - ((CHARACTER_HEIGHT * 0.9 + OBSTACLE_HEIGHT) * (k + 1)));
 					
-					System.out.println("I: " + i + "	J: " + j + "	K: " + k + "	X and Y: " + obstacleCoordSystemX[k][j] + " " + obstacleCoordSystemY[k][j]);
+					System.out.println("J: " + j + "	K: " + k + "	X and Y: " + obstacleCoordSystemX[k][j] + " " + obstacleCoordSystemY[k][j]);
 				}
 				System.out.println("\n");
-			}
 		}
 			
 		// Setting start values for obstacles
 		for (int i = 0; i < obstacle.length; i++) {
+			if(i == obstacle.length/2) firstTimeSpawn = false;
 			obstacleX[i] = newCoord(0);
 			obstacleY[i] = newCoord(1);
 			obstacle[i].setLocation(obstacleX[i], obstacleY[i]);
@@ -198,30 +200,70 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	public static int newCoord(int axis) {
 
 		int pos = 0;
+		int selectedGround = 0;
+		
+		// What ground object is the farthest away?
+		for(int i = 0; i < groundX.length; i++) {
+			if(groundX[i] > groundX[selectedGround]) selectedGround = i;
+		}
+		
 		switch(axis) {
+		
 		// X
 		case 0:
-			pos = (int) (resX *  Math.random() + resX);
-			return pos;
+			// If the row has not been filled yet, spawn obstacle in random column
+			if(amountSpawnedOnRow >= 0 && amountSpawnedOnRow <= 2) {
+				
+				// set X value of a obstacle
+				if(firstTimeSpawn) pos = groundX[selectedGround - 1] + obstacleCoordSystemX[0][currentColumn];
+				else pos = groundX[selectedGround] + obstacleCoordSystemX[0][currentColumn];
+			}
+			else {
+				amountSpawnedOnRow = 0;
+				
+				if(!(currentColumn >= 2)) currentColumn++;
+				else currentColumn = 0;
+				
+				// Pick X value of current column
+				if(firstTimeSpawn) pos = groundX[selectedGround - 1] + obstacleCoordSystemX[0][currentColumn];
+				else pos = groundX[selectedGround] + obstacleCoordSystemX[0][currentColumn];
+			}
+			
+			System.out.println("posX: " + pos);
+		break;
+		
 		// Y	
 		case 1:
-			pos = (int) ((resY - GROUND_HEIGHT) - (randomYOffset() * Init.getScaleIndex()));
-//			System.out.println("Y offset: " + randomYOffset());
-			return pos;
+			if(choosenYPointAmount == 0) {
+				int foo = (int) (100 * Math.random());
+				
+				if(foo >= 0 && foo < 25) pos = obstacleCoordSystemY[0][0];
+				else if(foo >= 25 && foo < 50) pos = obstacleCoordSystemY[1][0];
+				else if(foo >= 50 && foo < 75) pos = obstacleCoordSystemY[2][0];
+				else pos = obstacleCoordSystemY[3][0];
+				
+				choosenYPointAmount++;
+				
+				lastChoosenYPoint = pos;
+			}
+			else {
+				int foo = (int) (100 * Math.random());
+				
+				if(foo >= 0 && foo < 25) pos = obstacleCoordSystemY[0][0];
+				else if(foo >= 25 && foo < 50) pos = obstacleCoordSystemY[1][0];
+				else if(foo >= 50 && foo < 75) pos = obstacleCoordSystemY[2][0];
+				else pos = obstacleCoordSystemY[3][0];
+				
+				if(pos == lastChoosenYPoint) return newCoord(1);
+				choosenYPointAmount = 0;
+			}
+			
+			System.out.println("posY: " + pos + "\n");
+		break;
 		}
-		System.out.println("Failed to create new coordinates for obstacle!");
+		
+		amountSpawnedOnRow++;
 		return pos;
-	}
-	
-	// Generate multiplier for obstacle coordinate randomization 
-	// (Change if you like Folke. You know height of character better than me.)
-	public static int randomYOffset() {
-		double random = Math.random() * 10;
-
-		if(random >= 0 && random <= 3) return 50;
-		else if(random > 3 && random <= 5) return 125;
-		else if (random > 5 && random <= 7) return 180;
-		else return 220;
 	}
 	
 	// Pause game
