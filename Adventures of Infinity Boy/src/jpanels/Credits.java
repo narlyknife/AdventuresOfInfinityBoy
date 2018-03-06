@@ -22,6 +22,7 @@ public class Credits extends JPanel {
 	static int resX = Main._init.getResX();
 	static int resY = Main._init.getResY();
 	static String font = Main._init.getOurFont();
+	static double scale = Main._init.getScaleIndex();
 	
 	JLabel mainHeader = new JLabel("Credits");
 	
@@ -48,23 +49,22 @@ public class Credits extends JPanel {
 		
 		//////////////////////////////////////////
 		// Setting new dimensions for filler boxes
-		Dimension minSize = new Dimension(40,10);			Dimension prefSize = new Dimension(40, 20);				Dimension maxSize = new Dimension(40, 30);
-		Dimension minSizeAbove = new Dimension(40,200);		Dimension prefSizeAbove = new Dimension(40, 250);		Dimension maxSizeAbove = new Dimension(40, 300);
-		Dimension minSizeBelow = new Dimension(100, 100);	Dimension prefSizeBelow = new Dimension(100, 150);		Dimension maxSizeBelow = new Dimension(100, 200);
-
+		Dimension min = new Dimension(40, (int) (10 * scale));		Dimension pref = new Dimension(40, (int) (20 * scale));		 Dimension max = new Dimension(40, (int) (30 * scale));
+		Dimension minAbove = new Dimension(40, (int) (150 * scale));Dimension prefAbove = new Dimension(40, (int) (200 * scale));Dimension maxAbove = new Dimension(40, (int) (250 * scale));		
+		
 		/////////
 		// Adding
-		add(new Box.Filler(minSizeAbove, prefSizeAbove, maxSizeAbove));
+		add(new Box.Filler(minAbove, prefAbove, maxAbove));
 		add(mainHeader);
-		add(new Box.Filler(minSize, prefSize, maxSize));
-		add(new Box.Filler(minSize, prefSize, maxSize));
+		add(new Box.Filler(min, pref, max));
+		add(new Box.Filler(min, pref, max));
 		
 		for (int i = 0; i < programmers.length; i++) {
 			add(programmers[i]);
-			add(new Box.Filler(minSize, prefSize, maxSize));
+			add(new Box.Filler(min, pref, max));
 		}
 	
-		add(new Box.Filler(minSizeBelow, prefSizeBelow, maxSizeBelow));
+		add(new Box.Filler(minAbove, prefAbove, maxAbove));
 		add(buttons[0]);
 		
 		////////////////////////////////
@@ -72,7 +72,6 @@ public class Credits extends JPanel {
 		MainActionListener.addButton(buttons[0], "back");
 		buttons[0].addActionListener(Main.actionListener);
 		
-
 	}
 	//////////
 	// Methods

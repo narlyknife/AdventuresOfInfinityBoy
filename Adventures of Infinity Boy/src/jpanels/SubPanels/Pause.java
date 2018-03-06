@@ -24,6 +24,7 @@ public class Pause extends JPanel{
 		static int resX = Main._init.getResX();
 		static int resY = Main._init.getResY();
 		static String font = Main._init.getOurFont();
+		static double scale = Main._init.getScaleIndex();
 		
 		JLabel title;
 		JButton[] buttons = {new JButton("Main menu"), new JButton("Retry"), new JButton("Continue")};
@@ -44,14 +45,14 @@ public class Pause extends JPanel{
 		
 		/////////////
 		// Dimensions
-		Dimension minSize = new Dimension(40,10);		Dimension prefSize = new Dimension(40, 20);			Dimension maxSize = new Dimension(40, 30);
-		Dimension minSizeAbove = new Dimension(40,300);	Dimension prefSizeAbove = new Dimension(40, 350);	Dimension maxSizeAbove = new Dimension(40, 400);
+		Dimension min = new Dimension(40, (int) (10 * scale));		Dimension pref = new Dimension(40, (int) (20 * scale));		Dimension max = new Dimension(40, (int) (30 * scale));
+		Dimension maxAbove = new Dimension(40, (int) (300 * scale));Dimension minAbove = new Dimension(40, (int) (350 * scale));	Dimension prefAbove = new Dimension(40, (int) (400 * scale));
 		
 		// Adding
-		add(new Box.Filler(minSizeAbove, prefSizeAbove, maxSizeAbove));
+		add(new Box.Filler(minAbove, prefAbove, maxAbove));
 		for (int i = 0; i < buttons.length; i++) {
 			add(buttons[i], 1);
-			add(new Box.Filler(minSize, prefSize, maxSize), 1);
+			add(new Box.Filler(min, pref, max), 1);
 		}
 		add(title, 1);
 		

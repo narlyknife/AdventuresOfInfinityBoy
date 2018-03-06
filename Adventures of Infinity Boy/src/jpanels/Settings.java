@@ -1,5 +1,6 @@
 package jpanels;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -34,6 +35,7 @@ public class Settings extends JPanel{
 	static int resX = Main._init.getResX();
 	static int resY = Main._init.getResY();
 	static String font = Main._init.getOurFont();
+	static double scale = Main._init.getScaleIndex();
 	
 	JLabel title;
 	JButton[] buttons = {new JButton("Game Settings"), new JButton("Difficulty Settings"), new JButton("Character Settings"), new JButton("Cancel"), new JButton("Save")};
@@ -43,10 +45,10 @@ public class Settings extends JPanel{
 		
 		/////////////
 		// Dimensions
-		Dimension minMiddle = new Dimension(40, 500);					Dimension prefMiddle = new Dimension(40, 550);							Dimension maxMiddle = new Dimension(40, 600);
-		Dimension minSizeAbove = new Dimension(40,200);					Dimension prefSizeAbove = new Dimension(40, 250);						Dimension maxSizeAbove = new Dimension(40, 300);
-		Dimension minBottom = new Dimension(40,100); 					Dimension prefBottom = new Dimension(40, 150); 							Dimension maxBottom = new Dimension(40,200);
-		Dimension minSide = new Dimension((int) (resX * 0.33), resY);	Dimension prefSide = new Dimension((int) ((resX * 0.33) + 200), resY); 	Dimension maxSide = new Dimension((int) ((resX * 0.33) + 400), resY);
+		Dimension minMiddle = new Dimension((int) (400 * scale), (int) (500 * scale));	Dimension prefMiddle = new Dimension((int) (500 * scale), (int) (550 * scale));	Dimension maxMiddle = new Dimension((int) (600 * scale), (int) (600 * scale));
+		Dimension minAbove = new Dimension(40, (int) (200 * scale));					Dimension prefAbove = new Dimension(40, (int) (250 * scale));					Dimension maxAbove = new Dimension(40, (int) (300 * scale));
+		Dimension minBottom = new Dimension(40, (int) (100 * scale)); 					Dimension prefBottom = new Dimension(40, (int) (150 * scale));	 				Dimension maxBottom = new Dimension(40, (int) (200 * scale));
+		Dimension minSide = new Dimension((int) (resX * 0.33), resY);					Dimension prefSide = new Dimension((int) ((resX * 0.33) + 200), resY); 			Dimension maxSide = new Dimension((int) ((resX * 0.33) + 400), resY);
 		
 		// Title
 		title = new JLabel("Settings");
@@ -62,6 +64,7 @@ public class Settings extends JPanel{
 		JPanel settingsPanel = new JPanel();
 		settingsPanel.setLayout(new BoxLayout(settingsPanel, BoxLayout.Y_AXIS));
 		settingsPanel.add(new Box.Filler(minMiddle, prefMiddle, maxMiddle));
+//		settingsPanel.setBackground(Color.gray);
 		
 		// Bottom buttonPanel
 		JPanel bottomButtonPanel = new JPanel(new GridLayout(1,0,40,0));
@@ -71,11 +74,11 @@ public class Settings extends JPanel{
 		JPanel midPanel = new JPanel();
 		midPanel.setLayout(new BoxLayout(midPanel, BoxLayout.Y_AXIS));
 		
-		midPanel.add(new Box.Filler(minSizeAbove, prefSizeAbove, maxSizeAbove));
+		midPanel.add(new Box.Filler(minAbove, prefAbove, maxAbove));
 		
 		midPanel.add(title);
 		
-		midPanel.add(Box.createRigidArea(new Dimension(10, 50)));
+		midPanel.add(Box.createRigidArea(new Dimension((int) (10 * scale), (int) (50 * scale))));
 		
 		midPanel.add(buttonPanel);
 
