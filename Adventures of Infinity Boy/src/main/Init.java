@@ -9,8 +9,8 @@ public class Init {
 
 	static ArrayList<Integer> fps = new ArrayList<Integer>();
 	final int PLATFORM_COUNT;
-	public final int SCREEN_RES_X;
-	public final int SCREEN_RES_Y;
+	public static int SCREEN_RES_X;
+	public static int SCREEN_RES_Y;
 	final String font = "Arial";
 	final int DEFAULT_X_VALUE = 1920;
 	final static int[] GROUND_SIZE = {1920, 150};
@@ -19,10 +19,11 @@ public class Init {
 	final static int OBSTACLE_AMOUNT = 12;
 	static int characterMovement = 6;
 	static float scaleIndex = 1;
+	static int splashScreenTime = 5000;	// Milliseconds
 	
 	Init() {
 		// The Main threads FPS
-		setFps(0, 80);
+		setFps(0, 100);
 		
 		// Variable for maximum amount of platforms that will appear on screen
 		PLATFORM_COUNT = 10;
@@ -42,11 +43,11 @@ public class Init {
 		return fps.get(position);
 	}
 	
-	public int getResX() {
+	public static int getResX() {
 		return SCREEN_RES_X;
 	}
 	
-	public int getResY() {
+	public static int getResY() {
 		return SCREEN_RES_Y;
 	}
 	
