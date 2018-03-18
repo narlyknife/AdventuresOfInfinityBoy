@@ -26,8 +26,6 @@ public class GamePanel extends JPanel{
 	
 	@SuppressWarnings("static-access")
 	public GamePanel() {
-		System.out.println("New Gameobject Created");
-		 
 		// Allowing for a XY precise placement, beneficial for a JPanel with the purpose of multiple object placements.
 		this.setLayout(null);
 		

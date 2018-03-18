@@ -21,6 +21,14 @@ public class Init {
 	static float scaleIndex = 1;
 	static int splashScreenTime = 5000;	// Milliseconds
 	
+	// World selection (1-3)
+	// Character selection (1-3)
+	// Toggle splash screen (0-1)
+	// Toggle music (0-1) 
+	// 0 = false, 1 = true
+	public static int[] settingsData = {1, 1, 1, 1};
+	final static String SETTINGS_PATH = "src/Settings/settings.txt";
+	
 	Init() {
 		// The Main threads FPS
 		setFps(0, 100);

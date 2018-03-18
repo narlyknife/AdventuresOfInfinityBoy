@@ -30,8 +30,6 @@ public class Pause extends JPanel implements ActionListener{
 		JButton keepGoing, retry, back;
 		
 	public Pause() {
-		System.out.println("Pause Object created");
-		
 		// Declarations
 		title = new JLabel("Pause");
 		keepGoing = new JButton("Continue");

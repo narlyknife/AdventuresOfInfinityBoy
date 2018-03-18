@@ -19,7 +19,6 @@ public class Obstacles extends JPanel{
 	private Image chosenImage;
 	
 	public Obstacles() {
-		System.out.println("Obstacle created");
 		setScaleIndex();
 	}
 	
