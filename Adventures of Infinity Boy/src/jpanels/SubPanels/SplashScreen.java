@@ -6,6 +6,8 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import main.Init;
+
 public class SplashScreen extends JPanel{
 	
 	Image image;
@@ -15,7 +17,7 @@ public class SplashScreen extends JPanel{
 	}
 	
 	public void paintComponent(Graphics g) {
-		g.drawImage(image, 0, 0, null);
+		g.drawImage(image, 0, 0, Init.SCREEN_RES_X, Init.SCREEN_RES_Y, null);
 	}
 
 }

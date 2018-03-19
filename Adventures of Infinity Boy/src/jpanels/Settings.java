@@ -80,6 +80,8 @@ public class Settings extends JPanel{
 		
 		// Applying action Listener
 		MainActionListener.addButton(buttons[3], "cancel");
+		MainActionListener.addButton(buttons[4], "save");
+		
 		for(int i = 0; i < buttons.length; i++) {
 			buttons[i].addActionListener(Main.actionListener);
 		}

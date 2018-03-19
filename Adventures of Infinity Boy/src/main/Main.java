@@ -90,6 +90,7 @@ public class Main {
 		System.out.println("DONE: Primary GUI configuration");
 		
 		System.out.println("DONE: Main initialization");
+		System.out.println("\n\t\t--GAME RUNNING--");
 	}
 
 	// Setting "_frame" to fullscreen.
