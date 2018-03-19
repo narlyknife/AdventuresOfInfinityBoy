@@ -15,7 +15,7 @@ import pui.gameGeneralThread;
 
 public class GamePanel extends JPanel{
 	
-	// Declarations
+	// Getting values from "init" file
 	static int resX = Main._init.getResX();
 	static int resY = Main._init.getResY();
 	static String font = Main._init.getOurFont();

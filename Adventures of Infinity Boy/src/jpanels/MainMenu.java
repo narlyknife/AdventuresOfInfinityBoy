@@ -1,9 +1,11 @@
 package jpanels;
 import java.awt.Dimension;
+import java.awt.Font;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import engine.MainActionListener;
@@ -15,32 +17,47 @@ public class MainMenu extends JPanel{
 	//	 - N/A
 	//
 	
+	// Getting and setting values from intit
+	static int resX = Main._init.getResX();
+	static int resY = Main._init.getResY();
+	static String font = Main._init.getOurFont();
+	static double scale = Main._init.getScaleIndex();
+	
 	public MainMenu() {
 		
 		// Declaration of the array containing all buttons
 		JButton[] buttons = {new JButton("Start Game"), new JButton("Settings"), new JButton("Scoreboard"), new JButton("Credits"), new JButton("Quit Game")};
+		JLabel title = new JLabel("Infinity Squirrel");
 		
 		// Aligning everything
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		for(int i = 0; i < buttons.length; i++) buttons[i].setAlignmentX(CENTER_ALIGNMENT);
+		title.setFont(new Font(font, Font.BOLD, 50));
+		title.setAlignmentX(CENTER_ALIGNMENT);
 		
+		/////////////
+		// Dimensions
+		Dimension min = new Dimension(40, (int) (10 * scale));		Dimension pref = new Dimension(40, (int) (20 * scale));		Dimension max = new Dimension(40, (int) (30 * scale));
+		Dimension maxAbove = new Dimension(40, (int) (200 * scale));Dimension minAbove = new Dimension(40, (int) (250 * scale));	Dimension prefAbove = new Dimension(40, (int) (300 * scale));
 		
 		// Adding components and spacing between them
-		Dimension minSize = new Dimension(40,10);		Dimension prefSize = new Dimension(40, 15);		Dimension maxSize = new Dimension(40, 20);
-		Dimension maxSizeAbove = new Dimension(40,600);	Dimension maxSizeBelow = new Dimension(40,200);
-		
-		add(new Box.Filler(minSize, prefSize, maxSizeAbove));
+		add(new Box.Filler(minAbove, prefAbove, maxAbove));
+		add(new Box.Filler(min, pref, max));
+		add(title);
+		add(new Box.Filler(minAbove, prefAbove, maxAbove));
+		add(new Box.Filler(min, pref, max));
+		add(new Box.Filler(min, pref, max));
 		
 		for (int i = 0; i < buttons.length; i++) {
+			// Adding more space between "quit game" button and the rest so that quit game is separated.
 			if (i == buttons.length - 1 ) {
-				add(new Box.Filler(minSize, prefSize, maxSize));
-				add(new Box.Filler(minSize, prefSize, maxSize));
+				add(new Box.Filler(min, pref, max));
+				add(new Box.Filler(min, pref, max));
 				add(buttons[i]);
-				add(new Box.Filler(minSize, prefSize, maxSizeBelow));
 			}
 			else {
 				add(buttons[i]);
-				add(new Box.Filler(minSize, prefSize, maxSize));
+				add(new Box.Filler(min, pref, max));
 			}
 		}
 		

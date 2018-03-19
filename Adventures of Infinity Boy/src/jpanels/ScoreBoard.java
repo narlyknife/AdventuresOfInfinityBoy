@@ -19,12 +19,20 @@ public class ScoreBoard extends JPanel{
 	//	
 	//	 - The scores need to be taken from a file. Fix plz.
 	//
-
-	///////////////
-	// Declarations
+	
+	// The structure is built on JPanels on top of JPanels.
+	// Visual representation of structure from top to bottom:
+	//  - Score panel
+	//  - Filler panel
+	//  - Mid panel
+	//  - JFrame (base)
+	
+	//////////////////////////////////
+	// Getting values from "init" file
 	static int resX = Main._init.getResX();
 	static int resY = Main._init.getResY();
 	static String font = Main._init.getOurFont();
+	static double scale = Main._init.getScaleIndex();
 	
 	JLabel header =  new JLabel("Scoreboard");
 	private JLabel[] scores = new JLabel[10];
@@ -33,16 +41,16 @@ public class ScoreBoard extends JPanel{
 	//////////////
 	// Constructor
 	public ScoreBoard() {
+		
+		// Accessing scores and then putting them into the JLabel array for later use
 		setScores();
 		
 		/////////////
 		// Dimensions
-		Dimension minSize = new Dimension(40,30);							Dimension prefSize = new Dimension(40, 35);								Dimension maxSize = new Dimension(40, 40);
-		Dimension minSizeAbove = new Dimension((int)(resX * 0.33), 75);		Dimension prefSizeAbove = new Dimension((int)(resX * 0.33), 125);		Dimension maxSizeAbove = new Dimension((int)(resX * 0.33), 150);
-		Dimension minHalf = new Dimension((int) (resX * 0.2), 300);			Dimension prefHalf = new Dimension((int) (resX * 0.2) + 10, 300);		Dimension maxHalf = new Dimension((int) (resX * 0.2) + 15, 300);
-		Dimension minSizeBelow = new Dimension(100, 15);					Dimension prefSizeBelow = new Dimension(100, 35); 						Dimension maxSizeBelow = new Dimension(100, 50);
+		Dimension min = new Dimension(40, (int) (10 * scale));		Dimension pref = new Dimension(40, (int) (20 * scale));		Dimension max = new Dimension(40, (int) (30 * scale));
+		Dimension minHalf = new Dimension((int) (resX * 0.2), (int) (300 * scale));	Dimension prefHalf = new Dimension((int) (resX * 0.2) + 10, (int) (300 * scale));	Dimension maxHalf = new Dimension((int) (resX * 0.2) + 15, (int) (300 * scale));
 		Dimension minSide = new Dimension((int) (resX * 0.33), resY);		Dimension prefSide = new Dimension((int) ((resX * 0.33) + 25), resY); 	Dimension maxSide = new Dimension((int) ((resX * 0.33) + 50), resY);
-		Dimension minMiddle = new Dimension((int) (resX * 0.33), 60);
+		Dimension minMiddle = new Dimension((int) (resX * 0.33), (int) (60 * scale));
 		
 		//////////////
 		// Score panel
@@ -51,10 +59,9 @@ public class ScoreBoard extends JPanel{
 //		scorePanel.setBackground(Color.darkGray);
 		
 		// Adding
-		
 		for (int i = 0; i < scores.length; i++) {
 			scorePanel.add(scores[i]);
-			scorePanel.add(new Box.Filler(minSize, prefSize, maxSize));
+			scorePanel.add(new Box.Filler(min, pref, max));
 		}
 		
 		// Alignment
@@ -76,23 +83,22 @@ public class ScoreBoard extends JPanel{
 		JPanel midPanel = new JPanel();
 		midPanel.setLayout(new BoxLayout(midPanel, BoxLayout.Y_AXIS));
 //		midPanel.setBackground(Color.gray);
-		
 		// Positioning and font
 		header.setAlignmentX(CENTER_ALIGNMENT);
 		header.setFont(new Font(font, Font.BOLD, 50));		
 		buttons[0].setAlignmentX(CENTER_ALIGNMENT);
 		
 		// Adding		
-		midPanel.add(new Box.Filler(minSizeAbove, prefSizeAbove, maxSizeAbove));
-
+		midPanel.add(new Box.Filler(min, pref, max));
 		
 		midPanel.add(header);
 		
 		midPanel.add(new Box.Filler(minMiddle, minMiddle, minMiddle));
 		
 		midPanel.add(fillerPanel);
-		
-		midPanel.add(new Box.Filler(minSizeBelow, prefSizeBelow, maxSizeBelow));
+
+		midPanel.add(new Box.Filler(min, pref, max));
+		midPanel.add(new Box.Filler(min, pref, max));
 		
 		midPanel.add(buttons[0]);
 		
@@ -101,6 +107,7 @@ public class ScoreBoard extends JPanel{
 		add(new Box.Filler(minSide, prefSide, maxSide ));
 		add(midPanel);
 		add(new Box.Filler(minSide, prefSide, maxSide ));
+//		this.setBackground(Color.cyan);
 		
 		
 		////////////////////////////

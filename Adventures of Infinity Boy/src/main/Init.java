@@ -32,6 +32,7 @@ public class Init {
 	Init() {
 		// The Main threads FPS
 		setFps(0, 100);
+
 		
 		// Variable for maximum amount of platforms that will appear on screen
 		PLATFORM_COUNT = 10;

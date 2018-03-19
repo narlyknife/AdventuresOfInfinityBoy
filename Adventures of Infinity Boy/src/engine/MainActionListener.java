@@ -32,8 +32,16 @@ public class MainActionListener implements ActionListener{
 		if(e.getSource() == buttonMap.get("quitgame")) {
 			System.exit(0); // KILL IT WITH FIRE!
 		}
-		if(e.getSource() == buttonMap.get("back") || e.getSource() == buttonMap.get("cancel") || e.getSource() == buttonMap.get("mainMenu") || e.getSource() == buttonMap.get("save")) {
+
+		// The names of all the button must be unique, so if you want several buttons to lead to the same place, this is what you have to do:
+		if(e.getSource() == buttonMap.get("back") || e.getSource() == buttonMap.get("cancel") || e.getSource() == buttonMap.get("mainMenu") || e.getSource() == buttonMap.get("return") || e.getSource() == buttonMap.get("save")) {
 			Main.setPanel("mainmenu");
+		}
+		if(e.getSource() == buttonMap.get("retry") || e.getSource() == buttonMap.get("startOver")) {
+			// Code
+		}
+		if(e.getSource() == buttonMap.get("continue")) {
+			// Code
 		}
 	}
 	
