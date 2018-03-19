@@ -30,10 +30,16 @@ public class Pause extends JPanel{
 		JButton[] buttons = {new JButton("Main menu"), new JButton("Retry"), new JButton("Continue")};
 		
 	public Pause() {
+
+		// Declarations
+		title = new JLabel("Pause");
+		keepGoing = new JButton("Continue");
+		retry = new JButton("Retry");
+		back = new JButton("Main Menu");
+
 		System.out.println("Pause Object created");
 		
 		// Title
-		title = new JLabel("Pause");		
 		title.setFont(new Font(font, Font.PLAIN, 40));
 		
 		// Positioning and alignment

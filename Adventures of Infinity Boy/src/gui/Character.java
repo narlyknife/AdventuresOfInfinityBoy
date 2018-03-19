@@ -19,7 +19,6 @@ public class Character extends JPanel {
 	private Image chosenImage;
 	
 	public Character() {
-		System.out.println("Character created");
 		setScaleIndex();
 	}
 	

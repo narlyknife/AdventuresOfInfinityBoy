@@ -19,7 +19,6 @@ public class GroundBlocks extends JPanel{
 	private Image chosenImage;
 	
 	public GroundBlocks() {
-		System.out.println("GroundBlock created");
 		setScaleIndex();
 	}
 		
