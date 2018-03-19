@@ -40,16 +40,21 @@ public class gameGeneralThread extends Thread implements ActionListener{
 
 	public static Character character = new Character();
 	
-	public static Obstacles[] obstacle = {new Obstacles(), new Obstacles(), new Obstacles(),
-										  new Obstacles(), new Obstacles(), new Obstacles(),
-										  new Obstacles(), new Obstacles(), new Obstacles(),
-										  new Obstacles(), new Obstacles(), new Obstacles(),};
+	public static Obstacles[] obstacle = {new Obstacles(), new Obstacles(), new Obstacles(), new Obstacles(),
+										  new Obstacles(), new Obstacles(), new Obstacles(), new Obstacles(),
+										  new Obstacles(), new Obstacles(), new Obstacles(), new Obstacles()  };
+	
+	//#######
+	// Ground
 	
 	// Creating block dimensions
 	final static int GROUND_HEIGHT = GroundBlocks.getGroundHeight();
 	final static int GROUND_WIDTH = ground[1].getGroundWidth();
 	static int[] groundX = {0, GROUND_WIDTH, GROUND_WIDTH*2};
+	int gY = resY - GROUND_HEIGHT;
 	
+	//##########
+	// Obstacles
 	final int OBSTACLE_HEIGHT = obstacle[0].getObstacleHeight();
 	final int OBSTACLE_WIDTH = obstacle[0].getObstacleWidth();
 	
@@ -62,14 +67,6 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	int[] oBot = new int[MAX_OBSTACLES];
 	int[] oX = new int[MAX_OBSTACLES];
 	
-	final int CHARACTER_HEIGHT = character.getCharacterHeight();
-	final int CHARACTER_WIDTH = character.getCharacterWidth();
-	
-	// Setting coordinate values into shorter names for easier use in ex. collision handling
-	int cTop;
-	int cBot;
-	int cX;
-	
 	// Settings coordinate system for placement of obstacles
 	static int[][] obstacleCoordSystemX = new int[4][3];
 	static int[][] obstacleCoordSystemY = new int[4][3];
@@ -79,6 +76,23 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	static int lastChoosenYPoint = 0;
 	static boolean firstTimeSpawn = true;
 	
+	//##########
+	// Character
+	final int CHARACTER_HEIGHT = character.getCharacterHeight();
+	final int CHARACTER_WIDTH = character.getCharacterWidth();
+	boolean jumping = true;
+	boolean collide = true;
+	double cClock = 0;
+	double jIncrease = 0.1;
+	
+	// Setting coordinate values into shorter names for easier use in ex. collision handling
+	int cTop;
+	int cBot;
+	int cX;
+	int cOrigin;
+	
+
+	
 	// Setting game animation movement
 	// Double increase = -1.0001;
 	static final int MOVEMENT_SPEED = (int) (Init.getCharacterMovement() * Init.getScaleIndex());
@@ -87,7 +101,8 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	// Setting timer object with preferred FPS
 	public Timer time = new Timer(Init.getFps(0), this);
 	
-	
+	/////////////////
+	// Initial values
 	public void run() {
 		System.out.println("A new MainThread has been initiated");
 		time.start();
@@ -103,15 +118,15 @@ public class gameGeneralThread extends Thread implements ActionListener{
 		
 		// Creating a coordinate system for all the obstacles possible placements
 		// Further data in console
-		System.out.println("\nCoordinate System for obstacle placement");
+//		System.out.println("\nCoordinate System for obstacle placement");
 			for(int j = 0; j < 3; j++) {
 				for(int k = 0; k < 4; k++) {
 					obstacleCoordSystemX[k][j] = (int) (40 * Init.getScaleIndex() + ((OBSTACLE_WIDTH + 40) * Init.getScaleIndex() * j));
 					obstacleCoordSystemY[k][j] = (int) ((resY - GROUND_HEIGHT) - ((CHARACTER_HEIGHT * 0.9 + OBSTACLE_HEIGHT) * (k + 1)));
 					
-					System.out.println("J: " + j + "	K: " + k + "	X and Y: " + obstacleCoordSystemX[k][j] + " " + obstacleCoordSystemY[k][j]);
+//					System.out.println("J: " + j + "	K: " + k + "	X and Y: " + obstacleCoordSystemX[k][j] + " " + obstacleCoordSystemY[k][j]);
 				}
-				System.out.println("\n");
+//				System.out.println("\n");
 		}
 			
 		// Setting start values for obstacles
@@ -123,8 +138,8 @@ public class gameGeneralThread extends Thread implements ActionListener{
 			obstacle[i].setSize(OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
 			obstacle[i].setObstacleImage(pickRandomObstacleImage());
 			
-			oTop[i] = obstacle[i].getY();
-			oBot[i] = oTop[i] + OBSTACLE_HEIGHT;
+			oTop[i] = obstacle[i].getY() + 2;
+			oBot[i] = oTop[i] + OBSTACLE_HEIGHT - 4;
 			oX[i] = obstacle[i].getX();
 		}
 		
@@ -135,11 +150,14 @@ public class gameGeneralThread extends Thread implements ActionListener{
 		cTop = character.getY();
 		cBot = cTop + CHARACTER_HEIGHT;
 		cX = character.getX();
+		cOrigin = cTop;
 	}
 
+	/////////////////
+	// ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		for(int i = 0; i < ground.length; i++) {
+	for(int i = 0; i < ground.length; i++) {
 			// Respawning ground block
 			if(groundX[i] <= -resX) {
 				groundX[i] = GROUND_WIDTH * 2 - currentSpeed;
@@ -150,6 +168,7 @@ public class gameGeneralThread extends Thread implements ActionListener{
 			ground[i].setLocation(groundX[i] -= currentSpeed, resY - GROUND_HEIGHT);
 		}
 		
+		
 		for (int i = 0; i < obstacle.length; i++) {
 			// Resetting obstacle block
 			if ((obstacleX[i] + OBSTACLE_WIDTH) <= -10) {
@@ -158,7 +177,7 @@ public class gameGeneralThread extends Thread implements ActionListener{
 				oTop[i] = obstacle[i].getY();
 				oBot[i] = oTop[i] + OBSTACLE_HEIGHT;
 				obstacle[i].setObstacleImage(pickRandomObstacleImage());
-
+				
 			}
 			
 			// Collision handling between obstacles and character. Needs expansion for later use if it is
@@ -166,15 +185,60 @@ public class gameGeneralThread extends Thread implements ActionListener{
 			//
 			// Works by checking the front corners of the obstacle and seeing if they are within the front
 			// corners of the character.
-			if (oX[i] <= (cX + CHARACTER_WIDTH) && ((oTop[i] >= cTop && oTop[i] <= cBot) || (oBot[i] >= cTop && oBot[i] <= cBot))) {
+			if ((oX[i] <= (cX + CHARACTER_WIDTH) && (oX[i] > cX + CHARACTER_WIDTH/2)) && ((oTop[i] >= cTop && oTop[i] <= cBot) || (oBot[i] >= cTop && oBot[i] <= cBot))) {
 				currentSpeed = 0;
+				jumping = false;
 			}
+
 			
 			// Animating obstacle block
 			obstacle[i].setLocation(obstacleX[i] -= currentSpeed, obstacle[i].getY());
 			oX[i] = obstacle[i].getX();
 		}
-	}
+			
+			// Animation and collision handling for the character
+			if (jumping) {
+				int y = (int) ((140 * cClock) - ((40*Math.pow(cClock, 2))/2));
+//				System.out.print(y + " ");
+				
+				character.setLocation(cX, cOrigin - y);
+				cTop = character.getY();
+				cBot = cTop + CHARACTER_HEIGHT;
+				for (int i = 0; i < obstacle.length; i++) {
+					if ((cBot - oTop[i] <= 7 && cBot - oTop[i] >= -7) && ((cX >= oX[i] && cX <= oX[i] + OBSTACLE_WIDTH) || (cX + CHARACTER_WIDTH >= oX[i] && cX + CHARACTER_WIDTH <= oX[i] + OBSTACLE_WIDTH))) {
+						System.out.println(cBot + ", " + oTop[i] + ", " + i + ", " + (cBot - oTop[i]));
+						jIncrease = 0;
+						break;
+					}
+				}
+				
+				// Character stays on ground
+				if ((cTop - y) >= cTop) {
+					character.setLocation(cX, cOrigin);
+					cClock = 0.1;
+					y = 0;
+					cTop = cOrigin;
+//					System.out.println();
+				}
+				cClock += jIncrease;
+			}
+			
+			if (!jumping || jIncrease == 0) {
+				for (int i = 0; i < obstacle.length; i++) {
+					if (cX > oX[i] + OBSTACLE_WIDTH) {
+						jIncrease = 0.1;
+						jumping = true;
+						break;
+					}
+				}
+			}
+			
+
+
+		}
+	
+	//////////
+	// Methods
 	
 	// Choose a random image for a ground block
 	public static Image pickRandomGroundImage() {
@@ -229,7 +293,7 @@ public class gameGeneralThread extends Thread implements ActionListener{
 				else pos = groundX[selectedGround] + obstacleCoordSystemX[0][currentColumn];
 			}
 			
-			System.out.println("posX: " + pos);
+//			System.out.println("posX: " + pos);
 		break;
 		
 		// Y	
@@ -237,9 +301,9 @@ public class gameGeneralThread extends Thread implements ActionListener{
 			if(choosenYPointAmount == 0) {
 				int foo = (int) (100 * Math.random());
 				
-				if(foo >= 0 && foo < 25) pos = obstacleCoordSystemY[0][0];
-				else if(foo >= 25 && foo < 50) pos = obstacleCoordSystemY[1][0];
-				else if(foo >= 50 && foo < 75) pos = obstacleCoordSystemY[2][0];
+				if(foo >= 0 && foo < 47) pos = obstacleCoordSystemY[0][0];
+				else if(foo >= 48 && foo < 95) pos = obstacleCoordSystemY[1][0];
+				else if(foo >= 96 && foo < 100) pos = obstacleCoordSystemY[2][0];
 				else pos = obstacleCoordSystemY[3][0];
 				
 				choosenYPointAmount++;
@@ -249,16 +313,16 @@ public class gameGeneralThread extends Thread implements ActionListener{
 			else {
 				int foo = (int) (100 * Math.random());
 				
-				if(foo >= 0 && foo < 25) pos = obstacleCoordSystemY[0][0];
-				else if(foo >= 25 && foo < 50) pos = obstacleCoordSystemY[1][0];
-				else if(foo >= 50 && foo < 75) pos = obstacleCoordSystemY[2][0];
+				if(foo >= 0 && foo < 47) pos = obstacleCoordSystemY[0][0];
+				else if(foo >= 48 && foo < 95) pos = obstacleCoordSystemY[1][0];
+				else if(foo >= 96 && foo < 100) pos = obstacleCoordSystemY[2][0];
 				else pos = obstacleCoordSystemY[3][0];
 				
 				if(pos == lastChoosenYPoint) return newCoord(1);
 				choosenYPointAmount = 0;
 			}
 			
-			System.out.println("posY: " + pos + "\n");
+//			System.out.println("posY: " + pos + "\n");
 		break;
 		}
 		
