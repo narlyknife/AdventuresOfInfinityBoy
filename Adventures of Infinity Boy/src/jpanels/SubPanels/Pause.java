@@ -26,16 +26,10 @@ public class Pause extends JPanel{
 		static String font = Main._init.getOurFont();
 		static double scale = Main._init.getScaleIndex();
 		
-		JLabel title;
-		JButton[] buttons = {new JButton("Main menu"), new JButton("Retry"), new JButton("Continue")};
+		JLabel title = new JLabel("Pause");
+		JButton[] buttons = {new JButton("Main menu"), new JButton("Retry"), new JButton("Continue"), new JButton("Pause")};
 		
 	public Pause() {
-
-		// Declarations
-		title = new JLabel("Pause");
-		keepGoing = new JButton("Continue");
-		retry = new JButton("Retry");
-		back = new JButton("Main Menu");
 
 		System.out.println("Pause Object created");
 		
