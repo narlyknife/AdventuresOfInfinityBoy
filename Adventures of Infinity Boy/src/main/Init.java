@@ -11,7 +11,7 @@ public class Init {
 	final int PLATFORM_COUNT;
 	public static int SCREEN_RES_X;
 	public static int SCREEN_RES_Y;
-	final String font = "Arial";
+	final static String font = "Arial";
 	final int DEFAULT_X_VALUE = 1920;
 	final static int[] GROUND_SIZE = {1920, 150};
 	final static int[] OBSTACLE_SIZE = {600, 30};
@@ -88,7 +88,7 @@ public class Init {
 		return scaleIndex;
 	}
 	
-	public String getOurFont() {
+	public static String getOurFont() {
 		return font;
 	}
 }

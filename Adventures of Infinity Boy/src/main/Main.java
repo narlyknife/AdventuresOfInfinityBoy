@@ -84,9 +84,14 @@ public class Main {
 		setPanel("mainmenu");
 		
 		getPanel("gamepanel").add(getSubPanel("pause"), 0);
-		getSubPanel("pause").setSize(_init.SCREEN_RES_X, _init.SCREEN_RES_Y);
+		getSubPanel("pause").setSize(Init.SCREEN_RES_X, Init.SCREEN_RES_Y);
 		getSubPanel("pause").setLocation(0, 0);
 		getSubPanel("pause").setVisible(false);
+		
+		getSubPanel("gamesettings").setSize(Init.SCREEN_RES_X, Init.SCREEN_RES_Y / 2);
+		getSubPanel("difficultysettings").setSize(Init.SCREEN_RES_X, Init.SCREEN_RES_Y / 2);
+		getSubPanel("charactersettings").setSize(Init.SCREEN_RES_X, Init.SCREEN_RES_Y / 2);
+		
 		System.out.println("DONE: Primary GUI configuration");
 		
 		System.out.println("DONE: Main initialization");
