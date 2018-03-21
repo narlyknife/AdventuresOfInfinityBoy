@@ -31,8 +31,8 @@ public class GroundBlocks extends JPanel{
 	// Applying the scaleIndex to the ground objects X and Y dimensions.
 	// Size changes can be made manually in Init.
 	public void setScaleIndex() {
-		groundWidth = (int) (Init.getGroundSize(0) * Init.getScaleIndex());
-		groundHeight = (int) (Init.getGroundSize(1) * Init.getScaleIndex());
+		groundWidth = (int) (Init.getGroundSize(0) * Init.getScaleIndexX());
+		groundHeight = (int) (Init.getGroundSize(1) * Init.getScaleIndexY());
 	}
 	
 	public int getGroundWidth() {

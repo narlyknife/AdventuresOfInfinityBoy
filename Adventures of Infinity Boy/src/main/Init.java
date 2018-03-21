@@ -13,13 +13,17 @@ public class Init {
 	public static int SCREEN_RES_Y;
 	final static String font = "Arial";
 	final int DEFAULT_X_VALUE = 1920;
+	final int DEFAULT_Y_VALUE = 1080;
 	final static int[] GROUND_SIZE = {1920, 150};
 	final static int[] OBSTACLE_SIZE = {600, 30};
 	final static int[] CHARACTER_SIZE = {150, 75};
+	public final static int[] SETTINGS_CHAR_SIZE = {300, 500};
+	public final static int[] SETTINGS_DIF_SIZE = {400, 300};
 	final static int OBSTACLE_AMOUNT = 12;
 	static int characterMovement = 6;
-	static float scaleIndex = 1;
-	static int splashScreenTime = 5000;	// Milliseconds
+	static float scaleIndexX = 1;
+	static float scaleIndexY = 1;
+	static int splashScreenTime = 5;	// Milliseconds
 	
 	// World selection (1-3)
 	// Character selection (1-3)
@@ -32,7 +36,6 @@ public class Init {
 	Init() {
 		// The Main threads FPS
 		setFps(0, 100);
-
 		
 		// Variable for maximum amount of platforms that will appear on screen
 		PLATFORM_COUNT = 10;
@@ -41,7 +44,8 @@ public class Init {
 		SCREEN_RES_X = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 		SCREEN_RES_Y = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 		
-		scaleIndex = (float) SCREEN_RES_X / DEFAULT_X_VALUE;
+		scaleIndexX = (float) SCREEN_RES_X / DEFAULT_X_VALUE;
+		scaleIndexY = (float) SCREEN_RES_Y / DEFAULT_Y_VALUE;
 	}
 	
 	public void setFps(int position, int value) {
@@ -84,8 +88,12 @@ public class Init {
 		characterMovement = speed;
 	}
 	
-	public static float getScaleIndex() {
-		return scaleIndex;
+	public static float getScaleIndexX() {
+		return scaleIndexX;
+	}
+	
+	public static float getScaleIndexY() {
+		return scaleIndexY;
 	}
 	
 	public static String getOurFont() {
