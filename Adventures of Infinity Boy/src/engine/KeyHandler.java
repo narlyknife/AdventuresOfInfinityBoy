@@ -11,7 +11,7 @@ import pui.gameGeneralThread;
 
 public class KeyHandler{
 	
-	Action pauseAction;
+	Action pauseAction, jumpAction;
 	boolean gamePaused = false;
 
 	// The action to perform the steps of a pause. (Game movement set to 0, display/hide pause menu)
@@ -32,9 +32,24 @@ public class KeyHandler{
 				gamePaused = !gamePaused;
 			}
 		};
+		
+		jumpAction = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if(gameGeneralThread.jumping() == false) {
+					 gameGeneralThread.enableJump();
+				}
+			}
+		};
 	}
 	
 	public Action getPauseAction() {
 		return pauseAction;
 	}
+	
+	public Action getJumpAction() {
+		return jumpAction;
+	}
+	
+	
 }
