@@ -18,7 +18,7 @@ public class GameOver extends JPanel {
 	static int resX = Main._init.getResX();
 	static int resY = Main._init.getResY();
 	static String font = Main._init.getOurFont();
-	static double scale = Main._init.getScaleIndex();
+	static double scale = Main._init.getScaleIndexX();
 	
 	JLabel title;
 	JButton[] buttons = {new JButton("Retry"), new JButton("Main menu")};

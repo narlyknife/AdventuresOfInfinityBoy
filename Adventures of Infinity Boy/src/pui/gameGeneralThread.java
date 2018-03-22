@@ -99,7 +99,7 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	
 	// Setting game animation movement
 	// Double increase = -1.0001;
-	static final int MOVEMENT_SPEED = (int) (Init.getCharacterMovement() * Init.getScaleIndex());
+	static final int MOVEMENT_SPEED = (int) (Init.getCharacterMovement() * Init.getScaleIndexX());
 	static int currentSpeed = MOVEMENT_SPEED;
 	
 	// Setting timer object with preferred FPS

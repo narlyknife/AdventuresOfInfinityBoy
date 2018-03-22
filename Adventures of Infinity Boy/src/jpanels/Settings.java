@@ -13,6 +13,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import engine.MainActionListener;
+import jpanels.SubPanels.CharacterSettings;
+import jpanels.SubPanels.DifficultySettings;
+import jpanels.SubPanels.GameOver;
+import jpanels.SubPanels.GameSettings;
 import main.Init;
 import main.Main;
 
@@ -47,16 +51,16 @@ public class Settings extends JPanel{
 		// Dimensions
 		
 		// Currently used in the settings panel used for showing sub panels. Placeholder really...
-		Dimension minMiddle = new Dimension(40, 500);				Dimension prefMiddle = new Dimension(40, 550);							Dimension maxMiddle = new Dimension(40, 600);
+    Dimension minMiddle = new Dimension(40, (int) (500 * Init.getScaleIndexY()));		Dimension prefMiddle = new Dimension(40, (int) (550 * Init.getScaleIndexY()));			Dimension maxMiddle = new Dimension(40, (int) (600 * Init.getScaleIndexY()));
 		
 		// Spacing above header/title
-		Dimension minAbove = new Dimension(40,100);					Dimension prefAbove = new Dimension(40, 150);							Dimension maxAbove = new Dimension(40, 200);
+		Dimension minAbove = new Dimension(40,(int) (100 * Init.getScaleIndexY()));		Dimension prefAbove = new Dimension(40, (int) (150 * Init.getScaleIndexY()));		Dimension maxAbove = new Dimension(40, (int) (200 * Init.getScaleIndexY()));
 		
 		// Creates a filler to make the bottom buttons look normal sized.
 		Dimension minBottom = new Dimension(40,100); 				Dimension prefBottom = new Dimension(40, 150); 							Dimension maxBottom = new Dimension(40,200);
 		
 		// Contains dimensions for the height of the screen and 1/10th of its width. Used to center the content on the panel
-		Dimension minSide = new Dimension((int) (resX * 0.1), resY);Dimension prefSide = new Dimension((int) ((resX * 0.1) + 200), resY); 	Dimension maxSide = new Dimension((int) ((resX * 0.1) + 400), resY);
+		Dimension minSide = new Dimension((int) (resX * 0.05 * Init.getScaleIndexX()), (int) (resY * Init.getScaleIndexY()));		Dimension prefSide = new Dimension((int) ((resX * 0.05 * Init.getScaleIndexX()) + 200), (int) (resY * Init.getScaleIndexY())); Dimension maxSide = new Dimension((int) ((resX * 0.05 * Init.getScaleIndexX()) + 400), (int) (resY * Init.getScaleIndexY()));
 		
 		// ButtonPanel
 		JPanel buttonPanel = new JPanel(new GridLayout(1,0,40,0));
@@ -88,6 +92,16 @@ public class Settings extends JPanel{
 		
 		midPanel.add(Box.createRigidArea(new Dimension(10, 50)));
 		
+		settingsPanel.setLayout(new BorderLayout());
+		
+		Main.subPanelMap.put("charactersettings", new CharacterSettings());	
+		Main.subPanelMap.put("difficultysettings", new DifficultySettings());	
+		Main.subPanelMap.put("gamesettings", new GameSettings());
+		
+		settingsPanel.add(Main.getSubPanel("gamesettings"), 0);
+		settingsPanel.add(Main.getSubPanel("difficultysettings"), 0);
+		settingsPanel.add(Main.getSubPanel("charactersettings"), 0);
+
 		midPanel.add(settingsPanel);
 		
 		midPanel.add(Box.createRigidArea(new Dimension(10, 50)));
@@ -120,5 +134,13 @@ public class Settings extends JPanel{
 		if(!(name.equals("gamesettings"))) Main.getSubPanel("gamesettings").setVisible(false);
 		if(!(name.equals("difficultysettings"))) Main.getSubPanel("difficultysettings").setVisible(false);
 		if(!(name.equals("charactersettings"))) Main.getSubPanel("charactersettings").setVisible(false);
+	}
+	
+	public static int getSettingsPanelW() {
+		return settingsPanel.getWidth();
+	}
+	
+	public static int getSettingsPanelH() {
+		return settingsPanel.getHeight();
 	}
 }

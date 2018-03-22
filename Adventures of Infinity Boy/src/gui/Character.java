@@ -30,8 +30,8 @@ public class Character extends JPanel {
 	// Applying the scaleIndex to the ground objects X and Y dimensions.
 	// Size changes can be made manually in Init.
 	public void setScaleIndex() {
-		characterWidth = (int) (Init.getCharacterSize(0) * Init.getScaleIndex());
-		characterHeight = (int) (Init.getCharacterSize(1) * Init.getScaleIndex());
+		characterWidth = (int) (Init.getCharacterSize(0) * Init.getScaleIndexX());
+		characterHeight = (int) (Init.getCharacterSize(1) * Init.getScaleIndexY());
 	}
 	
 	public int getCharacterHeight() {
