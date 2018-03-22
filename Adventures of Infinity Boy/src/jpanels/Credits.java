@@ -22,7 +22,7 @@ public class Credits extends JPanel {
 	static int resX = Main._init.getResX();
 	static int resY = Main._init.getResY();
 	static String font = Main._init.getOurFont();
-	static double scale = Main._init.getScaleIndex();
+	static double scale = Main._init.getScaleIndexX();
 	
 	JLabel mainHeader = new JLabel("Credits");
 	

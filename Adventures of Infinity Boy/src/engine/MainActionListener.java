@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.swing.JButton;
 
 import jpanels.GamePanel;
+import jpanels.Settings;
 import main.Main;
 
 public class MainActionListener implements ActionListener{
@@ -42,6 +43,18 @@ public class MainActionListener implements ActionListener{
 		}
 		if(e.getSource() == buttonMap.get("continue")) {
 			// Code
+		}
+		if(e.getSource() == buttonMap.get("gamesettings")) {
+			Settings.changeSettingPanel("gamesettings");
+			System.out.println("NOTE: Switched to game settings");
+		}
+		if(e.getSource() == buttonMap.get("difficultysettings")) {
+			Settings.changeSettingPanel("difficultysettings");
+			System.out.println("NOTE: Switched to difficulty settings");
+		}
+		if(e.getSource() == buttonMap.get("charactersettings")) {
+			Settings.changeSettingPanel("charactersettings");
+			System.out.println("NOTE: Switched to character settings");
 		}
 	}
 	

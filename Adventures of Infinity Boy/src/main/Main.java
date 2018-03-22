@@ -42,14 +42,12 @@ public class Main {
 		// --PREPARING AND STRUCTURING DATA--
 		System.out.println("\t--PREPARING AND STRUCTURING DATA--\n");
 		
-		// Creating another map for all the sub-panels, #subpanelLivesMatter
-		subPanelMap.put("charactersettings", new CharacterSettings());	subPanelMap.put("difficultysettings", new DifficultySettings());	
-		subPanelMap.put("gameover", new GameOver());					subPanelMap.put("gamesettings", new GameSettings());				
-		subPanelMap.put("pause", new Pause());
-		
 		// Creating a map with all the panel objects and their preferred key names, because.. you know objects have genders to... i guess?
 		panelMap.put("credits", new Credits());							panelMap.put("gamepanel", new GamePanel());			panelMap.put("mainmenu", new MainMenu());	
-		panelMap.put("scoreboard", new ScoreBoard());					panelMap.put("settings", new Settings());			panelMap.put("splashscreen", new SplashScreen());		
+		panelMap.put("scoreboard", new ScoreBoard());					panelMap.put("settings", new Settings());			panelMap.put("splashscreen", new SplashScreen());
+		
+		// Creating another map for all the sub-panels, #subpanelLivesMatter
+		subPanelMap.put("gameover", new GameOver());					subPanelMap.put("pause", new Pause());
 		
 		System.out.println("DONE: Creating and sorting JPanels");
 		
@@ -84,13 +82,18 @@ public class Main {
 		setPanel("mainmenu");
 		
 		getPanel("gamepanel").add(getSubPanel("pause"), 0);
-		getSubPanel("pause").setSize(_init.SCREEN_RES_X, _init.SCREEN_RES_Y);
+		getSubPanel("pause").setSize(Init.SCREEN_RES_X, Init.SCREEN_RES_Y);
 		getSubPanel("pause").setLocation(0, 0);
 		getSubPanel("pause").setVisible(false);
+		
+		getSubPanel("gamesettings").setSize(Init.SCREEN_RES_X, (int) (530 * Init.scaleIndexY));
+		getSubPanel("difficultysettings").setSize(Init.SCREEN_RES_X, (int) (530 * Init.scaleIndexY));
+		getSubPanel("charactersettings").setSize(Init.SCREEN_RES_X, (int) (530 * Init.scaleIndexY));
+		
 		System.out.println("DONE: Primary GUI configuration");
 		
 		System.out.println("DONE: Main initialization");
-		System.out.println("\n\t\t--GAME RUNNING--");
+		System.out.println("\n\t\t--GAME RUNNING--\n");
 	}
 
 	// Setting "_frame" to fullscreen.
