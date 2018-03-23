@@ -23,7 +23,7 @@ public class Init {
 	static int characterMovement = 6;
 	static float scaleIndexX = 1;
 	static float scaleIndexY = 1;
-	static int splashScreenTime = 5;	// Milliseconds
+	static int splashScreenTime = 6000;	// Milliseconds
 	
 	// World selection (1-3)
 	// Character selection (1-3)

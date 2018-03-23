@@ -5,6 +5,9 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -15,10 +18,7 @@ import jpanels.GamePanel;
 import jpanels.MainMenu;
 import jpanels.ScoreBoard;
 import jpanels.Settings;
-import jpanels.SubPanels.CharacterSettings;
-import jpanels.SubPanels.DifficultySettings;
 import jpanels.SubPanels.GameOver;
-import jpanels.SubPanels.GameSettings;
 import jpanels.SubPanels.Pause;
 import jpanels.SubPanels.SplashScreen;
 
@@ -102,8 +102,23 @@ public class Main {
 		_frame.setUndecorated(true);
 	}
 	
+	public static void audio() {
+		try {
+			System.out.println("NOTE: Playing audio");
+	        Clip clip = AudioSystem.getClip();
+	        AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+	          Main.class.getResourceAsStream("/Audio/Splashscreen.wav"));
+	        clip.open(inputStream);
+	        clip.start(); 
+		} catch(Exception e) {
+			System.out.println("ERROR: Failed to load audio");
+		}
+	}
+	
 	// Show a splashscreen with selected panels before and after.
 	private static void showSplashScreen(String splashscreen, JFrame frame, int time) {
+		audio();
+		
 		setPanel(splashscreen);
 		
 		setFullscreen();
