@@ -5,9 +5,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -102,22 +99,9 @@ public class Main {
 		_frame.setUndecorated(true);
 	}
 	
-	public static void audio() {
-		try {
-			System.out.println("NOTE: Playing audio");
-	        Clip clip = AudioSystem.getClip();
-	        AudioInputStream inputStream = AudioSystem.getAudioInputStream(
-	          Main.class.getResourceAsStream("/Audio/Splashscreen.wav"));
-	        clip.open(inputStream);
-	        clip.start(); 
-		} catch(Exception e) {
-			System.out.println("ERROR: Failed to load audio");
-		}
-	}
-	
 	// Show a splashscreen with selected panels before and after.
 	private static void showSplashScreen(String splashscreen, JFrame frame, int time) {
-		audio();
+		Engine.playAudio("Splashscreen.wav");
 		
 		setPanel(splashscreen);
 		
@@ -129,7 +113,6 @@ public class Main {
 		} catch(InterruptedException e) {
 			System.out.println("Failed to load splashscreen");
 		}
-
 	}
 	
 	// Set and show a specific panel

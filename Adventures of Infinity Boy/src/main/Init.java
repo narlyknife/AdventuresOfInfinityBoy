@@ -19,13 +19,16 @@ public class Init {
 	final static int[] CHARACTER_SIZE = {150, 75};
 	public final static int[] SETTINGS_CHAR_SIZE = {300, 500};
 	public final static int[] SETTINGS_DIF_SIZE = {400, 300};
+	public final static int[] SETTINGS_TEXT_MUSIC_SIZE = {300, 100};
+	public final static int[] SETTINGS_TEXT_SPLASHSCREEN_SIZE = {300, 100};
+	public final static int[] SETTINGS_CHECKBOX_SIZE = {100, 100};
 	final static int OBSTACLE_AMOUNT = 12;
 	static int characterMovement = 6;
 	static float scaleIndexX = 1;
 	static float scaleIndexY = 1;
 	static int splashScreenTime = 6000;	// Milliseconds
 	
-	// World selection (1-3)
+	// Difficulty selection (1-3)
 	// Character selection (1-3)
 	// Toggle splash screen (0-1)
 	// Toggle music (0-1) 

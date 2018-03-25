@@ -1,7 +1,5 @@
 package jpanels.SubPanels;
 
-import java.awt.Image;
-import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -12,8 +10,7 @@ import main.Init;
 public class SplashScreen extends JPanel{
 	
 	public SplashScreen() {
-		URL url = SplashScreen.class.getResource("/Pictures/Splashscreen.gif");
-		ImageIcon imageIcon = new ImageIcon(url);
+		ImageIcon imageIcon = new ImageIcon(SplashScreen.class.getResource("/Pictures/splashscreen.gif"));
 		JLabel label = new JLabel(imageIcon);
 		
 		this.setLayout(null);

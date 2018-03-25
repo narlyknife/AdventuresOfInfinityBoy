@@ -91,8 +91,6 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	int cX;
 	int cOrigin;
 	
-
-	
 	// Setting game animation movement
 	// Double increase = -1.0001;
 	static final int MOVEMENT_SPEED = (int) (Init.getCharacterMovement() * Init.getScaleIndexX());
