@@ -12,17 +12,24 @@ public class Init {
 	public static int SCREEN_RES_Y;
 	final static String font = "Arial";
 	final int DEFAULT_X_VALUE = 1920;
+	final int DEFAULT_Y_VALUE = 1080;
 	final static int[] GROUND_SIZE = {1920, 150};
 	final static int[] OBSTACLE_SIZE = {400, 30};
 	final static int[] CHARACTER_SIZE = {150, 75};
+	public final static int[] SETTINGS_CHAR_SIZE = {300, 500};
+	public final static int[] SETTINGS_DIF_SIZE = {400, 300};
+	public final static int[] SETTINGS_TEXT_MUSIC_SIZE = {300, 100};
+	public final static int[] SETTINGS_TEXT_SPLASHSCREEN_SIZE = {300, 100};
+	public final static int[] SETTINGS_CHECKBOX_SIZE = {100, 100};
 	final static int OBSTACLE_AMOUNT = 8;
 	static int characterMovement = 6;
+	static float scaleIndexX = 1;
+	static float scaleIndexY = 1;
 	static int a = 35;
 	static int vZero = 140;
-	static float scaleIndex = 1;
-	static int splashScreenTime = 0;	// Milliseconds
+	static int splashScreenTime = 3000;	// Milliseconds
 	
-	// World selection (1-3)
+	// Difficulty selection (1-3)
 	// Character selection (1-3)
 	// Toggle splash screen (0-1)
 	// Toggle music (0-1) 
@@ -38,7 +45,8 @@ public class Init {
 		SCREEN_RES_X = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 		SCREEN_RES_Y = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 		
-		scaleIndex = (float) SCREEN_RES_X / DEFAULT_X_VALUE;
+		scaleIndexX = (float) SCREEN_RES_X / DEFAULT_X_VALUE;
+		scaleIndexY = (float) SCREEN_RES_Y / DEFAULT_Y_VALUE;
 	}
 	
 	public void setFps(int position, int value) {
@@ -89,8 +97,12 @@ public class Init {
 		characterMovement = speed;
 	}
 	
-	public static float getScaleIndex() {
-		return scaleIndex;
+	public static float getScaleIndexX() {
+		return scaleIndexX;
+	}
+	
+	public static float getScaleIndexY() {
+		return scaleIndexY;
 	}
 	
 	public static String getOurFont() {

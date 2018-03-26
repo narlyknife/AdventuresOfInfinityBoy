@@ -95,11 +95,9 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	int cOrigin;	// Point of origin for character (Y). (resY - GROUND_HEIGHT - CHARACTER_HEIGHT)
 	static int cTempY;
 	
-
-	
 	// Setting game animation movement
 	// Double increase = -1.0001;
-	static final int MOVEMENT_SPEED = (int) (Init.getCharacterMovement() * Init.getScaleIndex());
+	static final int MOVEMENT_SPEED = (int) (Init.getCharacterMovement() * Init.getScaleIndexX());
 	static int currentSpeed = MOVEMENT_SPEED;
 	
 	// Setting timer object with preferred FPS
@@ -125,7 +123,7 @@ public class gameGeneralThread extends Thread implements ActionListener{
 //		System.out.println("\nCoordinate System for obstacle placement");
 			for(int j = 0; j < 3; j++) {
 				for(int k = 0; k < 4; k++) {
-					obstacleCoordSystemX[k][j] = (int) (700 * Init.getScaleIndex() + ((OBSTACLE_WIDTH + 700) * Init.getScaleIndex() * j));
+					obstacleCoordSystemX[k][j] = (int) (700 * Init.getScaleIndexX() + ((OBSTACLE_WIDTH + 700) * Init.getScaleIndexY() * j));
 					obstacleCoordSystemY[k][j] = (int) ((resY - GROUND_HEIGHT) - ((CHARACTER_HEIGHT * 0.9 + OBSTACLE_HEIGHT) * (k + 1)));
 					
 //					System.out.println("J: " + j + "	K: " + k + "	X and Y: " + obstacleCoordSystemX[k][j] + " " + obstacleCoordSystemY[k][j]);

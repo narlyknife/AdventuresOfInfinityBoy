@@ -24,7 +24,7 @@ public class Pause extends JPanel{
 		static int resX = Main._init.getResX();
 		static int resY = Main._init.getResY();
 		static String font = Main._init.getOurFont();
-		static double scale = Main._init.getScaleIndex();
+		static double scale = Main._init.getScaleIndexX();
 		
 		JLabel title = new JLabel("Pause");
 		JButton[] buttons = {new JButton("Main menu"), new JButton("Retry"), new JButton("Continue")};

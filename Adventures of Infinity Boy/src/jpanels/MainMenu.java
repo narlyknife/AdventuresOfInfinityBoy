@@ -1,14 +1,18 @@
 package jpanels;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import engine.MainActionListener;
+import main.Init;
 import main.Main;
 
 public class MainMenu extends JPanel{
@@ -18,12 +22,15 @@ public class MainMenu extends JPanel{
 	//
 	
 	// Getting and setting values from intit
-	static int resX = Main._init.getResX();
-	static int resY = Main._init.getResY();
-	static String font = Main._init.getOurFont();
-	static double scale = Main._init.getScaleIndex();
+	static int resX = Init.getResX();
+	static int resY = Init.getResY();
+	static String font = Init.getOurFont();
+	static double scale = Init.getScaleIndexX();
+	
+	private Image img;
 	
 	public MainMenu() {
+		img = new ImageIcon(MainMenu.class.getResource("/Pictures/mainBackground.png")).getImage();
 		
 		// Declaration of the array containing all buttons
 		JButton[] buttons = {new JButton("Start Game"), new JButton("Settings"), new JButton("Scoreboard"), new JButton("Credits"), new JButton("Quit Game")};
@@ -70,6 +77,10 @@ public class MainMenu extends JPanel{
 		MainActionListener.addButton(buttons[4], "quitgame");
 		
 		for(int i = 0; i < buttons.length; i++) buttons[i].addActionListener(Main.actionListener);
-		
+	}
+	
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(img, 0 , 0, getWidth(), getHeight(), this);
 	}
 }

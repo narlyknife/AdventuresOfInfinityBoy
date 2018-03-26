@@ -32,8 +32,8 @@ public class Obstacles extends JPanel{
 	// Applying the scaleIndex to the ground objects X and Y dimensions.
 	// Size changes can be made manually in Init.
 	public void setScaleIndex() {
-		obstacleWidth = (int) (Init.getObstacleSize(0) * Init.getScaleIndex());
-		obstacleHeight = (int) (Init.getObstacleSize(1) * Init.getScaleIndex());
+		obstacleWidth = (int) (Init.getObstacleSize(0) * Init.getScaleIndexX());
+		obstacleHeight = (int) (Init.getObstacleSize(1) * Init.getScaleIndexY());
 	}
 	
 	public int getObstacleHeight() {
