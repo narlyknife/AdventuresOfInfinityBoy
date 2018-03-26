@@ -37,7 +37,10 @@ public class KeyHandler{
 			public void actionPerformed(ActionEvent e) {
 				
 				if(gameGeneralThread.jumping() == false) {
-					 gameGeneralThread.enableJump();
+					gameGeneralThread.enableJump();
+				}
+				if(gameGeneralThread.onTop() == true) {
+					gameGeneralThread.onTopJump();
 				}
 			}
 		};
