@@ -59,7 +59,7 @@ public class Settings extends JPanel{
 		// Dimensions
 		
 		// Currently used in the settings panel used for showing sub panels. Placeholder really...
-    Dimension minMiddle = new Dimension(40, (int) (500 * Init.getScaleIndexY()));		Dimension prefMiddle = new Dimension(40, (int) (550 * Init.getScaleIndexY()));			Dimension maxMiddle = new Dimension(40, (int) (600 * Init.getScaleIndexY()));
+		Dimension minMiddle = new Dimension(40, (int) (500 * Init.getScaleIndexY()));		Dimension prefMiddle = new Dimension(40, (int) (550 * Init.getScaleIndexY()));			Dimension maxMiddle = new Dimension(40, (int) (600 * Init.getScaleIndexY()));
 		
 		// Spacing above header/title
 		Dimension minAbove = new Dimension(40,(int) (100 * Init.getScaleIndexY()));		Dimension prefAbove = new Dimension(40, (int) (150 * Init.getScaleIndexY()));		Dimension maxAbove = new Dimension(40, (int) (200 * Init.getScaleIndexY()));

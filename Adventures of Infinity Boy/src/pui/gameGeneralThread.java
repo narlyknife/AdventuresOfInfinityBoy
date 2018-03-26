@@ -226,14 +226,12 @@ public class gameGeneralThread extends Thread implements ActionListener{
 						if (!onTop) {
 							jIncrease = 0;
 							onTop = true;
-							System.out.println();
 						}
 					}
 				}
 				
 				cClock += jIncrease;
 				lastY = y;
-				System.out.print(y + ", ");
 			}
 			
 			// Character stays on ground
