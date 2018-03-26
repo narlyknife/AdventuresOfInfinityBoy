@@ -8,25 +8,26 @@ public class Init {
 	// Variable holding different Frames Per Second
 
 	static ArrayList<Integer> fps = new ArrayList<Integer>();
-	final int PLATFORM_COUNT;
 	public static int SCREEN_RES_X;
 	public static int SCREEN_RES_Y;
 	final static String font = "Arial";
 	final int DEFAULT_X_VALUE = 1920;
 	final int DEFAULT_Y_VALUE = 1080;
 	final static int[] GROUND_SIZE = {1920, 150};
-	final static int[] OBSTACLE_SIZE = {600, 30};
+	final static int[] OBSTACLE_SIZE = {400, 30};
 	final static int[] CHARACTER_SIZE = {150, 75};
 	public final static int[] SETTINGS_CHAR_SIZE = {300, 500};
 	public final static int[] SETTINGS_DIF_SIZE = {400, 300};
 	public final static int[] SETTINGS_TEXT_MUSIC_SIZE = {300, 100};
 	public final static int[] SETTINGS_TEXT_SPLASHSCREEN_SIZE = {300, 100};
 	public final static int[] SETTINGS_CHECKBOX_SIZE = {100, 100};
-	final static int OBSTACLE_AMOUNT = 12;
+	final static int OBSTACLE_AMOUNT = 8;
 	static int characterMovement = 6;
 	static float scaleIndexX = 1;
 	static float scaleIndexY = 1;
-	static int splashScreenTime = 6000;	// Milliseconds
+	static int a = 35;
+	static int vZero = 140;
+	static int splashScreenTime = 3000;	// Milliseconds
 	
 	// Difficulty selection (1-3)
 	// Character selection (1-3)
@@ -39,9 +40,6 @@ public class Init {
 	Init() {
 		// The Main threads FPS
 		setFps(0, 100);
-		
-		// Variable for maximum amount of platforms that will appear on screen
-		PLATFORM_COUNT = 10;
 		
 		// Screen Resolutions in X and Y format
 		SCREEN_RES_X = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
@@ -81,6 +79,14 @@ public class Init {
 	
 	public static int getCharacterSize(int element) {
 		return CHARACTER_SIZE[element];
+	}
+	
+	public static int getGravity() {
+		return a;
+	}
+	
+	public static int getVZero() {
+		return vZero;
 	}
 	
 	public static int getCharacterMovement() {

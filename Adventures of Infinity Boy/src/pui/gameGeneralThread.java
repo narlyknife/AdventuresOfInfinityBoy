@@ -19,6 +19,8 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	static int resX = Main._init.getResX();
 	static int resY = Main._init.getResY();
 	static int MAX_OBSTACLES = Main._init.getObstacleAmount(); // Used for for loops that instantiates unique values for obstacles
+	static int a = Init.getGravity();
+	static int vZero = Init.getVZero();
 
 	// Images for the ground blocks
 	private static Image img1 = new ImageIcon(GroundBlocks.class.getResource("/Pictures/Ground1.png")).getImage();
@@ -41,8 +43,7 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	public static Character character = new Character();
 	
 	public static Obstacles[] obstacle = {new Obstacles(), new Obstacles(), new Obstacles(), new Obstacles(),
-										  new Obstacles(), new Obstacles(), new Obstacles(), new Obstacles(),
-										  new Obstacles(), new Obstacles(), new Obstacles(), new Obstacles()  };
+										  new Obstacles(), new Obstacles(), new Obstacles(), new Obstacles()};
 	
 	//#######
 	// Ground
@@ -80,16 +81,19 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	// Character
 	final int CHARACTER_HEIGHT = character.getCharacterHeight();
 	final int CHARACTER_WIDTH = character.getCharacterWidth();
-	boolean jumping = true;
-	boolean collide = true;
-	double cClock = 0;
-	double jIncrease = 0.1;
+	static boolean jumping = false;
+	static double cClock = 0;
+	static double jIncrease = 0.1;
+	int direction = 1; // 0 = up, 1 = still, 2 = down
+	int lastY = 0, y = 0;
+	static boolean onTop = false;
+	
 	
 	// Setting coordinate values into shorter names for easier use in ex. collision handling
-	int cTop;
-	int cBot;
-	int cX;
-	int cOrigin;
+	int cTop;		// Character y value of top edge
+	int cBot; 		// Character y value of bottom edge
+	int cX;			// Character x value (constant)
+	int cOrigin;	// Point of origin for character (Y). (resY - GROUND_HEIGHT - CHARACTER_HEIGHT)
 	
 	// Setting game animation movement
 	// Double increase = -1.0001;
@@ -119,7 +123,7 @@ public class gameGeneralThread extends Thread implements ActionListener{
 //		System.out.println("\nCoordinate System for obstacle placement");
 			for(int j = 0; j < 3; j++) {
 				for(int k = 0; k < 4; k++) {
-					obstacleCoordSystemX[k][j] = (int) (40 * Init.getScaleIndexX() + ((OBSTACLE_WIDTH + 40) * Init.getScaleIndexX() * j));
+					obstacleCoordSystemX[k][j] = (int) (700 * Init.getScaleIndex() + ((OBSTACLE_WIDTH + 700) * Init.getScaleIndex() * j));
 					obstacleCoordSystemY[k][j] = (int) ((resY - GROUND_HEIGHT) - ((CHARACTER_HEIGHT * 0.9 + OBSTACLE_HEIGHT) * (k + 1)));
 					
 //					System.out.println("J: " + j + "	K: " + k + "	X and Y: " + obstacleCoordSystemX[k][j] + " " + obstacleCoordSystemY[k][j]);
@@ -148,7 +152,7 @@ public class gameGeneralThread extends Thread implements ActionListener{
 		cTop = character.getY();
 		cBot = cTop + CHARACTER_HEIGHT;
 		cX = character.getX();
-		cOrigin = cTop;
+		cOrigin = resY - (GroundBlocks.getGroundHeight() + CHARACTER_HEIGHT);
 	}
 
 	/////////////////
@@ -183,7 +187,7 @@ public class gameGeneralThread extends Thread implements ActionListener{
 			//
 			// Works by checking the front corners of the obstacle and seeing if they are within the front
 			// corners of the character.
-			if ((oX[i] <= (cX + CHARACTER_WIDTH) && (oX[i] > cX + CHARACTER_WIDTH/2)) && ((oTop[i] >= cTop && oTop[i] <= cBot) || (oBot[i] >= cTop && oBot[i] <= cBot))) {
+			if ((oX[i] - (cX + CHARACTER_WIDTH) <= (currentSpeed + 2) && (oX[i] - (cX + CHARACTER_WIDTH) <= ((currentSpeed + 2) * -1)) && (oX[i] > cX + CHARACTER_WIDTH/2)) && ((oTop[i] >= cTop && oTop[i] <= cBot) || (oBot[i] >= cTop && oBot[i] <= cBot))) {
 				currentSpeed = 0;
 				jumping = false;
 			}
@@ -193,43 +197,58 @@ public class gameGeneralThread extends Thread implements ActionListener{
 			obstacle[i].setLocation(obstacleX[i] -= currentSpeed, obstacle[i].getY());
 			oX[i] = obstacle[i].getX();
 		}
-			
+			/////////////////////////////////////////////////////
 			// Animation and collision handling for the character
 			if (jumping) {
-				int y = (int) ((140 * cClock) - ((40*Math.pow(cClock, 2))/2));
-//				System.out.print(y + " ");
+				
+				y = (int) ((vZero * cClock) - ((a*Math.pow(cClock, 2))/2)); // y=V*t*(at^2)/2
+				
+				if (lastY - y < 0  ) {
+					direction = 2; // up
+				}
+				else if (lastY - y > 0) {
+					direction = 0; // down
+				}
+				else {
+					direction = 1; // still
+				}				
 				
 				character.setLocation(cX, cOrigin - y);
 				cTop = character.getY();
 				cBot = cTop + CHARACTER_HEIGHT;
+				
 				for (int i = 0; i < obstacle.length; i++) {
-					if ((cBot - oTop[i] <= 7 && cBot - oTop[i] >= -7) && ((cX >= oX[i] && cX <= oX[i] + OBSTACLE_WIDTH) || (cX + CHARACTER_WIDTH >= oX[i] && cX + CHARACTER_WIDTH <= oX[i] + OBSTACLE_WIDTH))) {
-						System.out.println(cBot + ", " + oTop[i] + ", " + i + ", " + (cBot - oTop[i]));
+					if ((cBot - oTop[i] <= (currentSpeed +2) && cBot - oTop[i] >= ((currentSpeed+2) * -1)) && ((cX >= oX[i] && cX <= oX[i] + OBSTACLE_WIDTH) || (cX + CHARACTER_WIDTH >= oX[i] && cX + CHARACTER_WIDTH <= oX[i] + OBSTACLE_WIDTH)) && direction == 0) {
 						jIncrease = 0;
 						break;
 					}
 				}
 				
-				// Character stays on ground
-				if ((cTop - y) >= cTop) {
-					character.setLocation(cX, cOrigin);
-					cClock = 0.1;
-					y = 0;
-					cTop = cOrigin;
-//					System.out.println();
-				}
 				cClock += jIncrease;
+				lastY = y;
+			}
+			
+			// Character stays on ground
+			if ((cTop - y) >= cOrigin) {
+				character.setLocation(cX, cOrigin);
+				cClock = 0;
+				y = 0;
+				cTop = cOrigin;
+				jumping = false;
+				cOrigin = resY - (GroundBlocks.getGroundHeight() + CHARACTER_HEIGHT);
+//				System.out.println();
 			}
 			
 			if (!jumping || jIncrease == 0) {
 				for (int i = 0; i < obstacle.length; i++) {
 					if (cX > oX[i] + OBSTACLE_WIDTH) {
 						jIncrease = 0.1;
-						jumping = true;
 						break;
 					}
 				}
 			}
+			
+
 			
 
 
@@ -326,6 +345,23 @@ public class gameGeneralThread extends Thread implements ActionListener{
 		
 		amountSpawnedOnRow++;
 		return pos;
+	}
+	
+	// Jump
+	public static boolean jumping() {
+		return jumping;
+	}
+	
+	public static void enableJump() {
+		jumping = true;
+		cClock = 0.1;
+		jIncrease = 0.1;
+	}
+	
+	public static void disableJump() {
+		jumping = false;
+		cClock = 0;
+		jIncrease = 0;
 	}
 	
 	// Pause game
