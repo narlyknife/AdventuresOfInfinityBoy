@@ -9,6 +9,8 @@ import javax.swing.JButton;
 
 import jpanels.GamePanel;
 import jpanels.Settings;
+import jpanels.SubPanels.GameSettings;
+import main.Init;
 import main.Main;
 
 public class MainActionListener implements ActionListener{
@@ -23,6 +25,7 @@ public class MainActionListener implements ActionListener{
 		}
 		if(e.getSource() == buttonMap.get("settings")) {
 			Main.setPanel("settings");
+			Settings.changeSettingPanel("gamesettings");
 		}
 		if(e.getSource() == buttonMap.get("scoreboard")) {
 			Main.setPanel("scoreboard");
@@ -37,6 +40,7 @@ public class MainActionListener implements ActionListener{
 		// The names of all the button must be unique, so if you want several buttons to lead to the same place, this is what you have to do:
 		if(e.getSource() == buttonMap.get("back") || e.getSource() == buttonMap.get("cancel") || e.getSource() == buttonMap.get("mainMenu") || e.getSource() == buttonMap.get("return") || e.getSource() == buttonMap.get("save")) {
 			Main.setPanel("mainmenu");
+			Engine.stopAudio();
 		}
 		if(e.getSource() == buttonMap.get("retry") || e.getSource() == buttonMap.get("startOver")) {
 			// Code

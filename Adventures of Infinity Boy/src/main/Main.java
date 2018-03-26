@@ -15,10 +15,7 @@ import jpanels.GamePanel;
 import jpanels.MainMenu;
 import jpanels.ScoreBoard;
 import jpanels.Settings;
-import jpanels.SubPanels.CharacterSettings;
-import jpanels.SubPanels.DifficultySettings;
 import jpanels.SubPanels.GameOver;
-import jpanels.SubPanels.GameSettings;
 import jpanels.SubPanels.Pause;
 import jpanels.SubPanels.SplashScreen;
 
@@ -104,6 +101,8 @@ public class Main {
 	
 	// Show a splashscreen with selected panels before and after.
 	private static void showSplashScreen(String splashscreen, JFrame frame, int time) {
+		Engine.playAudio("Splashscreen.wav");
+		
 		setPanel(splashscreen);
 		
 		setFullscreen();
@@ -114,7 +113,6 @@ public class Main {
 		} catch(InterruptedException e) {
 			System.out.println("Failed to load splashscreen");
 		}
-
 	}
 	
 	// Set and show a specific panel

@@ -20,11 +20,13 @@ public class KeyHandler{
 			public void actionPerformed(ActionEvent e) {
 				
 				if(!gamePaused) {
-					System.out.println("game has been paused");
+					Engine.volumeAudio(-10.0f);
+					System.out.println("NOTE: Game has been paused");
 					Main.showSubPanel(Main.getSubPanel("pause"), true);
 					gameGeneralThread.pauseGame();
 				} else {
-					System.out.println("game has been resumed");
+					Engine.volumeAudio(0);
+					System.out.println("Note: Game has been resumed");
 					Main.showSubPanel(Main.getSubPanel("pause"), false);
 					gameGeneralThread.resumeGame();
 				}

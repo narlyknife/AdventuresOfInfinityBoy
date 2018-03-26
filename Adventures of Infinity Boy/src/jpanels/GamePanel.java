@@ -8,8 +8,9 @@ import javax.swing.KeyStroke;
 import gui.GroundBlocks;
 import gui.Obstacles;
 import pui.*;
-
+import engine.Engine;
 import engine.KeyHandler;
+import main.Init;
 import main.Main;
 import pui.gameGeneralThread;
 
@@ -43,6 +44,21 @@ public class GamePanel extends JPanel{
 	
 	// Starting new thread
 	public static void startMainThread() {
+		int random = (int) (10 * Math.random());
+		
+		if(Init.settingsData[0] == 1) {
+			if(random <= 5) Engine.playAudio("easy1.wav");
+			else Engine.playAudio("easy2.wav");
+		} else if(Init.settingsData[0] == 2) {
+			if(random <= 5) Engine.playAudio("normal1.wav");
+			else Engine.playAudio("normal2.wav");
+		}
+		else {
+			if(random <= 5) Engine.playAudio("hard3.wav");
+			else Engine.playAudio("hard3.wav");
+		}
+		
+		gameGeneralThread mainThread = new gameGeneralThread();
 		mainThread.start();
 	}
 }
