@@ -82,6 +82,11 @@ public class Settings extends JPanel{
 		settingsPanel = new JPanel();
 		settingsPanel.add(new Box.Filler(minMiddle, prefMiddle, maxMiddle));
 		settingsPanel.setLayout(new BorderLayout());
+		
+		Main.subPanelMap.put("gamesettings", new GameSettings());
+		Main.subPanelMap.put("charactersettings", new CharacterSettings());	
+		Main.subPanelMap.put("difficultysettings", new DifficultySettings());	
+		
 		settingsPanel.add(Main.getSubPanel("gamesettings"), 0);
 		settingsPanel.add(Main.getSubPanel("difficultysettings"), 0);
 		settingsPanel.add(Main.getSubPanel("charactersettings"), 0);
@@ -122,10 +127,6 @@ public class Settings extends JPanel{
 		MainActionListener.addButton(buttons[2], "charactersettings");
 		MainActionListener.addButton(buttons[3], "cancel");
 		MainActionListener.addButton(buttons[4], "save");
-		
-		Main.subPanelMap.put("gamesettings", new GameSettings());
-		Main.subPanelMap.put("charactersettings", new CharacterSettings());	
-		Main.subPanelMap.put("difficultysettings", new DifficultySettings());	
 
 		settingsPanel.add(Main.getSubPanel("gamesettings"), 0);
 		settingsPanel.add(Main.getSubPanel("charactersettings"), 0);

@@ -43,7 +43,8 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	public static Character character = new Character();
 	
 	public static Obstacles[] obstacle = {new Obstacles(), new Obstacles(), new Obstacles(), new Obstacles(),
-										  new Obstacles(), new Obstacles(), new Obstacles(), new Obstacles()};
+										  new Obstacles(), new Obstacles(), new Obstacles(), new Obstacles()
+	};
 	
 	//#######
 	// Ground
