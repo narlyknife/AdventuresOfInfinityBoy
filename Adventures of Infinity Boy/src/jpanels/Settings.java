@@ -52,8 +52,23 @@ public class Settings extends JPanel{
 		// Declarations
 		title = new JLabel("Settings");
 		
-		title.setFont(new Font(font, Font.PLAIN, 40));
+		title.setFont(new Font(font, Font.BOLD, 50));
 		title.setAlignmentX(CENTER_ALIGNMENT);
+		
+		/////////////
+		// Dimensions
+		
+		// Currently used in the settings panel used for showing sub panels. Placeholder really...
+    Dimension minMiddle = new Dimension(40, (int) (500 * Init.getScaleIndexY()));		Dimension prefMiddle = new Dimension(40, (int) (550 * Init.getScaleIndexY()));			Dimension maxMiddle = new Dimension(40, (int) (600 * Init.getScaleIndexY()));
+		
+		// Spacing above header/title
+		Dimension minAbove = new Dimension(40,(int) (100 * Init.getScaleIndexY()));		Dimension prefAbove = new Dimension(40, (int) (150 * Init.getScaleIndexY()));		Dimension maxAbove = new Dimension(40, (int) (200 * Init.getScaleIndexY()));
+		
+		// Creates a filler to make the bottom buttons look normal sized.
+		Dimension minBottom = new Dimension(40,100); 				Dimension prefBottom = new Dimension(40, 150); 							Dimension maxBottom = new Dimension(40,200);
+		
+		// Contains dimensions for the height of the screen and 1/10th of its width. Used to center the content on the panel
+		Dimension minSide = new Dimension((int) (resX * 0.05 * Init.getScaleIndexX()), (int) (resY * Init.getScaleIndexY()));		Dimension prefSide = new Dimension((int) ((resX * 0.05 * Init.getScaleIndexX()) + 200), (int) (resY * Init.getScaleIndexY())); Dimension maxSide = new Dimension((int) ((resX * 0.05 * Init.getScaleIndexX()) + 400), (int) (resY * Init.getScaleIndexY()));
 		
 		// ButtonPanel
 		JPanel buttonPanel = new JPanel(new GridLayout(1,0,40,0));
@@ -65,15 +80,22 @@ public class Settings extends JPanel{
 		
 		// Settings panel
 		settingsPanel = new JPanel();
-		Dimension minMiddle = new Dimension(40, (int) (500 * Init.getScaleIndexY()));		Dimension prefMiddle = new Dimension(40, (int) (550 * Init.getScaleIndexY()));			Dimension maxMiddle = new Dimension(40, (int) (600 * Init.getScaleIndexY()));
 		settingsPanel.add(new Box.Filler(minMiddle, prefMiddle, maxMiddle));
+		settingsPanel.setLayout(new BorderLayout());
+		
+		Main.subPanelMap.put("gamesettings", new GameSettings());
+		Main.subPanelMap.put("charactersettings", new CharacterSettings());	
+		Main.subPanelMap.put("difficultysettings", new DifficultySettings());	
+		
+		settingsPanel.add(Main.getSubPanel("gamesettings"), 0);
+		settingsPanel.add(Main.getSubPanel("difficultysettings"), 0);
+		settingsPanel.add(Main.getSubPanel("charactersettings"), 0);
 		
 		// Middle panel
 		JPanel midPanel = new JPanel();
 		midPanel.setLayout(new BoxLayout(midPanel, BoxLayout.Y_AXIS));
 		
-		Dimension minSizeAbove = new Dimension(40,(int) (100 * Init.getScaleIndexY()));		Dimension prefSizeAbove = new Dimension(40, (int) (150 * Init.getScaleIndexY()));		Dimension maxSizeAbove = new Dimension(40, (int) (200 * Init.getScaleIndexY()));
-		midPanel.add(new Box.Filler(minSizeAbove, prefSizeAbove, maxSizeAbove));
+		midPanel.add(new Box.Filler(minAbove, prefAbove, maxAbove));
 		
 		midPanel.add(title);
 		
@@ -91,23 +113,20 @@ public class Settings extends JPanel{
 		
 		midPanel.add(bottomButtonPanel);
 		
-		Dimension minBottom = new Dimension(40,100); Dimension prefBottom = new Dimension(40, 150); Dimension maxBottom = new Dimension(40,200);
 		midPanel.add(new Box.Filler(minBottom, prefBottom, maxBottom));
 		
 		// Main panel
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		Dimension minSide = new Dimension((int) (resX * 0.05 * Init.getScaleIndexX()), (int) (resY * Init.getScaleIndexY()));		Dimension prefSide = new Dimension((int) ((resX * 0.05 * Init.getScaleIndexX()) + 200), (int) (resY * Init.getScaleIndexY())); Dimension maxSide = new Dimension((int) ((resX * 0.05 * Init.getScaleIndexX()) + 400), (int) (resY * Init.getScaleIndexY()));
-		this.add(new Box.Filler(minSide, prefSide, maxSide )); this.add(midPanel); this.add(new Box.Filler(minSide, prefSide, maxSide ));
+		this.add(new Box.Filler(minSide, prefSide, maxSide )); 
+		this.add(midPanel); 
+		this.add(new Box.Filler(minSide, prefSide, maxSide ));
+		
 
 		MainActionListener.addButton(buttons[0], "gamesettings");
 		MainActionListener.addButton(buttons[1], "difficultysettings");
 		MainActionListener.addButton(buttons[2], "charactersettings");
 		MainActionListener.addButton(buttons[3], "cancel");
 		MainActionListener.addButton(buttons[4], "save");
-		
-		Main.subPanelMap.put("gamesettings", new GameSettings());
-		Main.subPanelMap.put("charactersettings", new CharacterSettings());	
-		Main.subPanelMap.put("difficultysettings", new DifficultySettings());	
 
 		settingsPanel.add(Main.getSubPanel("gamesettings"), 0);
 		settingsPanel.add(Main.getSubPanel("charactersettings"), 0);

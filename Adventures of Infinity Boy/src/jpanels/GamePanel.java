@@ -33,7 +33,9 @@ public class GamePanel extends JPanel{
 		// Adding events to the key bindings
 		this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ESCAPE"), "showPauseMenu");
 		this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("PAUSE"), "showPauseMenu");
+		this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("UP"), "jump");
 		this.getActionMap().put("showPauseMenu", keyHandler.getPauseAction());
+		this.getActionMap().put("jump", keyHandler.getJumpAction());
 		
 		for(int i = 0; i < mainThread.obstacle.length; i++) this.add(mainThread.obstacle[i]);
 		
