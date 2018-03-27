@@ -2,9 +2,12 @@ package jpanels;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -30,7 +33,10 @@ public class Credits extends JPanel {
 	JLabel[] programmers = {new JLabel("Programmers"), new JLabel("Herman Eriksson"), new JLabel("Folke Johansson")};
 	JButton[] buttons = {new JButton("Back")};
 	
+	private Image img;
+	
 	public Credits() {
+		img = new ImageIcon(MainMenu.class.getResource("/Pictures/settingsBackground.png")).getImage();
 		
 		///////////////
 		// Setting font
@@ -69,7 +75,7 @@ public class Credits extends JPanel {
 		
 		////////////////////////////////
 		// Setting custom actionListener
-		MainActionListener.addButton(buttons[0], "back");
+		MainActionListener.addButton(buttons[0], "mainMenu");
 		buttons[0].addActionListener(Main.actionListener);
 		
 	}
@@ -91,5 +97,10 @@ public class Credits extends JPanel {
 		}
 		
 		return data;
+	}
+	
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(img, 0 , 0, getWidth(), getHeight(), this);
 	}
 }

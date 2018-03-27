@@ -4,9 +4,12 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -38,9 +41,12 @@ public class ScoreBoard extends JPanel{
 	private JLabel[] scores = new JLabel[10];
 	JButton[] buttons = {new JButton("Back")};
 	
+	private Image img;
+	
 	//////////////
 	// Constructor
 	public ScoreBoard() {
+		img = new ImageIcon(MainMenu.class.getResource("/Pictures/settingsBackground.png")).getImage();
 		
 		// Accessing scores and then putting them into the JLabel array for later use
 		setScores();
@@ -123,5 +129,10 @@ public class ScoreBoard extends JPanel{
 		for (int i = 0; i < length; i++) {
 				scores[i] = new JLabel((i + 1) + ". N/A");
 		}
+	}
+	
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(img, 0 , 0, getWidth(), getHeight(), this);
 	}
 }

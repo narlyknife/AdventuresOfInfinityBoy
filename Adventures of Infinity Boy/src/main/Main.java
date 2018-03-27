@@ -40,7 +40,7 @@ public class Main {
 		System.out.println("\t--PREPARING AND STRUCTURING DATA--\n");
 		
 		// Creating a map with all the panel objects and their preferred key names, because.. you know objects have genders to... i guess?
-		panelMap.put("credits", new Credits());							panelMap.put("gamepanel", new GamePanel());			panelMap.put("mainmenu", new MainMenu());	
+		panelMap.put("mainmenu", new MainMenu());						panelMap.put("credits", new Credits());				panelMap.put("gamepanel", new GamePanel());				
 		panelMap.put("scoreboard", new ScoreBoard());					panelMap.put("settings", new Settings());			panelMap.put("splashscreen", new SplashScreen());
 		
 		// Creating another map for all the sub-panels, #subpanelLivesMatter
