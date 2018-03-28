@@ -75,7 +75,7 @@ public class Credits extends JPanel {
 		
 		////////////////////////////////
 		// Setting custom actionListener
-		MainActionListener.addButton(buttons[0], "mainMenu");
+		MainActionListener.addButton(buttons[0], "mainMenu2");
 		buttons[0].addActionListener(Main.actionListener);
 		
 	}
