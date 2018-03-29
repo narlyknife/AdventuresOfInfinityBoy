@@ -34,7 +34,7 @@ public class Init {
 	// Toggle splash screen (0-1)
 	// Toggle music (0-1) 
 	// 0 = false, 1 = true
-	public static int[] settingsData = {1, 1, 1, 1};
+	public static int[] settingsData = {1, 1, 1, 1, 34274566};
 	final static String SETTINGS_PATH = "src/Settings/settings.txt";
 	
 	Init() {
