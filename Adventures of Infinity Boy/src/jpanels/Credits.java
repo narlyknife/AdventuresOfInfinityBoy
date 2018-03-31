@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import engine.MainActionListener;
+import main.Init;
 import main.Main;
 
 public class Credits extends JPanel {
@@ -22,10 +23,10 @@ public class Credits extends JPanel {
 	//
 	
 	// Getting values from "init" file
-	static int resX = Main._init.getResX();
-	static int resY = Main._init.getResY();
-	static String font = Main._init.getOurFont();
-	static double scale = Main._init.getScaleIndexX();
+	static int resX = Init.getResX();
+	static int resY = Init.getResY();
+	static Font font = Init.getFont();
+	static double scale = Init.getScaleIndexX();
 	
 	JLabel mainHeader = new JLabel("Credits");
 	
@@ -40,7 +41,7 @@ public class Credits extends JPanel {
 		
 		///////////////
 		// Setting font
-		mainHeader.setFont(new Font(font, Font.BOLD, 50));
+		mainHeader.setFont(font);
 		programmers = setFontAndAlign(programmers);
 		
 		////////////////////////////////////
@@ -87,11 +88,11 @@ public class Credits extends JPanel {
 		
 		for (int i = 0; i < length; i++) {
 			if (i == 0) {
-				data[i].setFont(new Font(font, Font.BOLD, 30));
+				data[i].setFont(font);
 				data[i].setAlignmentX(CENTER_ALIGNMENT);
 			}
 			else {
-				data[i].setFont(new Font(font, Font.PLAIN, 18));
+				data[i].setFont(font);
 				data[i].setAlignmentX(CENTER_ALIGNMENT);
 			}
 		}

@@ -20,8 +20,6 @@ public class MainMenu extends JPanel{
 	// Getting and setting values from init
 	static int resX = Init.getResX();
 	static int resY = Init.getResY();
-	static String font = Init.getOurFont();
-	static double scale = Init.getScaleIndexX();
 	
 	private Image img;
 	

@@ -11,9 +11,8 @@ import main.Main;
 public class Character extends JPanel {
 	
 	// Declarations
-	static int resX = Main._init.getResX();
-	static int resY = Main._init.getResY();
-	static String font = Main._init.getOurFont();
+	static int resX = Init.getResX();
+	static int resY = Init.getResY();
 	private static int characterHeight;
 	private static int characterWidth;
 	private Image chosenImage;

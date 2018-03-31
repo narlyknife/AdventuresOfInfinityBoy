@@ -89,11 +89,16 @@ public class Engine {
 	}
 	
 	public static ImageIcon[] getScaledImageicon(String name, float x, float y) {
-		ImageIcon value[] = new ImageIcon[3];
+		ImageIcon value[] = new ImageIcon[2];
 		
-		value[0] = new ImageIcon(Engine.getScaledImage(getImage(name + "def.png"), (int) x, (int) y));
-		value[1] = new ImageIcon(Engine.getScaledImage(getImage(name + "hov.png"), (int) x, (int) y));
-		
+		if(!name.toLowerCase().contains("title")) {
+			value[0] = new ImageIcon(Engine.getScaledImage(getImage(name + "def.png"), (int) x, (int) y));
+			value[1] = new ImageIcon(Engine.getScaledImage(getImage(name + "hov.png"), (int) x, (int) y));
+		}
+		else {
+			value[0] = new ImageIcon(Engine.getScaledImage(getImage(name + ".png"), (int) x, (int) y));
+		}
+			
 		return value;
 	}
 

@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 
@@ -10,7 +11,7 @@ public class Init {
 	static ArrayList<Integer> fps = new ArrayList<Integer>();
 	public static int SCREEN_RES_X;
 	public static int SCREEN_RES_Y;
-	final static String font = "Arial";
+	static Font font = new Font("SANS_SERIF", Font.BOLD, 40);
 	final int DEFAULT_X_VALUE = 1920;
 	final int DEFAULT_Y_VALUE = 1080;
 	final static int[] GROUND_SIZE = {1920, 150};
@@ -22,6 +23,8 @@ public class Init {
 	public final static int[] SETTINGS_TEXT_SPLASHSCREEN_SIZE = {450, 150};
 	public final static int[] SETTINGS_CHECKBOX_SIZE = {150, 150};
 	public final static int[] LOGO_SIZE = {500, 200};
+	public final static int[] TITLE_SIZE = {800, 300};
+	public final static int[] SCOREBOARD_SIZE = {600, 50};
 	public final static int[] BUTTON_SIZE_1 = {200, 75};
 	public final static int[] BUTTON_SIZE_2 = {250, 75};
 	public final static int[] BUTTON_SET_SIZE = {360, 135};
@@ -51,6 +54,8 @@ public class Init {
 		
 		scaleIndexX = (float) SCREEN_RES_X / DEFAULT_X_VALUE;
 		scaleIndexY = (float) SCREEN_RES_Y / DEFAULT_Y_VALUE;
+		
+		font = new Font("SANS_SERIF", Font.BOLD, (int) (40 * scaleIndexX));
 	}
 	
 	public void setFps(int position, int value) {
@@ -109,7 +114,7 @@ public class Init {
 		return scaleIndexY;
 	}
 	
-	public static String getOurFont() {
+	public static Font getFont() {
 		return font;
 	}
 }
