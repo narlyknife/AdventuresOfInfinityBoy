@@ -127,7 +127,7 @@ public class ScoreBoard extends JPanel{
 		int length = scores.length;
 		
 		for (int i = 0; i < length; i++) {
-				scores[i] = new JLabel((i + 1) + ". N/A");
+			scores[i] = new JLabel((i + 1) + ". N/A");
 		}
 	}
 	

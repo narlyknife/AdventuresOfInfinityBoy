@@ -42,7 +42,9 @@ public class Main {
 		System.out.println("\t\tALL CODE, IMAGES, SOUND AND INCLUDED SOFTWARE IS PROPERTY OF WIELDING GIANT UF.");
 		System.out.println("ANY ATTEMPT TO DISTRIBUTE, SELL OR COPY THE PROPERTY OF WIELDING GIANT UF WILL BE MET WITH LEGAL ACTIONS.\n\n\n");
 		
+		System.out.println("NOTE: Reading Data...");
 		Engine.readTxtFile(Init.SETTINGS_PATH);
+		System.out.println("DONE: Reading Data");
 		
 		File fsec =  new File("C:\\ProgramData\\PD382CC{3534-3220-673}.txt");
 		if(Init.settingsData[4] == 98472983) {
@@ -73,8 +75,9 @@ public class Main {
 		System.out.println("\t--PREPARING AND STRUCTURING DATA--\n");
 		
 		// Creating a map with all the panel objects and their preferred key names, because.. you know objects have genders to... i guess?
-		panelMap.put("mainmenu", new MainMenu());						panelMap.put("credits", new Credits());				panelMap.put("gamepanel", new GamePanel());				
-		panelMap.put("scoreboard", new ScoreBoard());					panelMap.put("settings", new Settings());			panelMap.put("splashscreen", new SplashScreen());
+		panelMap.put("credits", new Credits());				panelMap.put("gamepanel", new GamePanel());				panelMap.put("scoreboard", new ScoreBoard());
+		panelMap.put("settings", new Settings());			panelMap.put("splashscreen", new SplashScreen());		panelMap.put("mainmenu", new MainMenu());
+
 		
 		// Creating another map for all the sub-panels, #subpanelLivesMatter
 		subPanelMap.put("gameover", new GameOver());					subPanelMap.put("pause", new Pause());
@@ -115,10 +118,6 @@ public class Main {
 		getSubPanel("pause").setSize(Init.SCREEN_RES_X, Init.SCREEN_RES_Y);
 		getSubPanel("pause").setLocation(0, 0);
 		getSubPanel("pause").setVisible(false);
-		
-		getSubPanel("gamesettings").setSize(Init.SCREEN_RES_X, (int) (530 * Init.scaleIndexY));
-		getSubPanel("difficultysettings").setSize(Init.SCREEN_RES_X, (int) (530 * Init.scaleIndexY));
-		getSubPanel("charactersettings").setSize(Init.SCREEN_RES_X, (int) (530 * Init.scaleIndexY));
 		
 		System.out.println("DONE: Primary GUI configuration");
 		

@@ -11,13 +11,14 @@ import javax.swing.JPanel;
 
 import engine.Engine;
 import main.Init;
+import jpanels.Settings;
 
 public class GameSettings extends JPanel{
 	
 	static Image checkTrue = new ImageIcon(GameSettings.class.getResource("/Pictures/checktrue.png")).getImage();
 	static Image checkFalse = new ImageIcon(GameSettings.class.getResource("/Pictures/checkfalse.png")).getImage();
-	static Image textMusic = new ImageIcon(GameSettings.class.getResource("/Pictures/textPlaceholder.png")).getImage();
-	static Image textSplashscreen = new ImageIcon(GameSettings.class.getResource("/Pictures/textPlaceholder.png")).getImage();
+	static Image textMusic = new ImageIcon(GameSettings.class.getResource("/Pictures/textMusic.png")).getImage();
+	static Image textSplashscreen = new ImageIcon(GameSettings.class.getResource("/Pictures/textSplashscreen.png")).getImage();
 	
 	static ImageIcon checkTrueScaled;
 	static ImageIcon checkFalseScaled;
@@ -34,6 +35,9 @@ public class GameSettings extends JPanel{
 	static int row2X = 0;
 	static int row2Y = 0;
 	
+	static float scaleX = Init.getScaleIndexX();
+	static float scaleY = Init.getScaleIndexY();
+	
 	boolean musicState = true;
 	boolean splashscreenState = true;
 	
@@ -42,50 +46,10 @@ public class GameSettings extends JPanel{
 		
 		this.setLayout(null);
 		
-		toggleMusic.addMouseListener(new MouseAdapter(){
-			public void mouseClicked(MouseEvent e) {
-				if(musicState) {
-					toggleMusic.setIcon(checkFalseScaled);
-					Init.settingsData[3] = 0;
-				}
-				else {
-					toggleMusic.setIcon(checkTrueScaled);
-					Init.settingsData[3] = 1;
-				}
-				
-				musicState = !musicState;
-			}
-		});
-		
-		toggleSplashscreen.addMouseListener(new MouseAdapter(){
-			public void mouseClicked(MouseEvent e) {
-				if(splashscreenState) {
-					toggleSplashscreen.setIcon(checkFalseScaled);
-					Init.settingsData[2] = 0;
-				}
-				else {
-					toggleSplashscreen.setIcon(checkTrueScaled);
-					Init.settingsData[2] = 1;
-				}
-				
-				splashscreenState = !splashscreenState;
-			}
-		});
-		
-		this.add(toggleMusic);
-		this.add(toggleSplashscreen);
-		this.add(labelTextMusic);
-		this.add(labelTextSplashscreen);
-	}
-	
-	public static void setLocations(float panelH, float panelW) {
-		row1Y = (int) ((panelH - (Init.SETTINGS_CHECKBOX_SIZE[1] * 2)) / 3);
-		row1X = (int) (panelW / 6);
-		row2Y = (int) ((row1Y * 2) + Init.SETTINGS_TEXT_MUSIC_SIZE[1]);
-		row2X = (int) (row1X * 2 + Init.SETTINGS_TEXT_MUSIC_SIZE[0]);
-		
-		float scaleX = panelW/1327;
-		float scaleY = panelH/530;
+		row1Y = (int) (125 * scaleY);
+		row1X = (int) (200 * scaleX);
+		row2Y = (int) (325 * scaleY);
+		row2X = (int) (1000 * scaleX);
 		
 		checkTrueScaled = new ImageIcon(Engine.getScaledImage(checkTrue, (int) (Init.SETTINGS_CHECKBOX_SIZE[0] * scaleX), (int) (Init.SETTINGS_CHECKBOX_SIZE[1] * scaleY)));
 		checkFalseScaled = new ImageIcon(Engine.getScaledImage(checkFalse, (int) (Init.SETTINGS_CHECKBOX_SIZE[0] * scaleX), (int) (Init.SETTINGS_CHECKBOX_SIZE[1] * scaleY)));
@@ -110,5 +74,40 @@ public class GameSettings extends JPanel{
 		toggleMusic.setLocation(row2X, row1Y);
 		labelTextSplashscreen.setLocation(row1X, row2Y);
 		toggleSplashscreen.setLocation(row2X, row2Y);
+		
+		toggleMusic.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				if(musicState) {
+					toggleMusic.setIcon(checkFalseScaled);
+					Settings.dataMusic = 0;
+				}
+				else {
+					toggleMusic.setIcon(checkTrueScaled);
+					Settings.dataMusic = 1;
+				}
+				
+				musicState = !musicState;
+			}
+		});
+		
+		toggleSplashscreen.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e) {
+				if(splashscreenState) {
+					toggleSplashscreen.setIcon(checkFalseScaled);
+					Settings.dataSplash = 0;
+				}
+				else {
+					toggleSplashscreen.setIcon(checkTrueScaled);
+					Settings.dataSplash = 1;
+				}
+				
+				splashscreenState = !splashscreenState;
+			}
+		});
+		
+		this.add(toggleMusic);
+		this.add(toggleSplashscreen);
+		this.add(labelTextMusic);
+		this.add(labelTextSplashscreen);
 	}
 }

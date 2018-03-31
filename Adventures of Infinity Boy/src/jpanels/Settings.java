@@ -1,21 +1,15 @@
 package jpanels;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Point;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import engine.MainActionListener;
+import engine.Engine;
 import jpanels.SubPanels.CharacterSettings;
 import jpanels.SubPanels.DifficultySettings;
 import jpanels.SubPanels.GameSettings;
@@ -23,137 +17,112 @@ import main.Init;
 import main.Main;
 
 public class Settings extends JPanel{
-	// Changes to be made
-	//
-	//	 - Clean up the code.
-	// 
-	//	 - Setup the sub panels containing the settings and all the methods for it
-	//
-	
 	
 	// Declarations
 	static int resX = Init.getResX();
 	static int resY = Init.getResY();
-	static String font = Init.getOurFont();
 	
 	static float scaleX = Init.getScaleIndexX();
-	static float calseY = Init.getScaleIndexY();
+	static float scaleY = Init.getScaleIndexY();
 	
-	JLabel title;
-	public static JPanel settingsPanel;
-	JButton[] buttons = {new JButton("Game Settings"), new JButton("Difficulty Settings"), new JButton("Character Settings"), new JButton("Cancel"), new JButton("Save")};
+	public static int activePanel = 1;
 	
 	private Image img;
 	
+	public static ImageIcon[] imgGame = Engine.getScaledImageicon("buttonGameset", Init.BUTTON_SET_SIZE[0] * scaleX, Init.BUTTON_SET_SIZE[1] * scaleY);
+	public static ImageIcon[] imgDifficulty = Engine.getScaledImageicon("buttonDiffset", Init.BUTTON_SET_SIZE[0] * scaleX, Init.BUTTON_SET_SIZE[1] * scaleY);
+	public static ImageIcon[] imgCharacter = Engine.getScaledImageicon("buttonCharset", Init.BUTTON_SET_SIZE[0] * scaleX, Init.BUTTON_SET_SIZE[1] * scaleY);
+	private static ImageIcon[] imgCancel = Engine.getScaledImageicon("buttonCancelset", Init.BUTTON_SET_SIZE[0] * scaleX, Init.BUTTON_SET_SIZE[1] * scaleY);
+	private static ImageIcon[] imgSave = Engine.getScaledImageicon("buttonSaveset", Init.BUTTON_SET_SIZE[0] * scaleX, Init.BUTTON_SET_SIZE[1] * scaleY);
+	
+	public static JLabel[] buttons = {new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel()};
+	
+	// Temp Data
+	public static int dataDiff = Init.settingsData[0];
+	public static int dataChar = Init.settingsData[1];
+	public static int dataSplash = Init.settingsData[2];
+	public static int dataMusic = Init.settingsData[3];
+	
 	public Settings() {
-		
+		this.setLayout(null);
 		img = new ImageIcon(Settings.class.getResource("/Pictures/settingsBackground.png")).getImage();
-		
-		// Declarations
-		title = new JLabel("Settings");
-		
-		title.setFont(new Font(font, Font.BOLD, 50));
-		title.setAlignmentX(CENTER_ALIGNMENT);
-		
-		/////////////
-		// Dimensions
-		
-		// Currently used in the settings panel used for showing sub panels. Placeholder really...
-		Dimension minMiddle = new Dimension(40, (int) (500 * Init.getScaleIndexY()));		Dimension prefMiddle = new Dimension(40, (int) (550 * Init.getScaleIndexY()));			Dimension maxMiddle = new Dimension(40, (int) (600 * Init.getScaleIndexY()));
-		
-		// Spacing above header/title
-		Dimension minAbove = new Dimension(40,(int) (100 * Init.getScaleIndexY()));		Dimension prefAbove = new Dimension(40, (int) (150 * Init.getScaleIndexY()));		Dimension maxAbove = new Dimension(40, (int) (200 * Init.getScaleIndexY()));
-		
-		// Creates a filler to make the bottom buttons look normal sized.
-		Dimension minBottom = new Dimension(40,100); 				Dimension prefBottom = new Dimension(40, 150); 							Dimension maxBottom = new Dimension(40,200);
-		
-		// Contains dimensions for the height of the screen and 1/10th of its width. Used to center the content on the panel
-		Dimension minSide = new Dimension((int) (resX * 0.05 * Init.getScaleIndexX()), (int) (resY * Init.getScaleIndexY()));		Dimension prefSide = new Dimension((int) ((resX * 0.05 * Init.getScaleIndexX()) + 200), (int) (resY * Init.getScaleIndexY())); Dimension maxSide = new Dimension((int) ((resX * 0.05 * Init.getScaleIndexX()) + 400), (int) (resY * Init.getScaleIndexY()));
-		
-		// ButtonPanel
-		JPanel buttonPanel = new JPanel(new GridLayout(1,0,40,0));
-		buttonPanel.add(buttons[0]);	buttonPanel.add(buttons[1]);	buttonPanel.add(buttons[2]);
-		
-		// Bottom buttonPanel
-		JPanel bottomButtonPanel = new JPanel(new GridLayout(1,0,40,0));
-		bottomButtonPanel.add(buttons[3]);	bottomButtonPanel.add(buttons[4]);
-		
-		// Settings panel
-		settingsPanel = new JPanel();
-		settingsPanel.add(new Box.Filler(minMiddle, prefMiddle, maxMiddle));
-		settingsPanel.setLayout(new BorderLayout());
 		
 		Main.subPanelMap.put("gamesettings", new GameSettings());
 		Main.subPanelMap.put("charactersettings", new CharacterSettings());	
-		Main.subPanelMap.put("difficultysettings", new DifficultySettings());	
+		Main.subPanelMap.put("difficultysettings", new DifficultySettings());
 		
-		settingsPanel.add(Main.getSubPanel("gamesettings"), 0);
-		settingsPanel.add(Main.getSubPanel("difficultysettings"), 0);
-		settingsPanel.add(Main.getSubPanel("charactersettings"), 0);
+		JPanel gameSettings = Main.getSubPanel("gamesettings");
+		JPanel characterSettings = Main.getSubPanel("charactersettings");
+		JPanel difficultySettings = Main.getSubPanel("difficultysettings");
 		
-		// Middle panel
-		JPanel midPanel = new JPanel();
-		midPanel.setLayout(new BoxLayout(midPanel, BoxLayout.Y_AXIS));
+		buttons[0].setIcon(imgGame[0]);
+		buttons[1].setIcon(imgDifficulty[0]);
+		buttons[2].setIcon(imgCharacter[0]);
+		buttons[3].setIcon(imgCancel[0]);
+		buttons[4].setIcon(imgSave[0]);
 		
-		midPanel.add(new Box.Filler(minAbove, prefAbove, maxAbove));
+		Engine.animateLabel(buttons[0], imgGame, "gamesettings");
+		Engine.animateLabel(buttons[1], imgDifficulty, "difficultysettings");
+		Engine.animateLabel(buttons[2], imgCharacter, "charactersettings");
+		Engine.animateLabel(buttons[3], imgCancel, "mainmenu");
+		Engine.animateLabel(buttons[4], imgSave, "save");
 		
-		midPanel.add(title);
-		
-		midPanel.add(Box.createRigidArea(new Dimension(10, 50)));
-
-		midPanel.add(buttonPanel);
-		
-		midPanel.add(Box.createRigidArea(new Dimension(10, 50)));
-		
-		settingsPanel.setLayout(new BorderLayout());
-
-		midPanel.add(settingsPanel);
-		
-		midPanel.add(Box.createRigidArea(new Dimension(10, 50)));
-		
-		midPanel.add(bottomButtonPanel);
-		
-		midPanel.add(new Box.Filler(minBottom, prefBottom, maxBottom));
-		
-		// Main panel
-		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		this.add(new Box.Filler(minSide, prefSide, maxSide )); 
-		this.add(midPanel); 
-		this.add(new Box.Filler(minSide, prefSide, maxSide ));
-		
-
-		MainActionListener.addButton(buttons[0], "gamesettings");
-		MainActionListener.addButton(buttons[1], "difficultysettings");
-		MainActionListener.addButton(buttons[2], "charactersettings");
-		MainActionListener.addButton(buttons[3], "cancel");
-		MainActionListener.addButton(buttons[4], "save");
-
-		settingsPanel.add(Main.getSubPanel("gamesettings"), 0);
-		settingsPanel.add(Main.getSubPanel("charactersettings"), 0);
-		settingsPanel.add(Main.getSubPanel("difficultysettings"), 0);
-		
-		// Applying action Listener
+		Dimension dim1 = new Dimension((int) (Init.BUTTON_SET_SIZE[0] * scaleX), (int) (Init.BUTTON_SET_SIZE[1] * scaleY));
 		for(int i = 0; i < buttons.length; i++) {
-			buttons[i].addActionListener(Main.actionListener);
+			buttons[i].setSize(dim1);
 		}
 		
-		buttonPanel.setBackground(new Color(0 ,0 ,0 ,.0f));
-		bottomButtonPanel.setBackground(new Color(0 ,0 ,0 ,.0f));
-		midPanel.setBackground(new Color(0 ,0 ,0 ,.0f));
-		settingsPanel.setBackground(new Color(0 ,0 ,0 ,.0f));
+		int xPosTop = (int) ((resX - (3 * buttons[0].getWidth())) / 4);
+		int yPosTop = (int) (80 * scaleY);
+		
+		int xPosBottom = (int) ((resX - (2 * buttons[3].getWidth())) / 3);
+		int yPosBottom = (int) (900 * scaleY);
+		
+		Point[] rowTop = {new Point(xPosTop, yPosTop), new Point(xPosTop * 2 + buttons[0].getWidth(), yPosTop), new Point(xPosTop * 3 + (buttons[0].getWidth() * 2), yPosTop)};
+		Point[] rowBottom = {new Point(xPosBottom, yPosBottom), new Point(xPosBottom * 2 + buttons[3].getWidth(), yPosBottom)};
+		
+		for(int i = 0; i < rowTop.length; i++) {
+			buttons[i].setLocation(rowTop[i]);
+			System.out.println(i + " Set Location: " + rowTop[i].getLocation());
+		}
+		
+		for(int i = rowTop.length; i < buttons.length; i++) {
+			buttons[i].setLocation(rowBottom[i - rowTop.length]);
+			System.out.println(i + " Set Location: " + rowBottom[i - rowTop.length].getLocation());
+		}
+		
+		Dimension dim2 = new Dimension((int) (1400 * scaleX), (int) (600 * scaleY));
+		gameSettings.setSize(dim2);
+		characterSettings.setSize(dim2);
+		difficultySettings.setSize(dim2);
+		
+		Point point = new Point((int) ((resX - dim2.getWidth()) / 2), (int) ((resY - dim2.getHeight()) / 2));
+		gameSettings.setLocation(point);
+		characterSettings.setLocation(point);
+		difficultySettings.setLocation(point);
+		
+		this.add(gameSettings);
+		this.add(characterSettings);
+		this.add(difficultySettings);
+		
+		for(int i = 0; i < buttons.length; i++) this.add(buttons[i], 0);
 	}
 	
 	public static void changeSettingPanel(String name) {
-		if(name.equals("charactersettings")) CharacterSettings.setLocations(settingsPanel.getHeight(), settingsPanel.getWidth());
-		if(name.equals("difficultysettings")) DifficultySettings.setLocations(settingsPanel.getHeight(), settingsPanel.getWidth());
-		if(name.equals("gamesettings")) GameSettings.setLocations(settingsPanel.getHeight(), settingsPanel.getWidth());
-		
 		Main.getSubPanel(name).setVisible(true);
+		
 		if(!(name.equals("gamesettings"))) Main.getSubPanel("gamesettings").setVisible(false);
 		if(!(name.equals("difficultysettings"))) Main.getSubPanel("difficultysettings").setVisible(false);
 		if(!(name.equals("charactersettings"))) Main.getSubPanel("charactersettings").setVisible(false);
+	}
+	
+	public static void saveData() {
+		Init.settingsData[0] = dataDiff;
+		Init.settingsData[1] = dataChar;
+		Init.settingsData[2] = dataSplash;
+		Init.settingsData[3] = dataMusic;
 		
-
+		Engine.writeTxtFile(Init.SETTINGS_PATH, Init.settingsData);
 	}
 	
 	protected void paintComponent(Graphics g) {

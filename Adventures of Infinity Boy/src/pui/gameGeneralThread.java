@@ -107,7 +107,7 @@ public class gameGeneralThread extends Thread implements ActionListener{
 	/////////////////
 	// Initial values
 	public void run() {
-		System.out.println("A new MainThread has been initiated");
+		System.out.println("NOTE: A new MainThread has been initiated");
 		time.start();
 		
 		for(int i = 0; i < gameGeneralThread.ground.length; i++) Main.getPanel("gamepanel").add(gameGeneralThread.ground[i]);

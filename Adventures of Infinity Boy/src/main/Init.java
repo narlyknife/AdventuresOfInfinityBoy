@@ -16,18 +16,22 @@ public class Init {
 	final static int[] GROUND_SIZE = {1920, 150};
 	final static int[] OBSTACLE_SIZE = {400, 30};
 	final static int[] CHARACTER_SIZE = {150, 75};
-	public final static int[] SETTINGS_CHAR_SIZE = {300, 500};
+	public final static int[] SETTINGS_CHAR_SIZE = {340, 460};
 	public final static int[] SETTINGS_DIF_SIZE = {400, 300};
-	public final static int[] SETTINGS_TEXT_MUSIC_SIZE = {300, 100};
-	public final static int[] SETTINGS_TEXT_SPLASHSCREEN_SIZE = {300, 100};
-	public final static int[] SETTINGS_CHECKBOX_SIZE = {100, 100};
+	public final static int[] SETTINGS_TEXT_MUSIC_SIZE = {450, 150};
+	public final static int[] SETTINGS_TEXT_SPLASHSCREEN_SIZE = {450, 150};
+	public final static int[] SETTINGS_CHECKBOX_SIZE = {150, 150};
+	public final static int[] LOGO_SIZE = {500, 200};
+	public final static int[] BUTTON_SIZE_1 = {200, 75};
+	public final static int[] BUTTON_SIZE_2 = {250, 75};
+	public final static int[] BUTTON_SET_SIZE = {360, 135};
 	final static int OBSTACLE_AMOUNT = 8;
 	static int characterMovement = 6;
 	static float scaleIndexX = 1;
 	static float scaleIndexY = 1;
 	static int a = 35;
 	static int vZero = 140;
-	static int splashScreenTime = 3000;	// Milliseconds
+	static int splashScreenTime = 1000;	// Milliseconds
 	
 	// Difficulty selection (1-3)
 	// Character selection (1-3)
@@ -35,7 +39,7 @@ public class Init {
 	// Toggle music (0-1) 
 	// 0 = false, 1 = true
 	public static int[] settingsData = {1, 1, 1, 1, 34274566};
-	final static String SETTINGS_PATH = "src/Settings/settings.txt";
+	public final static String SETTINGS_PATH = "src/Settings/settings.txt";
 	
 	Init() {
 		// The Main threads FPS

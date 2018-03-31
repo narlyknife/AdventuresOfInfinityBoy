@@ -3,6 +3,8 @@ package engine;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -16,7 +18,11 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
+import jpanels.GamePanel;
+import jpanels.Settings;
 import main.Init;
 import main.Main;
 
@@ -38,9 +44,9 @@ public class Engine {
 			}
 			
 			writer.close();
-			System.out.println("DONE: New settings file created");
+			System.out.println("\nDONE: New settings file created");
 		} catch (IOException e) {
-			System.out.println("ERROR: Failed creating new settings file\t\t\tX");
+			System.out.println("\nERROR: Failed creating new settings file\t\t\tX");
 			e.printStackTrace();
 		}
 	}
@@ -66,6 +72,10 @@ public class Engine {
 		 }
 	}
 	
+	public static Image getImage(String name) {
+		return new ImageIcon(Engine.class.getResource("/Pictures/" + name)).getImage();
+	}
+	
 	// Get a scaled version of an image
 	public static Image getScaledImage(Image srcImg, int w, int h){
 	    BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
@@ -76,6 +86,15 @@ public class Engine {
 	    g2.dispose();
 
 	    return resizedImg;
+	}
+	
+	public static ImageIcon[] getScaledImageicon(String name, float x, float y) {
+		ImageIcon value[] = new ImageIcon[3];
+		
+		value[0] = new ImageIcon(Engine.getScaledImage(getImage(name + "def.png"), (int) x, (int) y));
+		value[1] = new ImageIcon(Engine.getScaledImage(getImage(name + "hov.png"), (int) x, (int) y));
+		
+		return value;
 	}
 
 	public static void playAudio(String name) {
@@ -104,4 +123,51 @@ public class Engine {
 		FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 		gainControl.setValue(value);
 	}
+	
+	public static void animateLabel(JLabel label, ImageIcon[] icons, String panelName) {
+		label.addMouseListener(new MouseAdapter(){
+			public void mouseEntered(MouseEvent e) {
+				label.setIcon(icons[1]);
+			}
+			
+			public void mouseExited(MouseEvent e) {
+				if(panelName.equals("gamesettings") && Settings.activePanel != 1) label.setIcon(icons[0]);
+				if(panelName.equals("difficultysettings") && Settings.activePanel != 2) label.setIcon(icons[0]);
+				if(panelName.equals("charactersettings") && Settings.activePanel != 3) label.setIcon(icons[0]);
+				
+				if(!(panelName.equals("gamesettings") || panelName.equals("difficultysettings") || panelName.equals("charactersettings"))) {
+					label.setIcon(icons[0]);
+				}
+			}
+			
+			public void mouseClicked(MouseEvent e) {
+				if(panelName.equals("quit")) System.exit(0);
+				if(panelName.equals("gamepanel")) GamePanel.startMainThread();
+				if(panelName.equals("settings")) {
+					Engine.readTxtFile(Init.SETTINGS_PATH);
+					Settings.changeSettingPanel("gamesettings");
+				}
+				
+				if(panelName.equals("gamesettings") || panelName.equals("difficultysettings") || panelName.equals("charactersettings")) {
+					Settings.changeSettingPanel(panelName);
+					
+					if(panelName.equals("gamesettings")) Settings.activePanel = 1;
+					if(panelName.equals("difficultysettings")) Settings.activePanel = 2;
+					if(panelName.equals("charactersettings")) Settings.activePanel = 3;
+					
+					Settings.buttons[0].setIcon(Settings.imgGame[0]);
+					Settings.buttons[1].setIcon(Settings.imgDifficulty[0]);
+					Settings.buttons[2].setIcon(Settings.imgCharacter[0]);
+					
+					label.setIcon(icons[1]);
+				} else if(panelName.equals("save")){
+					Settings.saveData();
+					
+					Main.setPanel("mainmenu");
+				} else {
+					Main.setPanel(panelName);
+				}
+			}
+		});
+	} 
 }
