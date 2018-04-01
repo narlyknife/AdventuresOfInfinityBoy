@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.util.ArrayList;
@@ -11,9 +12,10 @@ public class Init {
 	static ArrayList<Integer> fps = new ArrayList<Integer>();
 	public static int SCREEN_RES_X;
 	public static int SCREEN_RES_Y;
-	static Font font1 = new Font("SANS_SERIF", Font.BOLD, 40);
-	static Font font2 = new Font("SANS_SERIF", Font.PLAIN, 30);
-	static Font font3 = new Font("SANS_SERIF", Font.ITALIC, 30);
+	static Font font1;
+	static Font font2;
+	static Font font3;
+	final static Color TEXT_COLOR = new Color(255, 255, 255);
 	final int DEFAULT_X_VALUE = 1920;
 	final int DEFAULT_Y_VALUE = 1080;
 	final static int[] GROUND_SIZE = {1920, 150};
@@ -24,11 +26,11 @@ public class Init {
 	public final static int[] SETTINGS_TEXT_MUSIC_SIZE = {450, 150};
 	public final static int[] SETTINGS_TEXT_SPLASHSCREEN_SIZE = {450, 150};
 	public final static int[] SETTINGS_CHECKBOX_SIZE = {150, 150};
-	public final static int[] LOGO_SIZE = {500, 200};
+	public final static int[] LOGO_SIZE = {750, 300};
 	public final static int[] TITLE_SIZE = {800, 300};
 	public final static int[] TITLE_SIZE_SMALL = {300, 100};
 	public final static int[] SCOREBOARD_SIZE = {600, 50};
-	public final static int[] CREDITS_TEXT_SIZE = {300, 30};
+	public final static int[] CREDITS_TEXT_SIZE = {300, 35};
 	public final static int[] BUTTON_SIZE_1 = {200, 75};
 	public final static int[] BUTTON_SIZE_2 = {250, 75};
 	public final static int[] BUTTON_SET_SIZE = {360, 135};
@@ -38,7 +40,7 @@ public class Init {
 	static float scaleIndexY = 1;
 	static int a = 35;
 	static int vZero = 140;
-	static int splashScreenTime = 1000;	// Milliseconds
+	static int splashScreenTime = 5000;	// Milliseconds
 	
 	// Difficulty selection (1-3)
 	// Character selection (1-3)
@@ -61,6 +63,7 @@ public class Init {
 		
 		font1 = new Font("SANS_SERIF", Font.BOLD, (int) (40 * scaleIndexX));
 		font2 = new Font("SANS_SERIF", Font.PLAIN, (int) (30 * scaleIndexX));
+		font3 =  new Font("SANS_SERIF", Font.ITALIC, (int) (20 * scaleIndexX));
 	}
 	
 	public void setFps(int position, int value) {
@@ -129,5 +132,9 @@ public class Init {
 	
 	public static Font getFont3() {
 		return font3;
+	}
+	
+	public static Color getTextColor() {
+		return TEXT_COLOR;
 	}
 }

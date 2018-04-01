@@ -1,6 +1,7 @@
 package jpanels;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 
@@ -59,14 +60,17 @@ public class ScoreBoard extends JPanel{
 	
 	// Goes trough all scores in the array and if there is no score it fills the spot with "N/A"
 	public void setScores() {
+		Dimension dim = new Dimension((int) (Init.SCOREBOARD_SIZE[0] * scaleX), (int) (Init.SCOREBOARD_SIZE[1] * scaleY));
+		int yOffset = 320;
+		
 		for (int i = 0; i < scores.length; i++) {
 			scores[i] = new JLabel("N/A in BETA", SwingConstants.CENTER);
 			
 			scores[i].setFont(Init.getFont());
-			scores[i].setForeground(new Color(255, 255, 255));
+			scores[i].setForeground(Init.getTextColor());
 
-			scores[i].setSize((int) (Init.SCOREBOARD_SIZE[0] * scaleX), (int) (Init.SCOREBOARD_SIZE[1] * scaleY));
-			scores[i].setLocation((int) ((resX - scores[i].getWidth()) / 2), (int) ((320 + 60 * i) * scaleY));
+			scores[i].setSize(dim);
+			scores[i].setLocation((int) ((resX - scores[i].getWidth()) / 2), (int) ((yOffset + 60 * i) * scaleY));
 		}
 	}
 	

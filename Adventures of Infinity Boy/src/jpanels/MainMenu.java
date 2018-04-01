@@ -26,6 +26,8 @@ public class MainMenu extends JPanel{
 	private static float scaleX = Init.getScaleIndexX();
 	private static float scaleY = Init.getScaleIndexY();
 	
+	private static ImageIcon[] imgTitle = Engine.getScaledImageicon("titleLogo", Init.LOGO_SIZE[0] * scaleX, Init.LOGO_SIZE[1] * scaleY);
+	
 	private static ImageIcon[] imgStart = Engine.getScaledImageicon("buttonStart", Init.BUTTON_SIZE_1[0] * scaleX, Init.BUTTON_SIZE_1[1] * scaleY);
 	private static ImageIcon[] imgSettings = Engine.getScaledImageicon("buttonSettings", Init.BUTTON_SIZE_1[0] * scaleX, Init.BUTTON_SIZE_1[1] * scaleY);
 	private static ImageIcon[] imgScoreboard = Engine.getScaledImageicon("buttonScoreboard", Init.BUTTON_SIZE_2[0] * scaleX, Init.BUTTON_SIZE_2[1] * scaleY);
@@ -41,7 +43,7 @@ public class MainMenu extends JPanel{
 		img = Engine.getImage("mainBackground.png");
 		
 		// Settings Icons
-		title.setIcon(new ImageIcon(Engine.getScaledImage(Engine.getImage("titleLogo.png"), Init.LOGO_SIZE[0], Init.LOGO_SIZE[1])));
+		title.setIcon(imgTitle[0]);
 		
 		buttons[0].setIcon(imgStart[0]);
 		buttons[1].setIcon(imgSettings[0]);
@@ -68,7 +70,7 @@ public class MainMenu extends JPanel{
 		}
 		
 		title.setSize((int) (Init.LOGO_SIZE[0] * scaleX), (int) (Init.LOGO_SIZE[1] * scaleY));
-		title.setLocation((Init.SCREEN_RES_X - title.getWidth()) / 2, (int) (120 * scaleY));
+		title.setLocation((Init.SCREEN_RES_X - title.getWidth()) / 2, (int) (80 * scaleY));
 		this.add(title);
 	}
 	
