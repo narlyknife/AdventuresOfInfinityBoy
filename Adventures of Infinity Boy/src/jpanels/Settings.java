@@ -83,12 +83,10 @@ public class Settings extends JPanel{
 		
 		for(int i = 0; i < rowTop.length; i++) {
 			buttons[i].setLocation(rowTop[i]);
-			System.out.println(i + " Set Location: " + rowTop[i].getLocation());
 		}
 		
 		for(int i = rowTop.length; i < buttons.length; i++) {
 			buttons[i].setLocation(rowBottom[i - rowTop.length]);
-			System.out.println(i + " Set Location: " + rowBottom[i - rowTop.length].getLocation());
 		}
 		
 		Dimension dim2 = new Dimension((int) (1400 * scaleX), (int) (600 * scaleY));
