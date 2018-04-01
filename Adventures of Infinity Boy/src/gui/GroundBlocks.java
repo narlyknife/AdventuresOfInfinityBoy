@@ -13,8 +13,10 @@ public class GroundBlocks extends JPanel{
 	// Declarations
 	static int resX = Init.getResX();
 	static int resY = Init.getResY();
+	
 	private static int groundWidth;
 	private static int groundHeight;
+	
 	private Image chosenImage;
 	
 	public GroundBlocks() {
@@ -34,7 +36,7 @@ public class GroundBlocks extends JPanel{
 		groundHeight = (int) (Init.getGroundSize(1) * Init.getScaleIndexY());
 	}
 	
-	public int getGroundWidth() {
+	public static int getGroundWidth() {
 		return groundWidth;
 	}
 	

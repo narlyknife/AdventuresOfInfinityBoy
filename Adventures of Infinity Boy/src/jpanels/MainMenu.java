@@ -1,8 +1,8 @@
 package jpanels;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Point;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -12,10 +12,6 @@ import engine.Engine;
 import main.Init;
 
 public class MainMenu extends JPanel{
-	// Changes to be made
-	// 
-	//	 - N/A
-	//
 	
 	// Getting and setting values from init
 	static int resX = Init.getResX();
@@ -40,7 +36,7 @@ public class MainMenu extends JPanel{
 	public MainMenu() {
 		this.setLayout(null);
 		
-		img = Engine.getImage("mainBackground.png");
+		img = Engine.getImage("settingsBackground.png");
 		
 		// Settings Icons
 		title.setIcon(imgTitle[0]);
@@ -70,7 +66,7 @@ public class MainMenu extends JPanel{
 		}
 		
 		title.setSize((int) (Init.LOGO_SIZE[0] * scaleX), (int) (Init.LOGO_SIZE[1] * scaleY));
-		title.setLocation((Init.SCREEN_RES_X - title.getWidth()) / 2, (int) (80 * scaleY));
+		title.setLocation((Init.SCREEN_RES_X - title.getWidth()) / 2, 0);
 		this.add(title);
 	}
 	
