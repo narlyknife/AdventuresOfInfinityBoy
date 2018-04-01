@@ -19,14 +19,14 @@ public class Init {
 	final int DEFAULT_X_VALUE = 1920;
 	final int DEFAULT_Y_VALUE = 1080;
 	final static int[] GROUND_SIZE = {1920, 150};
-	final static int[] OBSTACLE_SIZE = {400, 30};
+	final static int[] OBSTACLE_SIZE = {1920, 50};
 	final static int[] CHARACTER_SIZE = {150, 75};
 	public final static int[] SETTINGS_CHAR_SIZE = {340, 460};
 	public final static int[] SETTINGS_DIF_SIZE = {400, 300};
 	public final static int[] SETTINGS_TEXT_MUSIC_SIZE = {450, 150};
 	public final static int[] SETTINGS_TEXT_SPLASHSCREEN_SIZE = {450, 150};
 	public final static int[] SETTINGS_CHECKBOX_SIZE = {150, 150};
-	public final static int[] LOGO_SIZE = {750, 300};
+	public final static int[] LOGO_SIZE = {1511, 409};
 	public final static int[] TITLE_SIZE = {800, 300};
 	public final static int[] TITLE_SIZE_SMALL = {300, 100};
 	public final static int[] SCOREBOARD_SIZE = {600, 50};
@@ -34,13 +34,15 @@ public class Init {
 	public final static int[] BUTTON_SIZE_1 = {200, 75};
 	public final static int[] BUTTON_SIZE_2 = {250, 75};
 	public final static int[] BUTTON_SET_SIZE = {360, 135};
-	final static int OBSTACLE_AMOUNT = 8;
+	final static int OBSTACLE_AMOUNT = 3;
 	static int characterMovement = 6;
 	static float scaleIndexX = 1;
 	static float scaleIndexY = 1;
 	static int a = 35;
 	static int vZero = 140;
-	static int splashScreenTime = 5000;	// Milliseconds
+	static int splashScreenTime = 10;	// Milliseconds
+	
+	// Hombre font on text
 	
 	// Difficulty selection (1-3)
 	// Character selection (1-3)

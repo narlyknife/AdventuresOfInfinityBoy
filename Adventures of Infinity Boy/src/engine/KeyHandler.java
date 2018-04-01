@@ -7,12 +7,11 @@ import javax.swing.Action;
 
 import jpanels.GamePanel;
 import main.Main;
-import pui.gameGeneralThread;
 
 public class KeyHandler{
 	
 	Action pauseAction, jumpAction;
-	boolean gamePaused = false;
+	static boolean gamePaused = false;
 
 	// The action to perform the steps of a pause. (Game movement set to 0, display/hide pause menu)
 	public KeyHandler(){
@@ -23,12 +22,12 @@ public class KeyHandler{
 					Engine.volumeAudio(-10.0f);
 					System.out.println("NOTE: Game has been paused");
 					Main.showSubPanel(Main.getSubPanel("pause"), true);
-					gameGeneralThread.pauseGame();
+					GamePanel.pauseGame();
 				} else {
 					Engine.volumeAudio(0);
 					System.out.println("Note: Game has been resumed");
 					Main.showSubPanel(Main.getSubPanel("pause"), false);
-					gameGeneralThread.resumeGame();
+					GamePanel.resumeGame();
 				}
 					
 				gamePaused = !gamePaused;
@@ -38,11 +37,11 @@ public class KeyHandler{
 		jumpAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				
-				if(gameGeneralThread.jumping() == false) {
-					gameGeneralThread.enableJump();
+				if(GamePanel.jumping() == false) {
+					GamePanel.enableJump();
 				}
-				if(gameGeneralThread.onTop() == true) {
-					gameGeneralThread.onTopJump();
+				if(GamePanel.onTop() == true) {
+					GamePanel.onTopJump();
 				}
 			}
 		};

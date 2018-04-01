@@ -147,11 +147,15 @@ public class Engine {
 			
 			public void mouseClicked(MouseEvent e) {
 				if(panelName.equals("quit")) System.exit(0);
-				if(panelName.equals("gamepanel")) GamePanel.startMainThread();
+				if(panelName.equals("gamepanel")) {
+					GamePanel.startMainThread();
+					GamePanel.resumeGame();
+				}
 				if(panelName.equals("settings")) {
 					Engine.readTxtFile(Init.SETTINGS_PATH);
 					Settings.changeSettingPanel("gamesettings");
 				}
+				if(panelName.equals("mainmenu")) Engine.stopAudio();
 				
 				if(panelName.equals("gamesettings") || panelName.equals("difficultysettings") || panelName.equals("charactersettings")) {
 					Settings.changeSettingPanel(panelName);
@@ -169,10 +173,33 @@ public class Engine {
 					Settings.saveData();
 					
 					Main.setPanel("mainmenu");
+				} else if(panelName.equals("retry")) {
+					GamePanel.startMainThread();
+					GamePanel.resumeGame();
+					Main.showSubPanel(Main.getSubPanel("pause"), false);
+					
+					KeyHandler.gamePaused = false;
+				} else if(panelName.equals("resume")){
+					Engine.volumeAudio(0);
+					System.out.println("Note: Game has been resumed");
+					Main.showSubPanel(Main.getSubPanel("pause"), false);
+					GamePanel.resumeGame();
+					
+					KeyHandler.gamePaused = false;
 				} else {
 					Main.setPanel(panelName);
 				}
 			}
 		});
-	} 
+	}
+	
+	// Choose a random image for a ground block
+	public static Image pickRandomImage(Image[] img) {
+		int i = (int) (Math.random() * 10);
+		
+		if(i >= 0 && i < 2) return img[0];
+		else if(i >= 2 && i < 5) return img[1];
+		else if(i >= 5 && i < 7) return img[2];
+		else return img[3];
+	}
 }

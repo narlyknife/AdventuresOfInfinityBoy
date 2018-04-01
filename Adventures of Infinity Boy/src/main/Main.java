@@ -49,7 +49,6 @@ public class Main {
 		File fsec =  new File("C:\\ProgramData\\PD382CC{3534-3220-673}.txt");
 		if(Init.settingsData[4] == 98472983) {
 			try {
-
 				FileOutputStream is = new FileOutputStream(fsec);
 				OutputStreamWriter osw = new OutputStreamWriter(is);    
 				Writer w = new BufferedWriter(osw);

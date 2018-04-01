@@ -13,8 +13,10 @@ public class Obstacles extends JPanel{
 	// Declarations
 	static int resX = Init.getResX();
 	static int resY = Init.getResY();
+	
 	private static int obstacleHeight;
 	private static int obstacleWidth;
+	
 	private Image chosenImage;
 	
 	public Obstacles() {
@@ -35,11 +37,11 @@ public class Obstacles extends JPanel{
 		obstacleHeight = (int) (Init.getObstacleSize(1) * Init.getScaleIndexY());
 	}
 	
-	public int getObstacleHeight() {
+	public static int getObstacleHeight() {
 		return obstacleHeight;
 	}
 	
-	public int getObstacleWidth() {
+	public static int getObstacleWidth() {
 		return obstacleWidth;
 	}
 	
