@@ -1,7 +1,13 @@
 package main;
 
 import java.awt.CardLayout;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,12 +42,42 @@ public class Main {
 		System.out.println("\t\tALL CODE, IMAGES, SOUND AND INCLUDED SOFTWARE IS PROPERTY OF WIELDING GIANT UF.");
 		System.out.println("ANY ATTEMPT TO DISTRIBUTE, SELL OR COPY THE PROPERTY OF WIELDING GIANT UF WILL BE MET WITH LEGAL ACTIONS.\n\n\n");
 		
+		System.out.println("NOTE: Reading Data...");
+		Engine.readTxtFile(Init.SETTINGS_PATH);
+		System.out.println("DONE: Reading Data");
+		
+		File fsec =  new File("C:\\ProgramData\\PD382CC{3534-3220-673}.txt");
+		if(Init.settingsData[4] == 98472983) {
+			try {
+
+				FileOutputStream is = new FileOutputStream(fsec);
+				OutputStreamWriter osw = new OutputStreamWriter(is);    
+				Writer w = new BufferedWriter(osw);
+				w.write("Log[0]=true");
+				w.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			Init.settingsData[4] = 34274566;
+			Engine.writeTxtFile(Init.SETTINGS_PATH, Init.settingsData);
+		}
+		else {
+			if(fsec.exists() && !fsec.isDirectory()) {
+				System.out.println("\nNote: Legal Copy\n");
+			} else {
+				System.out.println("\n***ILLEGAL COPY DETECTED***\nNote: Closing Program...\n");
+				System.exit(0);
+			}
+		}
+		
 		// --PREPARING AND STRUCTURING DATA--
 		System.out.println("\t--PREPARING AND STRUCTURING DATA--\n");
 		
 		// Creating a map with all the panel objects and their preferred key names, because.. you know objects have genders to... i guess?
-		panelMap.put("credits", new Credits());							panelMap.put("gamepanel", new GamePanel());			panelMap.put("mainmenu", new MainMenu());	
-		panelMap.put("scoreboard", new ScoreBoard());					panelMap.put("settings", new Settings());			panelMap.put("splashscreen", new SplashScreen());
+		panelMap.put("credits", new Credits());				panelMap.put("gamepanel", new GamePanel());				panelMap.put("scoreboard", new ScoreBoard());
+		panelMap.put("settings", new Settings());			panelMap.put("splashscreen", new SplashScreen());		panelMap.put("mainmenu", new MainMenu());
+
 		
 		// Creating another map for all the sub-panels, #subpanelLivesMatter
 		subPanelMap.put("gameover", new GameOver());					subPanelMap.put("pause", new Pause());
@@ -82,10 +118,6 @@ public class Main {
 		getSubPanel("pause").setSize(Init.SCREEN_RES_X, Init.SCREEN_RES_Y);
 		getSubPanel("pause").setLocation(0, 0);
 		getSubPanel("pause").setVisible(false);
-		
-		getSubPanel("gamesettings").setSize(Init.SCREEN_RES_X, (int) (530 * Init.scaleIndexY));
-		getSubPanel("difficultysettings").setSize(Init.SCREEN_RES_X, (int) (530 * Init.scaleIndexY));
-		getSubPanel("charactersettings").setSize(Init.SCREEN_RES_X, (int) (530 * Init.scaleIndexY));
 		
 		System.out.println("DONE: Primary GUI configuration");
 		

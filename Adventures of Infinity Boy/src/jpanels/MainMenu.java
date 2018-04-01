@@ -1,19 +1,15 @@
 package jpanels;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import engine.MainActionListener;
+import engine.Engine;
 import main.Init;
-import main.Main;
 
 public class MainMenu extends JPanel{
 	// Changes to be made
@@ -21,62 +17,59 @@ public class MainMenu extends JPanel{
 	//	 - N/A
 	//
 	
-	// Getting and setting values from intit
+	// Getting and setting values from init
 	static int resX = Init.getResX();
 	static int resY = Init.getResY();
-	static String font = Init.getOurFont();
-	static double scale = Init.getScaleIndexX();
 	
 	private Image img;
 	
+	private static float scaleX = Init.getScaleIndexX();
+	private static float scaleY = Init.getScaleIndexY();
+	
+	private static ImageIcon[] imgStart = Engine.getScaledImageicon("buttonStart", Init.BUTTON_SIZE_1[0] * scaleX, Init.BUTTON_SIZE_1[1] * scaleY);
+	private static ImageIcon[] imgSettings = Engine.getScaledImageicon("buttonSettings", Init.BUTTON_SIZE_1[0] * scaleX, Init.BUTTON_SIZE_1[1] * scaleY);
+	private static ImageIcon[] imgScoreboard = Engine.getScaledImageicon("buttonScoreboard", Init.BUTTON_SIZE_2[0] * scaleX, Init.BUTTON_SIZE_2[1] * scaleY);
+	private static ImageIcon[] imgCredits = Engine.getScaledImageicon("buttonCredits", Init.BUTTON_SIZE_1[0] * scaleX, Init.BUTTON_SIZE_1[1] * scaleY);
+	private static ImageIcon[] imgQuit = Engine.getScaledImageicon("buttonQuit", Init.BUTTON_SIZE_2[0] * scaleX, Init.BUTTON_SIZE_2[1] * scaleY);
+	
+	private static JLabel[] buttons = {new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel()};
+	private static JLabel title = new JLabel();
+	
 	public MainMenu() {
-		img = new ImageIcon(MainMenu.class.getResource("/Pictures/mainBackground.png")).getImage();
+		this.setLayout(null);
 		
-		// Declaration of the array containing all buttons
-		JButton[] buttons = {new JButton("Start Game"), new JButton("Settings"), new JButton("Scoreboard"), new JButton("Credits"), new JButton("Quit Game")};
-		JLabel title = new JLabel("Infinity Squirrel");
+		img = Engine.getImage("mainBackground.png");
 		
-		// Aligning everything
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		for(int i = 0; i < buttons.length; i++) buttons[i].setAlignmentX(CENTER_ALIGNMENT);
-		title.setFont(new Font(font, Font.BOLD, 50));
-		title.setAlignmentX(CENTER_ALIGNMENT);
+		// Settings Icons
+		title.setIcon(new ImageIcon(Engine.getScaledImage(Engine.getImage("titleLogo.png"), Init.LOGO_SIZE[0], Init.LOGO_SIZE[1])));
 		
-		/////////////
-		// Dimensions
-		Dimension min = new Dimension(40, (int) (10 * scale));		Dimension pref = new Dimension(40, (int) (20 * scale));		Dimension max = new Dimension(40, (int) (30 * scale));
-		Dimension maxAbove = new Dimension(40, (int) (200 * scale));Dimension minAbove = new Dimension(40, (int) (250 * scale));	Dimension prefAbove = new Dimension(40, (int) (300 * scale));
+		buttons[0].setIcon(imgStart[0]);
+		buttons[1].setIcon(imgSettings[0]);
+		buttons[2].setIcon(imgScoreboard[0]);
+		buttons[3].setIcon(imgCredits[0]);
+		buttons[4].setIcon(imgQuit[0]);
 		
-		// Adding components and spacing between them
-		add(new Box.Filler(minAbove, prefAbove, maxAbove));
-		add(new Box.Filler(min, pref, max));
-		add(title);
-		add(new Box.Filler(minAbove, prefAbove, maxAbove));
-		add(new Box.Filler(min, pref, max));
-		add(new Box.Filler(min, pref, max));
+		Engine.animateLabel(buttons[0], imgStart, "gamepanel");
+		Engine.animateLabel(buttons[1], imgSettings, "settings");
+		Engine.animateLabel(buttons[2], imgScoreboard, "scoreboard");
+		Engine.animateLabel(buttons[3], imgCredits, "credits");
+		Engine.animateLabel(buttons[4], imgQuit, "quit");
 		
+		Dimension dim1 = new Dimension((int) (Init.BUTTON_SIZE_1[0] * scaleX), (int) (Init.BUTTON_SIZE_1[1] * scaleY));
+		Dimension dim2 = new Dimension((int) (Init.BUTTON_SIZE_2[0] * scaleX), (int) (Init.BUTTON_SIZE_2[1] * scaleY));
 		for (int i = 0; i < buttons.length; i++) {
-			// Adding more space between "quit game" button and the rest so that quit game is separated.
-			if (i == buttons.length - 1 ) {
-				add(new Box.Filler(min, pref, max));
-				add(new Box.Filler(min, pref, max));
-				add(buttons[i]);
-			}
-			else {
-				add(buttons[i]);
-				add(new Box.Filler(min, pref, max));
-			}
+			if(i == 2 || i == 4) buttons[i].setSize(dim2);
+			else buttons[i].setSize(dim1);
+			
+			buttons[i].setLocation((Init.SCREEN_RES_X - buttons[i].getWidth()) / 2, (int) (480 * scaleY) + i * (int) (80 * scaleY));
+			
+			if(i == 4) buttons[4].setLocation(buttons[4].getX(), buttons[4].getY() + (int) (60 * scaleY));
+			this.add(buttons[i]);
 		}
 		
-		
-		// Adding custom ActionListener
-		MainActionListener.addButton(buttons[0], "gamepanel");
-		MainActionListener.addButton(buttons[1], "settings");
-		MainActionListener.addButton(buttons[2], "scoreboard");
-		MainActionListener.addButton(buttons[3], "credits");
-		MainActionListener.addButton(buttons[4], "quitgame");
-		
-		for(int i = 0; i < buttons.length; i++) buttons[i].addActionListener(Main.actionListener);
+		title.setSize((int) (Init.LOGO_SIZE[0] * scaleX), (int) (Init.LOGO_SIZE[1] * scaleY));
+		title.setLocation((Init.SCREEN_RES_X - title.getWidth()) / 2, (int) (120 * scaleY));
+		this.add(title);
 	}
 	
 	protected void paintComponent(Graphics g) {

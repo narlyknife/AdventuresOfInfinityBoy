@@ -1,127 +1,77 @@
 package jpanels;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
-import engine.MainActionListener;
-import main.Main;
+import engine.Engine;
+import main.Init;
 
-public class ScoreBoard extends JPanel{
-	// CHANGES TO BE MADE
-	//	
-	//	 - The scores need to be taken from a file. Fix plz.
-	//
+public class ScoreBoard extends JPanel{	
 	
-	// The structure is built on JPanels on top of JPanels.
-	// Visual representation of structure from top to bottom:
-	//  - Score panel
-	//  - Filler panel
-	//  - Mid panel
-	//  - JFrame (base)
-	
-	//////////////////////////////////
 	// Getting values from "init" file
-	static int resX = Main._init.getResX();
-	static int resY = Main._init.getResY();
-	static String font = Main._init.getOurFont();
-	static double scale = Main._init.getScaleIndexX();
+	static int resX = Init.getResX();
+	static int resY = Init.getResY();
 	
-	JLabel header =  new JLabel("Scoreboard");
+	static float scaleX = Init.getScaleIndexX();
+	static float scaleY = Init.getScaleIndexY();
+	
+	private static ImageIcon[] imgTitle = Engine.getScaledImageicon("titleScoreboard", Init.TITLE_SIZE[0] * scaleX, Init.TITLE_SIZE[1] * scaleY);
+	private static ImageIcon[] imgBack = Engine.getScaledImageicon("buttonBack", Init.BUTTON_SET_SIZE[0] * scaleX, Init.BUTTON_SET_SIZE[1] * scaleY);
+	
+	private JLabel header =  new JLabel();
+	private JLabel button = new JLabel();
 	private JLabel[] scores = new JLabel[10];
-	JButton[] buttons = {new JButton("Back")};
 	
-	//////////////
-	// Constructor
+	private Image img;
+	
 	public ScoreBoard() {
+		img = new ImageIcon(MainMenu.class.getResource("/Pictures/settingsBackground.png")).getImage();
+		
+		this.setLayout(null);
 		
 		// Accessing scores and then putting them into the JLabel array for later use
 		setScores();
 		
-		/////////////
-		// Dimensions
-		Dimension min = new Dimension(40, (int) (10 * scale));		Dimension pref = new Dimension(40, (int) (20 * scale));		Dimension max = new Dimension(40, (int) (30 * scale));
-		Dimension minHalf = new Dimension((int) (resX * 0.2), (int) (300 * scale));	Dimension prefHalf = new Dimension((int) (resX * 0.2) + 10, (int) (300 * scale));	Dimension maxHalf = new Dimension((int) (resX * 0.2) + 15, (int) (300 * scale));
-		Dimension minSide = new Dimension((int) (resX * 0.33), resY);		Dimension prefSide = new Dimension((int) ((resX * 0.33) + 25), resY); 	Dimension maxSide = new Dimension((int) ((resX * 0.33) + 50), resY);
-		Dimension minMiddle = new Dimension((int) (resX * 0.33), (int) (60 * scale));
+		header.setSize((int) (Init.TITLE_SIZE[0] * scaleX), (int) (Init.TITLE_SIZE[1] * scaleY));
+		header.setLocation((resX - header.getWidth()) / 2, 0);
+		header.setIcon(imgTitle[0]);
 		
-		//////////////
-		// Score panel
-		JPanel scorePanel = new JPanel();
-		scorePanel.setLayout(new BoxLayout(scorePanel, BoxLayout.Y_AXIS));
-//		scorePanel.setBackground(Color.darkGray);
+		button.setSize((int) (Init.BUTTON_SET_SIZE[0] * scaleX), (int) (Init.BUTTON_SET_SIZE[1] * scaleY));
+		button.setLocation((int) ((resX - button.getWidth()) / 2), (int) (930 * scaleY));
+		button.setIcon(imgBack[0]);
+		
+		Engine.animateLabel(button, imgBack, "mainmenu");
+		
+		this.add(header);
+		this.add(button);
 		
 		// Adding
 		for (int i = 0; i < scores.length; i++) {
-			scorePanel.add(scores[i]);
-			scorePanel.add(new Box.Filler(min, pref, max));
+			this.add(scores[i]);
 		}
-		
-		// Alignment
-		for (int i = 0; i < scores.length; i++) {
-			scores[i].setAlignmentX(LEFT_ALIGNMENT);
-		}
-		
-		///////////////
-		// Filler Panel
-		JPanel fillerPanel = new JPanel();
-		fillerPanel.setLayout(new BoxLayout(fillerPanel, BoxLayout.X_AXIS));
-//		fillerPanel.setBackground(Color.orange);
-		fillerPanel.add(scorePanel);
-		fillerPanel.add(new Box.Filler(minHalf, prefHalf, maxHalf));
-		
-		
-		////////////
-		// Mid panel
-		JPanel midPanel = new JPanel();
-		midPanel.setLayout(new BoxLayout(midPanel, BoxLayout.Y_AXIS));
-//		midPanel.setBackground(Color.gray);
-		// Positioning and font
-		header.setAlignmentX(CENTER_ALIGNMENT);
-		header.setFont(new Font(font, Font.BOLD, 50));		
-		buttons[0].setAlignmentX(CENTER_ALIGNMENT);
-		
-		// Adding		
-		midPanel.add(new Box.Filler(min, pref, max));
-		
-		midPanel.add(header);
-		
-		midPanel.add(new Box.Filler(minMiddle, minMiddle, minMiddle));
-		
-		midPanel.add(fillerPanel);
-
-		midPanel.add(new Box.Filler(min, pref, max));
-		midPanel.add(new Box.Filler(min, pref, max));
-		
-		midPanel.add(buttons[0]);
-		
-		// Main panel
-		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		add(new Box.Filler(minSide, prefSide, maxSide ));
-		add(midPanel);
-		add(new Box.Filler(minSide, prefSide, maxSide ));
-//		this.setBackground(Color.cyan);
-		
-		
-		////////////////////////////
-		// Add custom actionListener
-		MainActionListener.addButton(buttons[0], "mainMenu");
-		buttons[0].addActionListener(Main.actionListener);
 	}
 	
 	// Goes trough all scores in the array and if there is no score it fills the spot with "N/A"
 	public void setScores() {
-		int length = scores.length;
-		
-		for (int i = 0; i < length; i++) {
-				scores[i] = new JLabel((i + 1) + ". N/A");
+		for (int i = 0; i < scores.length; i++) {
+			scores[i] = new JLabel("N/A in BETA", SwingConstants.CENTER);
+			
+			scores[i].setFont(Init.getFont());
+			scores[i].setForeground(new Color(255, 255, 255));
+
+			scores[i].setSize((int) (Init.SCOREBOARD_SIZE[0] * scaleX), (int) (Init.SCOREBOARD_SIZE[1] * scaleY));
+			scores[i].setLocation((int) ((resX - scores[i].getWidth()) / 2), (int) ((320 + 60 * i) * scaleY));
 		}
+	}
+	
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(img, 0 , 0, getWidth(), getHeight(), this);
 	}
 }

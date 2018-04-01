@@ -17,9 +17,8 @@ import pui.gameGeneralThread;
 public class GamePanel extends JPanel{
 	
 	// Getting values from "init" file
-	static int resX = Main._init.getResX();
-	static int resY = Main._init.getResY();
-	static String font = Main._init.getOurFont();
+	static int resX = Init.getResX();
+	static int resY = Init.getResY();
 	KeyHandler keyHandler = new KeyHandler();
 	
 	// Creating a new thread for the processing of world movement.

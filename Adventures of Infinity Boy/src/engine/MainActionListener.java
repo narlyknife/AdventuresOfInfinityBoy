@@ -38,7 +38,7 @@ public class MainActionListener implements ActionListener{
 		}
 
 		// The names of all the button must be unique, so if you want several buttons to lead to the same place, this is what you have to do:
-		if(e.getSource() == buttonMap.get("back") || e.getSource() == buttonMap.get("cancel") || e.getSource() == buttonMap.get("mainMenu") || e.getSource() == buttonMap.get("return") || e.getSource() == buttonMap.get("save")) {
+		if(e.getSource() == buttonMap.get("back") || e.getSource() == buttonMap.get("cancel") || e.getSource() == buttonMap.get("mainMenu") || e.getSource() == buttonMap.get("mainMenu2") || e.getSource() == buttonMap.get("return") || e.getSource() == buttonMap.get("save")) {
 			Main.setPanel("mainmenu");
 			Engine.stopAudio();
 		}

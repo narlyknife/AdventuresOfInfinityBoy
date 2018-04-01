@@ -10,15 +10,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import engine.MainActionListener;
+import main.Init;
 import main.Main;
 
 public class GameOver extends JPanel {
 	
 	// Getting values from "init" file
-	static int resX = Main._init.getResX();
-	static int resY = Main._init.getResY();
-	static String font = Main._init.getOurFont();
-	static double scale = Main._init.getScaleIndexX();
+	static int resX = Init.getResX();
+	static int resY = Init.getResY();
+	static Font font = Init.getFont();
+	static double scale = Init.getScaleIndexX();
 	
 	JLabel title;
 	JButton[] buttons = {new JButton("Retry"), new JButton("Main menu")};
@@ -28,7 +29,7 @@ public class GameOver extends JPanel {
 		// Declarations
 		title = new JLabel("Game Over!");
 		
-		title.setFont(new Font(font, Font.PLAIN, 40));
+		title.setFont(font);
 		
 		// Positioning and alignment
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

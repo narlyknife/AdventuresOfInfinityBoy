@@ -2,14 +2,18 @@ package jpanels;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import engine.MainActionListener;
+import main.Init;
 import main.Main;
 
 public class Credits extends JPanel {
@@ -19,10 +23,10 @@ public class Credits extends JPanel {
 	//
 	
 	// Getting values from "init" file
-	static int resX = Main._init.getResX();
-	static int resY = Main._init.getResY();
-	static String font = Main._init.getOurFont();
-	static double scale = Main._init.getScaleIndexX();
+	static int resX = Init.getResX();
+	static int resY = Init.getResY();
+	static Font font = Init.getFont();
+	static double scale = Init.getScaleIndexX();
 	
 	JLabel mainHeader = new JLabel("Credits");
 	
@@ -30,11 +34,14 @@ public class Credits extends JPanel {
 	JLabel[] programmers = {new JLabel("Programmers"), new JLabel("Herman Eriksson"), new JLabel("Folke Johansson")};
 	JButton[] buttons = {new JButton("Back")};
 	
+	private Image img;
+	
 	public Credits() {
+		img = new ImageIcon(MainMenu.class.getResource("/Pictures/settingsBackground.png")).getImage();
 		
 		///////////////
 		// Setting font
-		mainHeader.setFont(new Font(font, Font.BOLD, 50));
+		mainHeader.setFont(font);
 		programmers = setFontAndAlign(programmers);
 		
 		////////////////////////////////////
@@ -69,7 +76,7 @@ public class Credits extends JPanel {
 		
 		////////////////////////////////
 		// Setting custom actionListener
-		MainActionListener.addButton(buttons[0], "back");
+		MainActionListener.addButton(buttons[0], "mainMenu2");
 		buttons[0].addActionListener(Main.actionListener);
 		
 	}
@@ -81,15 +88,20 @@ public class Credits extends JPanel {
 		
 		for (int i = 0; i < length; i++) {
 			if (i == 0) {
-				data[i].setFont(new Font(font, Font.BOLD, 30));
+				data[i].setFont(font);
 				data[i].setAlignmentX(CENTER_ALIGNMENT);
 			}
 			else {
-				data[i].setFont(new Font(font, Font.PLAIN, 18));
+				data[i].setFont(font);
 				data[i].setAlignmentX(CENTER_ALIGNMENT);
 			}
 		}
 		
 		return data;
+	}
+	
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(img, 0 , 0, getWidth(), getHeight(), this);
 	}
 }

@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import engine.MainActionListener;
+import main.Init;
 import main.Main;
 
 public class Pause extends JPanel{
@@ -21,10 +22,10 @@ public class Pause extends JPanel{
 	
 	
 		// Getting values from "init" file
-		static int resX = Main._init.getResX();
-		static int resY = Main._init.getResY();
-		static String font = Main._init.getOurFont();
-		static double scale = Main._init.getScaleIndexX();
+		static int resX = Init.getResX();
+		static int resY = Init.getResY();
+		static Font font = Init.getFont();
+		static double scale = Init.getScaleIndexX();
 		
 		JLabel title = new JLabel("Pause");
 		JButton[] buttons = {new JButton("Main menu"), new JButton("Retry"), new JButton("Continue")};
@@ -34,7 +35,7 @@ public class Pause extends JPanel{
 		System.out.println("Pause Object created");
 		
 		// Title
-		title.setFont(new Font(font, Font.PLAIN, 40));
+		title.setFont(font);
 		
 		// Positioning and alignment
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
