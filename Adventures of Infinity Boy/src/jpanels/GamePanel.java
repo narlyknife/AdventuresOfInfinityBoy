@@ -127,7 +127,8 @@ public class GamePanel extends JPanel implements ActionListener{
 	int cX;					// Character x value (constant)
 	int cOrigin;			// Point of origin for character (Y). (resY - GROUND_HEIGHT - CHARACTER_HEIGHT)
 	static int cTempY;
-	static boolean onPlatform = false; // Detect if character is currently on a platform
+	static boolean onBotPlat = false; // Detect if character is currently on top of a platform
+	static boolean onTopPlat = false; // Detect if character is currently attached to the bottom of a platform
 
 
 
@@ -226,16 +227,16 @@ public class GamePanel extends JPanel implements ActionListener{
 		
 		// Collision with bottom of platform
 		for(int i = platform.length; i < platformPath.length; i++) {
-			if(Engine.intersects(character, platformPath[i]) && !onPlatform && direction == 2) {
-				onPlatform = true;
+			if(Engine.intersects(character, platformPath[i]) && !onBotPlat) {
+				onBotPlat = true;
 				temp = y;
 			}
 		}
 		
 		// Collision with top of platform
 		for(int i = 0; i < platform.length; i++) {
-			if(Engine.intersects(character, platformPath[i]) && !onPlatform && direction == 0) {
-				onPlatform = true;
+			if(Engine.intersects(character, platformPath[i]) && !onTopPlat) {
+				onTopPlat = true;
 				jIncrease = 0;
 			}
 		}
@@ -266,11 +267,11 @@ public class GamePanel extends JPanel implements ActionListener{
 			else if (lastY - y > 0) direction = 0; 	// down
 			else direction = 1; 					// still
 
-			if (onPlatform) {
-				System.out.println(y + ", " + temp);
+			if (onBotPlat) {
 				if (y == temp) {
 					jIncrease = 0;
-					System.out.println("Called " + direction);
+//					cTop = character.getY();
+//					cTempY = cTop;
 				}
 				else {
 					jIncrease = 0.1;
@@ -280,15 +281,11 @@ public class GamePanel extends JPanel implements ActionListener{
 				lastY = y;
 			}
 			else {				
-				character.setLocation(cX, cOrigin - y);
-				cTop = character.getY();
-				cBot = cTop + CHARACTER_HEIGHT;
-				
+				character.setLocation(cX, cTempY - y);
+				cTop = character.getY();				
 				cClock += jIncrease;
 				lastY = y;
 			}
-
-
 		}
 		
 		// Character stays on ground
@@ -299,14 +296,15 @@ public class GamePanel extends JPanel implements ActionListener{
 			cTop = cOrigin;
 			cTempY = cTop;
 			jumping = false;
+			temp = 0;
 		}
 		
 		// Character falls off obstacle
 		for (int i = 0; i < platformPath.length; i++) {
 			if (Engine.intersects(character, platformPath[i]) == false) {
 				jIncrease = 0.1;
-				onTop = false;
-				onPlatform = false;
+				onTopPlat = false;
+				onBotPlat = false;
 			}
 		}
 	}
@@ -364,17 +362,17 @@ public class GamePanel extends JPanel implements ActionListener{
 	public static void startMainThread() {
 		int random = (int) (10 * Math.random());
 		
-		if(Init.settingsData[0] == 1) {
-			if(random <= 5) Engine.playAudio("easy1.wav");
-			else Engine.playAudio("easy2.wav");
-		} else if(Init.settingsData[0] == 2) {
-			if(random <= 5) Engine.playAudio("normal1.wav");
-			else Engine.playAudio("normal2.wav");
-		}
-		else {
-			if(random <= 5) Engine.playAudio("hard3.wav");
-			else Engine.playAudio("hard3.wav");
-		}
+//		if(Init.settingsData[0] == 1) {
+//			if(random <= 5) Engine.playAudio("easy1.wav");
+//			else Engine.playAudio("easy2.wav");
+//		} else if(Init.settingsData[0] == 2) {
+//			if(random <= 5) Engine.playAudio("normal1.wav");
+//			else Engine.playAudio("normal2.wav");
+//		}
+//		else {
+//			if(random <= 5) Engine.playAudio("hard3.wav");
+//			else Engine.playAudio("hard3.wav");
+//		}
 	}
 
 	// Jump
@@ -382,25 +380,20 @@ public class GamePanel extends JPanel implements ActionListener{
 		return jumping;
 	}
 
-	public static void enableJump() {
-		jumping = true;
+	public static void jump() {
+		jumping = false;
 		cClock = 0.1;
 		jIncrease = 0.1;
-		cTempY = cTop;
-		onTop = false;
-	}
-
-	public static boolean onPlatform() {
-		return onPlatform;
+		y = 1;
+		cTempY = character.getY();
+		onTopPlat = false;
+		onBotPlat = false;
+		temp = 0;
+		jumping = true;
 	}
 	
-	public static void onPlatJump() {
-		cTempY = cTop;
-		cClock = 0;
-		y = 0;
-		jIncrease = 0.1;
-		onPlatform = false;
-		jumping = true;
+	public static boolean onPlat() {
+		return onTopPlat;
 	}
 	
 	// Pausing & Resuming

@@ -37,11 +37,8 @@ public class KeyHandler{
 		jumpAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				
-				if(GamePanel.jumping() == false) {
-					GamePanel.enableJump();
-				}
-				if(GamePanel.onPlatform() == true) {
-					GamePanel.onPlatJump();
+				if(GamePanel.jumping() == false || GamePanel.onPlat() == true) {
+					GamePanel.jump();
 				}
 			}
 		};

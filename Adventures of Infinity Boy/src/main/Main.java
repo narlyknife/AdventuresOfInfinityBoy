@@ -132,7 +132,7 @@ public class Main {
 	
 	// Show a splashscreen with selected panels before and after.
 	private static void showSplashScreen(String splashscreen, JFrame frame, int time) {
-		Engine.playAudio("Splashscreen.wav");
+//		Engine.playAudio("Splashscreen.wav");
 		
 		setPanel(splashscreen);
 		
