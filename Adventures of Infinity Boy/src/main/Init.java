@@ -19,7 +19,7 @@ public class Init {
 	final int DEFAULT_X_VALUE = 1920;
 	final int DEFAULT_Y_VALUE = 1080;
 	final static int[] GROUND_SIZE = {1920, 150};
-	final static int[] OBSTACLE_SIZE = {1920, 50};
+	final static int[] PLATFORM_SIZE = {1920, 50};
 	final static int[] CHARACTER_SIZE = {150, 75};
 	public final static int[] SETTINGS_CHAR_SIZE = {340, 460};
 	public final static int[] SETTINGS_DIF_SIZE = {400, 300};
@@ -34,7 +34,7 @@ public class Init {
 	public final static int[] BUTTON_SIZE_1 = {200, 75};
 	public final static int[] BUTTON_SIZE_2 = {250, 75};
 	public final static int[] BUTTON_SET_SIZE = {360, 135};
-	final static int OBSTACLE_AMOUNT = 3;
+	final static int PLATFORM_AMOUNT = 3;
 	static int characterMovement = 6;
 	static float scaleIndexX = 1;
 	static float scaleIndexY = 1;
@@ -88,12 +88,12 @@ public class Init {
 		return GROUND_SIZE[element];
 	}
 	
-	public static int getObstacleSize(int element) {
-		return OBSTACLE_SIZE[element];
+	public static int getPlatformSize(int element) {
+		return PLATFORM_SIZE[element];
 	}
 	
-	public static int getObstacleAmount() {
-		return OBSTACLE_AMOUNT;
+	public static int getPlatformAmount() {
+		return PLATFORM_AMOUNT;
 	}
 	
 	public static int getCharacterSize(int element) {

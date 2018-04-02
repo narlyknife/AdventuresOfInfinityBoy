@@ -8,18 +8,19 @@ import javax.swing.JPanel;
 import main.Init;
 import main.Main;
 
-public class Obstacles extends JPanel{
+public class Platform extends JPanel{
 
 	// Declarations
 	static int resX = Init.getResX();
 	static int resY = Init.getResY();
 	
-	private static int obstacleHeight;
-	private static int obstacleWidth;
+	private static int platformWidth;
+	private static int platformHeight;
+
 	
 	private Image chosenImage;
 	
-	public Obstacles() {
+	public Platform() {
 		setScaleIndex();
 	}
 	
@@ -33,17 +34,19 @@ public class Obstacles extends JPanel{
 	// Applying the scaleIndex to the ground objects X and Y dimensions.
 	// Size changes can be made manually in Init.
 	public void setScaleIndex() {
-		obstacleWidth = (int) (Init.getObstacleSize(0) * Init.getScaleIndexX());
-		obstacleHeight = (int) (Init.getObstacleSize(1) * Init.getScaleIndexY());
+		platformWidth = (int) (Init.getPlatformSize(0) * Init.getScaleIndexX());
+		platformHeight = (int) (Init.getPlatformSize(1) * Init.getScaleIndexY());
+	}
+
+	public static int getPlatformWidth() {
+		return platformWidth;
 	}
 	
-	public static int getObstacleHeight() {
-		return obstacleHeight;
+	public static int getPlatformHeight() {
+		return platformHeight;
 	}
 	
-	public static int getObstacleWidth() {
-		return obstacleWidth;
-	}
+
 	
 	public void setObstacleImage(Image image) {
 		chosenImage = image;
