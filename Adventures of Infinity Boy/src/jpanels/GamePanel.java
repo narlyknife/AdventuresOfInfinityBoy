@@ -224,19 +224,19 @@ public class GamePanel extends JPanel implements ActionListener{
 			ground[i].setLocation(groundX[i] -= currentSpeed, resY - GROUND_HEIGHT);
 		}
 		
-		// Collision with top of platform
-		for(int i = 0; i < platformPath.length; i++) {
-			if(Engine.intersects(character, platformPath[i]) && !onPlatform && direction == 0) {
-				onPlatform = true;
-				jIncrease = 0;
-			}
-		}
-		
 		// Collision with bottom of platform
-		for(int i = 0; i < platformPath.length; i++) {
+		for(int i = platform.length; i < platformPath.length; i++) {
 			if(Engine.intersects(character, platformPath[i]) && !onPlatform && direction == 2) {
 				onPlatform = true;
 				temp = y;
+			}
+		}
+		
+		// Collision with top of platform
+		for(int i = 0; i < platform.length; i++) {
+			if(Engine.intersects(character, platformPath[i]) && !onPlatform && direction == 0) {
+				onPlatform = true;
+				jIncrease = 0;
 			}
 		}
 		
