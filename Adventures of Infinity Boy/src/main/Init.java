@@ -40,7 +40,7 @@ public class Init {
 	static float scaleIndexY = 1;
 	static int a = 35;
 	static int vZero = 140;
-	static int splashScreenTime = 10;	// Milliseconds
+	static int splashScreenTime = 0;	// Milliseconds
 	
 	// Hombre font on text
 	

@@ -116,8 +116,10 @@ public class GamePanel extends JPanel implements ActionListener{
 	static double cClock = 0;
 	static double jIncrease = 0.1;
 	int direction = 1; // 0 = up, 1 = still, 2 = down
-	int lastY = 0, y = 0;
+	int lastY = 0;
+	static int y = 0;
 	static boolean onTop = false;
+	static int temp = 0;
 	
 	// Setting coordinate values into shorter names for easier use in ex. collision handling
 	static int cTop;		// Character y value of top edge
@@ -125,7 +127,7 @@ public class GamePanel extends JPanel implements ActionListener{
 	int cX;					// Character x value (constant)
 	int cOrigin;			// Point of origin for character (Y). (resY - GROUND_HEIGHT - CHARACTER_HEIGHT)
 	static int cTempY;
-	boolean onPlatform = false; // Detect if character is currently on a platform
+	static boolean onPlatform = false; // Detect if character is currently on a platform
 
 
 
@@ -222,11 +224,19 @@ public class GamePanel extends JPanel implements ActionListener{
 			ground[i].setLocation(groundX[i] -= currentSpeed, resY - GROUND_HEIGHT);
 		}
 		
-		// Collision with top or bottom of platform, green zone
+		// Collision with top of platform
 		for(int i = 0; i < platformPath.length; i++) {
-			if(Engine.intersects(character, platformPath[i]) && !onPlatform) {
-				jumping = false;
+			if(Engine.intersects(character, platformPath[i]) && !onPlatform && direction == 0) {
 				onPlatform = true;
+				jIncrease = 0;
+			}
+		}
+		
+		// Collision with bottom of platform
+		for(int i = 0; i < platformPath.length; i++) {
+			if(Engine.intersects(character, platformPath[i]) && !onPlatform && direction == 2) {
+				onPlatform = true;
+				temp = y;
 			}
 		}
 		
@@ -255,22 +265,30 @@ public class GamePanel extends JPanel implements ActionListener{
 			if (lastY - y < 0) direction = 2; 		// up
 			else if (lastY - y > 0) direction = 0; 	// down
 			else direction = 1; 					// still
-			
-			character.setLocation(cX, cTempY - y);
-			cTop = character.getY();
-			cBot = cTop + CHARACTER_HEIGHT;
-			
-			for (int i = 0; i < platform.length; i++) {
-				if ((cBot - oTop[i] <= 7 && cBot - oTop[i] >= -7) && ((cX >= oX[i] && cX <= oX[i] + PLATFORM_WIDTH) || (cX + CHARACTER_WIDTH >= oX[i] && cX + CHARACTER_WIDTH <= oX[i] + PLATFORM_WIDTH)) && direction == 0) {
-					if (!onTop) {
-						jIncrease = 0;
-						onTop = true;
-					}
+
+			if (onPlatform) {
+				System.out.println(y + ", " + temp);
+				if (y == temp) {
+					jIncrease = 0;
+					System.out.println("Called " + direction);
 				}
+				else {
+					jIncrease = 0.1;
+				}
+				y = temp;
+				cClock += jIncrease;
+				lastY = y;
 			}
-			
-			cClock += jIncrease;
-			lastY = y;
+			else {				
+				character.setLocation(cX, cOrigin - y);
+				cTop = character.getY();
+				cBot = cTop + CHARACTER_HEIGHT;
+				
+				cClock += jIncrease;
+				lastY = y;
+			}
+
+
 		}
 		
 		// Character stays on ground
@@ -281,19 +299,13 @@ public class GamePanel extends JPanel implements ActionListener{
 			cTop = cOrigin;
 			cTempY = cTop;
 			jumping = false;
-			onTop = false;
 		}
 		
 		// Character falls off obstacle
 		for (int i = 0; i < platformPath.length; i++) {
 			if (Engine.intersects(character, platformPath[i]) == false) {
-				for(int j = 0; j < platform.length; j++) {
-					if (cX > oX[j] + PLATFORM_WIDTH) {
-						jIncrease = 0.1;
-						onTop = false;
-						jumping = true;
-					}
-				}
+				jIncrease = 0.1;
+				onTop = false;
 				onPlatform = false;
 			}
 		}
@@ -378,16 +390,17 @@ public class GamePanel extends JPanel implements ActionListener{
 		onTop = false;
 	}
 
-	public static boolean onTop() {
-		return onTop;
+	public static boolean onPlatform() {
+		return onPlatform;
 	}
 	
-	public static void onTopJump() {
+	public static void onPlatJump() {
 		cTempY = cTop;
 		cClock = 0;
+		y = 0;
 		jIncrease = 0.1;
-		onTop = false;
-
+		onPlatform = false;
+		jumping = true;
 	}
 	
 	// Pausing & Resuming

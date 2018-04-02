@@ -40,8 +40,8 @@ public class KeyHandler{
 				if(GamePanel.jumping() == false) {
 					GamePanel.enableJump();
 				}
-				if(GamePanel.onTop() == true) {
-					GamePanel.onTopJump();
+				if(GamePanel.onPlatform() == true) {
+					GamePanel.onPlatJump();
 				}
 			}
 		};
