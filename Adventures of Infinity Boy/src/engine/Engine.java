@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -20,7 +21,9 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
+import gui.Character;
 import jpanels.GamePanel;
 import jpanels.Settings;
 import main.Init;
@@ -201,5 +204,12 @@ public class Engine {
 		else if(i >= 2 && i < 5) return img[1];
 		else if(i >= 5 && i < 7) return img[2];
 		else return img[3];
+	}
+	
+	public static boolean intersects(Character character, JPanel obstacle) {
+		Area areaA = new Area(character.getBounds());
+		Area areaB = new Area(obstacle.getBounds());
+		
+		return areaA.intersects(areaB.getBounds2D());
 	}
 }
