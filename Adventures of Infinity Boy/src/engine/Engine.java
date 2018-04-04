@@ -177,14 +177,13 @@ public class Engine {
 					
 					Main.setPanel("mainmenu");
 				} else if(panelName.equals("retry")) {
-					GamePanel.reset();
 					Engine.stopAudio();
+          GamePanel.reset();
 					GamePanel.resumeGame();
-					
 					Main.showSubPanel(Main.getSubPanel("pause"), false);
-					Main.setPanel("gamepanel");
 					
 					KeyHandler.gamePaused = false;
+          
 				} else if(panelName.equals("resume")){
 					Engine.volumeAudio(0);
 					System.out.println("Note: Game has been resumed");
