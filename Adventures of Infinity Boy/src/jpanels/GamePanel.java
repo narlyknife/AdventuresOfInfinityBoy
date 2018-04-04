@@ -315,7 +315,7 @@ public class GamePanel extends JPanel implements ActionListener{
 				if(drop) {
 					System.out.println(Engine.intersects(character, ground[currentGround]));
 					if(Engine.intersects(character, ground[currentGround]) == false) {
-						character.setLocation(character.getX(), cTempY + 280 - (y + temp));
+						character.setLocation(character.getX(), cTempY + (int) (280 * scaleY) - (y + temp));
 					}
 				}
 				else character.setLocation(character.getX(), cTempY - y);
