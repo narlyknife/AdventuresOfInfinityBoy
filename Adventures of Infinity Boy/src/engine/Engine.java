@@ -176,8 +176,9 @@ public class Engine {
 					Settings.saveData();
 					
 					Main.setPanel("mainmenu");
-				} else if(panelName.equals("retry")) {
-					GamePanel.startMainThread();
+				} else if(panelName.equals("retry")) { // alskndlakjsd####################################################################
+					GamePanel.reset();
+//					Engine.stopAudio();
 					GamePanel.resumeGame();
 					Main.showSubPanel(Main.getSubPanel("pause"), false);
 					
