@@ -82,6 +82,9 @@ public class GamePanel extends JPanel implements ActionListener{
 	static int[] groundX = {0, GROUND_WIDTH, GROUND_WIDTH * 2};
 	static int groundY = resY - GROUND_HEIGHT;
 	
+	// Current platform in use
+	static int currentGround = 0;
+	
 	//###########//
 	// Platforms //
 	final static int PLATFORM_HEIGHT = Platform.getPlatformHeight();
@@ -219,6 +222,13 @@ public class GamePanel extends JPanel implements ActionListener{
 			}
 		}
 		
+		//changing current ground in use
+		for(int i = 0; i < ground.length; i++) {
+			if(ground[i].getX() == character.getX()) {
+				currentGround = i;
+			}
+		}
+		
 		// Character falls off obstacle
 		if ((Engine.intersects(character, platformPath[currentPlatform]) == false) && (Engine.intersects(character, platformPath[currentPlatform + platform.length]) == false) || drop) {
 			jIncrease = 0.1;
@@ -302,7 +312,13 @@ public class GamePanel extends JPanel implements ActionListener{
 				System.out.println("temp = " + temp);
 				System.out.println("y = " + y);
 				System.out.println("Character = " + (cTempY - y) + "\n");
-				character.setLocation(character.getX(), cTempY - y);	
+				if(drop) {
+					System.out.println(Engine.intersects(character, ground[currentGround]));
+					if(Engine.intersects(character, ground[currentGround]) == false) {
+						character.setLocation(character.getX(), cTempY + 280 - (y + temp));
+					}
+				}
+				else character.setLocation(character.getX(), cTempY - y);
 				cClock += jIncrease;
 				lastY = y;
 			}
@@ -410,6 +426,7 @@ public class GamePanel extends JPanel implements ActionListener{
 	public static void drop() {
 		drop = true;
 		onBotPlat = false;
+		jIncrease = 0.1;
 		System.out.println("\nDROPPED\n");
 	}
 	
