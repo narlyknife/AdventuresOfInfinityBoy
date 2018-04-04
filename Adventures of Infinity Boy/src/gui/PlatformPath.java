@@ -21,14 +21,14 @@ public class PlatformPath extends JPanel{
 	public PlatformPath() {
 		setScaleIndex();
 		
-//		this.setBackground(Color.green);
+		this.setBackground(Color.green);
 	}
 	
 	// Applying the scaleIndex to the ground objects X and Y dimensions.
 	// Size changes can be made manually in Init.
 	public void setScaleIndex() {
 		platformPathWidth = (int) (Init.getPlatformSize(0) * Init.getScaleIndexX());
-		platformPathHeight = (int) (1 * Init.getScaleIndexY());
+		platformPathHeight = (int) (5 * Init.getScaleIndexY());
 	}
 	
 	public static int getPlatformPathWidth() {

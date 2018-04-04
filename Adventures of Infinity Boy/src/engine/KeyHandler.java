@@ -10,7 +10,7 @@ import main.Main;
 
 public class KeyHandler{
 	
-	Action pauseAction, jumpAction;
+	Action pauseAction, jumpAction, dropAction;
 	static boolean gamePaused = false;
 
 	// The action to perform the steps of a pause. (Game movement set to 0, display/hide pause menu)
@@ -36,9 +36,16 @@ public class KeyHandler{
 		
 		jumpAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				
-				if(GamePanel.jumping() == false || GamePanel.onPlat() == true) {
+				if(GamePanel.jumping() == false || GamePanel.onTopPlat() == true) {
 					GamePanel.jump();
+				}
+			}
+		};
+		
+		dropAction = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				if(GamePanel.onBotPlat()) {
+					GamePanel.drop();
 				}
 			}
 		};
@@ -52,5 +59,7 @@ public class KeyHandler{
 		return jumpAction;
 	}
 	
-	
+	public Action getDropAction() {
+		return dropAction;
+	}
 }
