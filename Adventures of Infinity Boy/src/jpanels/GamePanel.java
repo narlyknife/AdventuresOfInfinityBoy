@@ -118,7 +118,7 @@ public class GamePanel extends JPanel implements ActionListener{
 	//###########//
 	// Character //
 	private final static int CHARACTER_HEIGHT = character.getCharacterHeight();
-	private final int CHARACTER_WIDTH = character.getCharacterWidth();
+	private final static int CHARACTER_WIDTH = character.getCharacterWidth();
 	private static double cClock = 0;
 	private static double jIncrease = 0.1;
 	private static int lastY = 0;
