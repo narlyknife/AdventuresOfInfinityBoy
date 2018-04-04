@@ -476,5 +476,6 @@ public class GamePanel extends JPanel implements ActionListener{
 		}
 		character.setLocation((int) (resX * 0.15), resY - (GroundBlocks.getGroundHeight() + CHARACTER_HEIGHT));
 		cTempY = cOrigin;
+		startMusic();
 	}
 }

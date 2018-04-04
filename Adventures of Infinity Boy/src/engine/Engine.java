@@ -176,19 +176,19 @@ public class Engine {
 					Settings.saveData();
 					
 					Main.setPanel("mainmenu");
-				} else if(panelName.equals("retry")) {
-					Engine.stopAudio();
-          GamePanel.reset();
+				
+				} else if(panelName.equals("retry")) {  // Retry
+					GamePanel.reset();
 					GamePanel.resumeGame();
 					Main.showSubPanel(Main.getSubPanel("pause"), false);
 					
 					KeyHandler.gamePaused = false;
           
-				} else if(panelName.equals("resume")){
-					Engine.volumeAudio(0);
+				} else if(panelName.equals("resume")){	// Resume
 					System.out.println("Note: Game has been resumed");
 					Main.showSubPanel(Main.getSubPanel("pause"), false);
 					GamePanel.resumeGame();
+					Engine.resumeAudio();
 					
 					KeyHandler.gamePaused = false;
 				} else {
