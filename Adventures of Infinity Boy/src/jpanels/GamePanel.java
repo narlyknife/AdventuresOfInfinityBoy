@@ -21,28 +21,28 @@ import main.Init;
 public class GamePanel extends JPanel implements ActionListener{
 	
 	// Getting values from "init" file
-	static int resX = Init.getResX();
-	static int resY = Init.getResY();
+	private static int resX = Init.getResX();
+	private static int resY = Init.getResY();
 	
-	static float scaleX = Init.getScaleIndexX();
-	static float scaleY = Init.getScaleIndexY();
+	private static float scaleX = Init.getScaleIndexX();
+	private static float scaleY = Init.getScaleIndexY();
 	
 	// Keyhandler
-	KeyHandler keyHandler = new KeyHandler();
+	private KeyHandler keyHandler = new KeyHandler();
 	
 	// Used for for loops that instantiates unique values for obstacles
-	static int MAX_OBSTACLES = Init.getPlatformAmount(); 
+	private static int MAX_OBSTACLES = Init.getPlatformAmount(); 
 	
 	// Physic variables
-	static int a = Init.getGravity();
-	static int vZero = Init.getVZero();
+	private static int a = Init.getGravity();
+	private static int vZero = Init.getVZero();
 	
 	// Setting game animation movements
-	static final int MOVEMENT_SPEED = (int) (Init.getCharacterMovement() * scaleX);
-	static int currentSpeed = 0;
+	private static final int MOVEMENT_SPEED = (int) (Init.getCharacterMovement() * scaleX);
+	private static int currentSpeed = 0;
 	
 	// Setting timer object with preferred FPS
-	public Timer timer = new Timer(Init.getFps(0), this);
+	private Timer timer = new Timer(Init.getFps(0), this);
 	
 	// Image for the character
 	private static Image imgChar = Engine.getImage("Character1.png");
@@ -62,70 +62,70 @@ public class GamePanel extends JPanel implements ActionListener{
 	};
 	
 	// Creating objects
-	public static Character character = new Character();
+	private static Character character = new Character();
 	
-	public static GroundBlocks[] ground = {new GroundBlocks(), new GroundBlocks(), new GroundBlocks()};
+	private static GroundBlocks[] ground = {new GroundBlocks(), new GroundBlocks(), new GroundBlocks()};
 
-	public static Platform[] platform = {new Platform(), new Platform(), new Platform()};
-	public static JPanel[] platformPath = {	new PlatformPath(), new PlatformPath(), new PlatformPath(),
+	private static Platform[] platform = {new Platform(), new Platform(), new Platform()};
+	private static JPanel[] platformPath = {	new PlatformPath(), new PlatformPath(), new PlatformPath(),
 											new PlatformPath(), new PlatformPath(), new PlatformPath()
 	};
-	public static JPanel[] platformCollision = {new PlatformCollision(), new PlatformCollision(), new PlatformCollision()};
+	private static JPanel[] platformCollision = {new PlatformCollision(), new PlatformCollision(), new PlatformCollision()};
 	
 	//########//
 	// Ground //
 	
 	// Creating block dimensions
-	final static int GROUND_HEIGHT = GroundBlocks.getGroundHeight();
-	final static int GROUND_WIDTH = GroundBlocks.getGroundWidth();
+	private final static int GROUND_HEIGHT = GroundBlocks.getGroundHeight();
+	private final static int GROUND_WIDTH = GroundBlocks.getGroundWidth();
 	// Creating block positions
-	static int[] groundX = {0, GROUND_WIDTH, GROUND_WIDTH * 2};
-	static int groundY = resY - GROUND_HEIGHT;
+	private static int[] groundX = {0, GROUND_WIDTH, GROUND_WIDTH * 2};
+	private static int groundY = resY - GROUND_HEIGHT;
 	
 	// Current platform in use
-	static int currentGround = 0;
+	private static int currentGround = 0;
 	
 	//###########//
 	// Platforms //
-	final static int PLATFORM_HEIGHT = (int) (Platform.getPlatformHeight() * scaleY);
-	final static int PLATFORM_WIDTH = Platform.getPlatformWidth();
+	private final static int PLATFORM_HEIGHT = (int) (Platform.getPlatformHeight() * scaleY);
+	private final static int PLATFORM_WIDTH = Platform.getPlatformWidth();
 	
-	final static int PLATFORM_PATH_HEIGHT = PlatformPath.getPlatformPathHeight();
-	final static int PLATFORM_PATH_WIDTH = PlatformPath.getPlatformPathWidth();
+	private final static int PLATFORM_PATH_HEIGHT = PlatformPath.getPlatformPathHeight();
+	private final static int PLATFORM_PATH_WIDTH = PlatformPath.getPlatformPathWidth();
 	
-	final static int PLATFORM_COLLISION_HEIGHT = PlatformCollision.getplatformCollisionHeight();
-	final static int PLATFORM_COLLISION_WIDTH = PlatformCollision.getplatformCollisionWidth();
+	private final static int PLATFORM_COLLISION_HEIGHT = PlatformCollision.getplatformCollisionHeight();
+	private final static int PLATFORM_COLLISION_WIDTH = PlatformCollision.getplatformCollisionWidth();
 	
 	// Used for storing unique coordinates for obstacles
-	int[] platformX = new int[MAX_OBSTACLES];
-	int[] platformY = new int[MAX_OBSTACLES];
+	private int[] platformX = new int[MAX_OBSTACLES];
+	private int[] platformY = new int[MAX_OBSTACLES];
 	
 	// Settings coordinate system for placement of platforms
-	static int platformYOffset = groundY;
-	static int platformYIncrease = (int) (150 * scaleY);
-	static int lastChoosenYPoint = 3;
-	static boolean firstTimeSpawn = true;
+	private static int platformYOffset = groundY;
+	private static int platformYIncrease = (int) (150 * scaleY);
+	private static int lastChoosenYPoint = 3;
+	private static boolean firstTimeSpawn = true;
 	
 	// Current platform in use
-	static int currentPlatform = 0;
+	private static int currentPlatform = 0;
 	
 	//###########//
 	// Character //
-	final int CHARACTER_HEIGHT = character.getCharacterHeight();
-	final int CHARACTER_WIDTH = character.getCharacterWidth();
-	static double cClock = 0;
-	static double jIncrease = 0.1;
-	int lastY = 0;
-	static int y = 0;
-	static int temp = 0;
-	static boolean jumping = false;
-	static boolean drop = false;
+	private final int CHARACTER_HEIGHT = character.getCharacterHeight();
+	private final int CHARACTER_WIDTH = character.getCharacterWidth();
+	private static double cClock = 0;
+	private static double jIncrease = 0.1;
+	private int lastY = 0;
+	private static int y = 0;
+	private static int temp = 0;
+	private static boolean jumping = false;
+	private static boolean drop = false;
 	
 	// Setting coordinate values into shorter names for easier use.
-	int cOrigin;			// Point of origin for character (Y). (resY - GROUND_HEIGHT - CHARACTER_HEIGHT)
-	static int cTempY;
-	static boolean onBotPlat = false; // Detect if character is currently on top of a platform
-	static boolean onTopPlat = false; // Detect if character is currently attached to the bottom of a platform
+	private int cOrigin;			// Point of origin for character (Y). (resY - GROUND_HEIGHT - CHARACTER_HEIGHT)
+	private static int cTempY;
+	private static boolean onBotPlat = false; // Detect if character is currently on top of a platform
+	private static boolean onTopPlat = false; // Detect if character is currently attached to the bottom of a platform
 
 
 
