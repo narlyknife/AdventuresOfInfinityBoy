@@ -19,12 +19,7 @@ import gui.PlatformPath;
 import main.Init;
 
 public class GamePanel extends JPanel implements ActionListener{
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
+
 	// Getting values from "init" file
 	static int resX = Init.getResX();
 	static int resY = Init.getResY();
@@ -92,7 +87,7 @@ public class GamePanel extends JPanel implements ActionListener{
 	
 	//###########//
 	// Platforms //
-	final static int PLATFORM_HEIGHT = Platform.getPlatformHeight();
+	final static int PLATFORM_HEIGHT = (int) (Platform.getPlatformHeight() * scaleY);
 	final static int PLATFORM_WIDTH = Platform.getPlatformWidth();
 	
 	final static int PLATFORM_PATH_HEIGHT = PlatformPath.getPlatformPathHeight();
@@ -110,10 +105,11 @@ public class GamePanel extends JPanel implements ActionListener{
 	static int[] oBot = new int[MAX_OBSTACLES];
 	static int[] oX = new int[MAX_OBSTACLES];
 	
+
 	// Settings coordinate system for placement of platforms
 	static int platformYOffset = groundY;
 	static int platformYIncrease = (int) (150 * scaleY);
-	static int lastChoosenYPoint = 4;
+	static int lastChoosenYPoint = 3;
 	static boolean firstTimeSpawn = true;
 	
 	// Current platform in use
@@ -145,7 +141,6 @@ public class GamePanel extends JPanel implements ActionListener{
 		System.out.println("NOTE: A new MainThread has been initiated");
 		// Allowing for a XY precise placement, beneficial for a JPanel with the purpose of multiple object placements.
 		this.setLayout(null);
-		timer.start();
 		
 		// Adding events to the key bindings
 		this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ESCAPE"), "showPauseMenu");
@@ -213,6 +208,7 @@ public class GamePanel extends JPanel implements ActionListener{
 		
 		// Adding Character
 		this.add(character);
+		timer.start();
 	}
 
 
@@ -258,7 +254,6 @@ public class GamePanel extends JPanel implements ActionListener{
 				onBotPlat = true;
 				temp = y;
 				drop = false;
-				System.out.println("Bottom Collision");
 			}
 		}
 		
@@ -299,7 +294,7 @@ public class GamePanel extends JPanel implements ActionListener{
 		
 		// Jumping physics
 		if (jumping) {
-			y = (int) ((vZero * cClock) - ((a*Math.pow(cClock, 2))/2)); // y=V*t*(at^2)/2
+			y = (int) (((vZero * cClock) - ((a*Math.pow(cClock, 2))/2)) * scaleY); // y=V*t*(at^2)/2
 			
 			if (onBotPlat) {
 				if (y == temp) {
@@ -313,14 +308,13 @@ public class GamePanel extends JPanel implements ActionListener{
 				lastY = y;
 			}
 			else {
-				System.out.println("cTempY = " + cTempY);
-				System.out.println("temp = " + temp);
-				System.out.println("y = " + y);
-				System.out.println("Character = " + (cTempY - y) + "\n");
+//				System.out.println("cTempY = " + cTempY);
+//				System.out.println("temp = " + temp);
+//				System.out.println("y = " + y);
+//				System.out.println("Character = " + (cTempY - y) + "\n");
 				if(drop) {
-					System.out.println(Engine.intersects(character, ground[currentGround]));
 					if(Engine.intersects(character, ground[currentGround]) == false) {
-						character.setLocation(character.getX(), cTempY + 280 - (y + temp));
+						character.setLocation(character.getX(), cTempY + (int) (280 * scaleY) - (y + temp));
 					}
 				}
 				else character.setLocation(character.getX(), cTempY - y);
@@ -369,19 +363,20 @@ public class GamePanel extends JPanel implements ActionListener{
 			int foo = (int) (100 * Math.random());
 			
 			if(foo >= 0 && foo < 33 && (lastChoosenYPoint != 1)) {
-				pos = platformYOffset - (platformYIncrease + Init.getPlatformSize(1));
+				pos = platformYOffset - (platformYIncrease + PLATFORM_HEIGHT);
 				lastChoosenYPoint = 1;
 			}
 			else if(foo >= 33 && foo < 67 && (lastChoosenYPoint != 2)) {
-				pos = platformYOffset - (platformYIncrease * 2 + Init.getPlatformSize(1) * 2);
+				pos = platformYOffset - (platformYIncrease * 2 + PLATFORM_HEIGHT * 2);
 				lastChoosenYPoint = 2;
 			}
 			else if(foo >= 67 && foo <= 100 && (lastChoosenYPoint != 3)){
-				pos = platformYOffset - (platformYIncrease * 3 + Init.getPlatformSize(1) * 3);
+				pos = platformYOffset - (platformYIncrease * 3 + PLATFORM_HEIGHT * 3);
 				lastChoosenYPoint = 3;
 			}
 			
 			if(pos == 0) return newCoord(1, 0);
+			
 		break;
 		}
 		
@@ -389,7 +384,7 @@ public class GamePanel extends JPanel implements ActionListener{
 	}
 	
 	// Starting new Object
-	public static void startMainThread() {
+	public static void startMusic() {
 		int random = (int) (10 * Math.random());
 		
 		if(Init.settingsData[0] == 1) {
@@ -415,8 +410,6 @@ public class GamePanel extends JPanel implements ActionListener{
 			character.setLocation(character.getX(), platform[currentPlatform].getY() - character.getHeight());
 		};
 		
-		System.out.println("\nJUMPED\n");
-		
 		cClock = 0.1;
 		jIncrease = 0.1;
 		y = 1;
@@ -432,7 +425,6 @@ public class GamePanel extends JPanel implements ActionListener{
 		drop = true;
 		onBotPlat = false;
 		jIncrease = 0.1;
-		System.out.println("\nDROPPED\n");
 	}
 	
 	public static boolean onTopPlat() {
