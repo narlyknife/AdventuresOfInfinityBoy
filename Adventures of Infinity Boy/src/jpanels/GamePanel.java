@@ -301,7 +301,7 @@ public class GamePanel extends JPanel implements ActionListener{
 				System.out.println("cTempY = " + cTempY);
 				System.out.println("temp = " + temp);
 				System.out.println("y = " + y);
-				System.out.println("Character = " + (cTempY - y) + "\n");
+				System.out.println("Character = " + (cTempY - y));
 				character.setLocation(character.getX(), cTempY - y);	
 				cClock += jIncrease;
 				lastY = y;
