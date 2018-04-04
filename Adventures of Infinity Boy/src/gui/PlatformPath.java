@@ -28,7 +28,7 @@ public class PlatformPath extends JPanel{
 	// Size changes can be made manually in Init.
 	public void setScaleIndex() {
 		platformPathWidth = (int) (Init.getPlatformSize(0) * Init.getScaleIndexX());
-		platformPathHeight = (int) (10 * Init.getScaleIndexY());
+		platformPathHeight = (int) (5 * Init.getScaleIndexY());
 	}
 	
 	public static int getPlatformPathWidth() {
