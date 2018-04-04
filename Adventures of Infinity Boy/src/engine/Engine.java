@@ -151,14 +151,14 @@ public class Engine {
 			public void mouseClicked(MouseEvent e) {
 				if(panelName.equals("quit")) System.exit(0);
 				if(panelName.equals("gamepanel")) {
-					GamePanel.startMainThread();
+					GamePanel.startMusic();
 					GamePanel.resumeGame();
 				}
 				if(panelName.equals("settings")) {
 					Engine.readTxtFile(Init.SETTINGS_PATH);
 					Settings.changeSettingPanel("gamesettings");
 				}
-				if(panelName.equals("mainmenu")) Engine.stopAudio();
+//				if(panelName.equals("mainmenu")) Engine.stopAudio();
 				
 				if(panelName.equals("gamesettings") || panelName.equals("difficultysettings") || panelName.equals("charactersettings")) {
 					Settings.changeSettingPanel(panelName);
@@ -177,9 +177,16 @@ public class Engine {
 					
 					Main.setPanel("mainmenu");
 				} else if(panelName.equals("retry")) {
-					GamePanel.startMainThread();
+					System.out.println("retry");
+					
+					Main.changePanel("gamepanel", (JPanel) new GamePanel());
+					Main.getPanel("gamepanel").add(Main.getSubPanel("pause"), 0);
+					
+					GamePanel.startMusic();
 					GamePanel.resumeGame();
+					
 					Main.showSubPanel(Main.getSubPanel("pause"), false);
+					Main.setPanel("gamepanel");
 					
 					KeyHandler.gamePaused = false;
 				} else if(panelName.equals("resume")){
