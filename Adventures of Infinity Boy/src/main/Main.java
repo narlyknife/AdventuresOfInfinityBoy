@@ -30,7 +30,7 @@ public class Main {
 	public static final JFrame _frame = new JFrame();
 	public static final Init _init = new Init();
 
-	public static Map<String, JPanel> panelMap = new HashMap<String, JPanel>();
+	static Map<String, JPanel> panelMap = new HashMap<String, JPanel>();
 	public static Map<String, JPanel> subPanelMap = new HashMap<String, JPanel>();
 	public static MainActionListener actionListener = new MainActionListener();
 	
@@ -79,7 +79,7 @@ public class Main {
 
 		
 		// Creating another map for all the sub-panels, #subpanelLivesMatter
-		subPanelMap.put("gameover", new GameOver());					subPanelMap.put("pause", new Pause());
+		subPanelMap.put("gameover", new GameOver());		subPanelMap.put("pause", new Pause());
 		
 		System.out.println("DONE: Creating and sorting JPanels");
 		
@@ -150,6 +150,10 @@ public class Main {
 	public static void setPanel(String panel) {
 		mainPanel.add(panelMap.get(panel), panel);
 		cardlayout.show(mainPanel, panel);
+	}
+	
+	public static void changePanel(String name, JPanel panel) {
+		panelMap.put(name, panel);
 	}
 	
 	public static JPanel getPanel(String name) {

@@ -21,7 +21,7 @@ public class MainActionListener implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == buttonMap.get("gamepanel")) {
 			Main.setPanel("gamepanel");
-			GamePanel.startMainThread();
+			GamePanel.startMusic();
 		}
 		if(e.getSource() == buttonMap.get("settings")) {
 			Main.setPanel("settings");

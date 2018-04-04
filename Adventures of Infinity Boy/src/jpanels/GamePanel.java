@@ -103,7 +103,7 @@ public class GamePanel extends JPanel implements ActionListener{
 	// Settings coordinate system for placement of platforms
 	static int platformYOffset = groundY;
 	static int platformYIncrease = (int) (150 * scaleY);
-	static int lastChoosenYPoint = 4;
+	static int lastChoosenYPoint = 3;
 	static boolean firstTimeSpawn = true;
 	
 	// Current platform in use
@@ -135,7 +135,6 @@ public class GamePanel extends JPanel implements ActionListener{
 		System.out.println("NOTE: A new MainThread has been initiated");
 		// Allowing for a XY precise placement, beneficial for a JPanel with the purpose of multiple object placements.
 		this.setLayout(null);
-		timer.start();
 		
 		// Adding events to the key bindings
 		this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ESCAPE"), "showPauseMenu");
@@ -199,6 +198,7 @@ public class GamePanel extends JPanel implements ActionListener{
 		
 		// Adding Character
 		this.add(character);
+		timer.start();
 	}
 
 
@@ -371,20 +371,20 @@ public class GamePanel extends JPanel implements ActionListener{
 	}
 	
 	// Starting new Object
-	public static void startMainThread() {
+	public static void startMusic() {
 		int random = (int) (10 * Math.random());
 		
-//		if(Init.settingsData[0] == 1) {
-//			if(random <= 5) Engine.playAudio("easy1.wav");
-//			else Engine.playAudio("easy2.wav");
-//		} else if(Init.settingsData[0] == 2) {
-//			if(random <= 5) Engine.playAudio("normal1.wav");
-//			else Engine.playAudio("normal2.wav");
-//		}
-//		else {
-//			if(random <= 5) Engine.playAudio("hard3.wav");
-//			else Engine.playAudio("hard3.wav");
-//		}
+		if(Init.settingsData[0] == 1) {
+			if(random <= 5) Engine.playAudio("easy1.wav");
+			else Engine.playAudio("easy2.wav");
+		} else if(Init.settingsData[0] == 2) {
+			if(random <= 5) Engine.playAudio("normal1.wav");
+			else Engine.playAudio("normal2.wav");
+		}
+		else {
+			if(random <= 5) Engine.playAudio("hard3.wav");
+			else Engine.playAudio("hard3.wav");
+		}
 	}
 
 	// Jump
