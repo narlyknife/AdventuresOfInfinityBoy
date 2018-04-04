@@ -179,7 +179,7 @@ public class Engine {
 				} else if(panelName.equals("retry")) {
 					System.out.println("retry");
 					
-					Main.changePanel("gamepanel", (JPanel) new GamePanel());
+					Main.changePanel("gamepanel", new GamePanel());
 					Main.getPanel("gamepanel").add(Main.getSubPanel("pause"), 0);
 					
 					GamePanel.startMusic();
