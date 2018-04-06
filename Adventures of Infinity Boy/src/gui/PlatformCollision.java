@@ -19,13 +19,13 @@ public class PlatformCollision extends JPanel{
 	public PlatformCollision() {
 		setScaleIndex();
 		
-//		this.setBackground(Color.black);
+		this.setBackground(Color.black);
 	}
 	
 	// Applying the scaleIndex to the ground objects X and Y dimensions.
 	// Size changes can be made manually in Init.
 	public void setScaleIndex() {
-		platformCollisionWidth = (int) (1 * Init.getScaleIndexX());
+		platformCollisionWidth = (int) (5 * Init.getScaleIndexX());
 		platformCollisionHeight = (int) (Init.getPlatformSize(1) * Init.getScaleIndexY() / 2);
 	}
 	

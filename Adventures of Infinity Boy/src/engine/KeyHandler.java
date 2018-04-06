@@ -36,16 +36,16 @@ public class KeyHandler{
 		
 		jumpAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				if(GamePanel.jumping() == false || GamePanel.onTopPlat() == true) {
-					GamePanel.jump();
+				if(CharacterTimer.getJumping() == false || CharacterTimer.getOnTopPlat() == true) {
+					CharacterTimer.jump();
 				}
 			}
 		};
 		
 		dropAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				if(GamePanel.onBotPlat()) {
-					GamePanel.drop();
+				if(CharacterTimer.getOnBotPlat()) {
+					CharacterTimer.drop();
 				}
 			}
 		};

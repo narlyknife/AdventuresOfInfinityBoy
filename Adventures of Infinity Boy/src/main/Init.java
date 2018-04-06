@@ -20,6 +20,7 @@ public class Init {
 	final int DEFAULT_Y_VALUE = 1080;
 	final static int[] GROUND_SIZE = {1920, 150};
 	final static int[] PLATFORM_SIZE = {1920, 50};
+	final static int[] OBSTACLE_SIZE = {50, 50};
 	final static int[] CHARACTER_SIZE = {150, 75};
 	public final static int[] SETTINGS_CHAR_SIZE = {340, 460};
 	public final static int[] SETTINGS_DIF_SIZE = {400, 300};
@@ -42,7 +43,7 @@ public class Init {
 	static int vZero = 140;
 	static int splashScreenTime = 0;	// Milliseconds
 	
-	// Hombre font on text
+	// Font on Text - Hombre
 	
 	// Difficulty selection (1-3)
 	// Character selection (1-3)
@@ -55,6 +56,7 @@ public class Init {
 	Init() {
 		// The Main threads FPS
 		setFps(0, 100);
+		setFps(1, 50);
 		
 		// Screen Resolutions in X and Y format
 		SCREEN_RES_X = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
@@ -86,6 +88,10 @@ public class Init {
 	
 	public static int getGroundSize(int element) {
 		return GROUND_SIZE[element];
+	}
+	
+	public static int getObstacleSize(int element) {
+		return OBSTACLE_SIZE[element];
 	}
 	
 	public static int getPlatformSize(int element) {

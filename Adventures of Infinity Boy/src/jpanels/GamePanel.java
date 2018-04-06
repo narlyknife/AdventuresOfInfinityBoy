@@ -9,10 +9,12 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.Timer;
 
+import engine.CharacterTimer;
 import engine.Engine;
 import engine.KeyHandler;
 import gui.Character;
 import gui.GroundBlocks;
+import gui.Obstacle;
 import gui.Platform;
 import gui.PlatformCollision;
 import gui.PlatformPath;
@@ -30,12 +32,11 @@ public class GamePanel extends JPanel implements ActionListener{
 	// Keyhandler
 	private KeyHandler keyHandler = new KeyHandler();
 	
-	// Used for for loops that instantiates unique values for obstacles
-	private static int MAX_OBSTACLES = Init.getPlatformAmount(); 
+	// CharacterTimer
+	private ActionListener charActLis = new CharacterTimer();
 	
-	// Physic variables
-	private static int a = Init.getGravity();
-	private static int vZero = Init.getVZero();
+	// Used for for loops that instantiates unique values for platforms
+	private static int MAX_PLATFORMS = Init.getPlatformAmount(); 
 	
 	// Setting game animation movements
 	private static final int MOVEMENT_SPEED = (int) (Init.getCharacterMovement() * scaleX);
@@ -43,6 +44,7 @@ public class GamePanel extends JPanel implements ActionListener{
 	
 	// Setting timer object with preferred FPS
 	private Timer timer = new Timer(Init.getFps(0), this);
+	private Timer charTimer = new Timer(Init.getFps(1), charActLis);
 	
 	// Image for the character
 	private static Image imgChar = Engine.getImage("Character1.png");
@@ -54,23 +56,37 @@ public class GamePanel extends JPanel implements ActionListener{
 										Engine.getScaledImage(Engine.getImage("Ground4.png"), Init.getGroundSize(0), Init.getGroundSize(1))
 	};
 	
-	// Images for the obstacle blocks
-	private static Image[] imgPlatform = {	Engine.getScaledImage(Engine.getImage("Obstacle1.png"), Init.getGroundSize(0), Init.getGroundSize(1)), 
-											Engine.getScaledImage(Engine.getImage("Obstacle2.png"), Init.getGroundSize(0), Init.getGroundSize(1)),
-											Engine.getScaledImage(Engine.getImage("Obstacle3.png"), Init.getGroundSize(0), Init.getGroundSize(1)),
-											Engine.getScaledImage(Engine.getImage("Obstacle4.png"), Init.getGroundSize(0), Init.getGroundSize(1))
+	// Images for the platform blocks
+	private static Image[] imgPlatform = {	Engine.getScaledImage(Engine.getImage("platform1.png"), Init.getPlatformSize(0), Init.getPlatformSize(1)), 
+											Engine.getScaledImage(Engine.getImage("platform2.png"), Init.getPlatformSize(0), Init.getPlatformSize(1)),
+											Engine.getScaledImage(Engine.getImage("platform3.png"), Init.getPlatformSize(0), Init.getPlatformSize(1)),
+											Engine.getScaledImage(Engine.getImage("platform4.png"), Init.getPlatformSize(0), Init.getPlatformSize(1))
 	};
+	
+	// Images for the obstacles
+	private static Image[] imgObstacle = {	Engine.getScaledImage(Engine.getImage("obstacle1.png"), Init.getObstacleSize(0), Init.getObstacleSize(1)), 
+											Engine.getScaledImage(Engine.getImage("obstacle2.png"), Init.getObstacleSize(0), Init.getObstacleSize(1)),
+											Engine.getScaledImage(Engine.getImage("obstacle3.png"), Init.getObstacleSize(0), Init.getObstacleSize(1)),
+											Engine.getScaledImage(Engine.getImage("obstacle4.png"), Init.getObstacleSize(0), Init.getObstacleSize(1))
+};
 	
 	// Creating objects
-	private static Character character = new Character();
+	public static Character character = new Character();
 	
-	private static GroundBlocks[] ground = {new GroundBlocks(), new GroundBlocks(), new GroundBlocks()};
+	public static GroundBlocks[] ground = {new GroundBlocks(), new GroundBlocks(), new GroundBlocks()};
 
-	private static Platform[] platform = {new Platform(), new Platform(), new Platform()};
-	private static JPanel[] platformPath = {	new PlatformPath(), new PlatformPath(), new PlatformPath(),
+	public static Platform[] platform = {new Platform(), new Platform(), new Platform()};
+	
+	public static Obstacle[] obstacle = {	new Obstacle(), new Obstacle(), new Obstacle(), new Obstacle(), new Obstacle(), new Obstacle(),
+											new Obstacle(), new Obstacle(), new Obstacle(), new Obstacle(), new Obstacle(), new Obstacle(),
+											new Obstacle(), new Obstacle(), new Obstacle(), new Obstacle(), new Obstacle(), new Obstacle()
+											
+	};
+	
+	public static JPanel[] platformPath = {	new PlatformPath(), new PlatformPath(), new PlatformPath(),
 											new PlatformPath(), new PlatformPath(), new PlatformPath()
 	};
-	private static JPanel[] platformCollision = {new PlatformCollision(), new PlatformCollision(), new PlatformCollision()};
+	public static JPanel[] platformCollision = {new PlatformCollision(), new PlatformCollision(), new PlatformCollision()};
 	
 	//########//
 	// Ground //
@@ -78,32 +94,28 @@ public class GamePanel extends JPanel implements ActionListener{
 	// Creating block dimensions
 	private final static int GROUND_HEIGHT = GroundBlocks.getGroundHeight();
 	private final static int GROUND_WIDTH = GroundBlocks.getGroundWidth();
+	
 	// Creating block positions
 	private static int[] groundX = {0, GROUND_WIDTH, GROUND_WIDTH * 2};
 	private static int groundY = resY - GROUND_HEIGHT;
 	
 	// Current platform in use
-	private static int currentGround = 0;
+	public static int currentGround = 0;
 	
 	//###########//
 	// Platforms //
 	private final static int PLATFORM_HEIGHT = (int) (Platform.getPlatformHeight() * scaleY);
-	private final static int PLATFORM_WIDTH = Platform.getPlatformWidth();
+	public final static int PLATFORM_WIDTH = Platform.getPlatformWidth();
 	
-	private final static int PLATFORM_PATH_HEIGHT = PlatformPath.getPlatformPathHeight();
+	public final static int PLATFORM_PATH_HEIGHT = PlatformPath.getPlatformPathHeight();
 	private final static int PLATFORM_PATH_WIDTH = PlatformPath.getPlatformPathWidth();
 	
-	private final static int PLATFORM_COLLISION_HEIGHT = PlatformCollision.getplatformCollisionHeight();
+	public final static int PLATFORM_COLLISION_HEIGHT = PlatformCollision.getplatformCollisionHeight();
 	private final static int PLATFORM_COLLISION_WIDTH = PlatformCollision.getplatformCollisionWidth();
 	
 	// Used for storing unique coordinates for obstacles
-	private static int[] platformX = new int[MAX_OBSTACLES];
-	private static int[] platformY = new int[MAX_OBSTACLES];
-	
-	// Setting coordinate values into shorter names for easier use in ex. collision handling
-	static int[] oTop = new int[MAX_OBSTACLES];
-	static int[] oBot = new int[MAX_OBSTACLES];
-	static int[] oX = new int[MAX_OBSTACLES];
+	private static int[] platformX = new int[MAX_PLATFORMS];
+	private static int[] platformY = new int[MAX_PLATFORMS];
 	
 
 	// Settings coordinate system for placement of platforms
@@ -113,25 +125,20 @@ public class GamePanel extends JPanel implements ActionListener{
 	private static boolean firstTimeSpawn = true;
 	
 	// Current platform in use
-	private static int currentPlatform = 0;
+	public static int currentPlatform = 0;
+	public static int lastPlatform = 2;
+	
+	//###########//
+	// Obstacles //
+	private final static int OBSTACLE_HEIGHT = (int) (Obstacle.getObstacleHeight() * scaleY);
+	private final static int OBSTACLE_WIDTH = (int) (Obstacle.getObstacleWidth() * scaleX);
+	
+	private final static int OBSTACLE_INCREASE = PLATFORM_WIDTH / 3;
 	
 	//###########//
 	// Character //
 	private final static int CHARACTER_HEIGHT = character.getCharacterHeight();
 	private final static int CHARACTER_WIDTH = character.getCharacterWidth();
-	private static double cClock = 0;
-	private static double jIncrease = 0.1;
-	private static int lastY = 0;
-	private static int y = 0;
-	private static int temp = 0;
-	private static boolean jumping = false;
-	private static boolean drop = false;
-	
-	// Setting coordinate values into shorter names for easier use.
-	private static int cOrigin;			// Point of origin for character (Y). (resY - GROUND_HEIGHT - CHARACTER_HEIGHT)
-	private static int cTempY;
-	private static boolean onBotPlat = false; // Detect if character is currently on top of a platform
-	private static boolean onTopPlat = false; // Detect if character is currently attached to the bottom of a platform
 
 	//#############//
 	// Constructor //
@@ -149,7 +156,14 @@ public class GamePanel extends JPanel implements ActionListener{
 		this.getActionMap().put("jump", keyHandler.getJumpAction());
 		this.getActionMap().put("drop", keyHandler.getDropAction());
 		
-		// Setting start values for obstacles
+		// Setting ground block size, starting location and image
+		for(int i = 0; i < ground.length; i++) {
+			ground[i].setLocation(groundX[i], resY - GROUND_HEIGHT);
+			ground[i].setSize(GROUND_WIDTH, GROUND_HEIGHT);
+			ground[i].setGroundImage(Engine.pickRandomImage(imgGround));
+		}
+		
+		// Setting start values for platforms
 		for (int i = 0; i < platform.length; i++) {
 			if(i == platform.length/2) firstTimeSpawn = false;
 			
@@ -158,17 +172,13 @@ public class GamePanel extends JPanel implements ActionListener{
 			
 			platform[i].setLocation(platformX[i], platformY[i]);
 			platform[i].setSize(PLATFORM_WIDTH, PLATFORM_HEIGHT);
-			platform[i].setObstacleImage(Engine.pickRandomImage(imgPlatform));
+			platform[i].setPlatformImage(Engine.pickRandomImage(imgPlatform));
 			
 			platformPath[i].setLocation(platformX[i], platformY[i] - PLATFORM_PATH_HEIGHT);
 			platformPath[i].setSize(PLATFORM_PATH_WIDTH, PLATFORM_PATH_HEIGHT);
 			
-			platformCollision[i].setLocation(platformX[i] - PLATFORM_COLLISION_WIDTH, platformY[i]);
+			platformCollision[i].setLocation(platformX[i] - PLATFORM_COLLISION_WIDTH, platformY[i] + (PLATFORM_COLLISION_HEIGHT / 2));
 			platformCollision[i].setSize(PLATFORM_COLLISION_WIDTH, PLATFORM_COLLISION_HEIGHT);
-			
-			oTop[i] = platform[i].getY() + 2;
-			oBot[i] = oTop[i] + PLATFORM_HEIGHT - 4;
-			oX[i] = platform[i].getX();
 		}
 		
 		for(int i = platform.length; i < platformPath.length; i++) {
@@ -176,19 +186,50 @@ public class GamePanel extends JPanel implements ActionListener{
 			platformPath[i].setSize(PLATFORM_PATH_WIDTH, PLATFORM_PATH_HEIGHT);
 		}
 		
+		// Setting values for obstacles
+		int selectedPlatform = 0;
+		int selectedXPart = 0;
+		for(int i = 0; i < obstacle.length; i++) {
+			obstacle[i].setSize(OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
+			obstacle[i].setObstacleImage(Engine.pickRandomImage(imgObstacle));
+			
+			int x;
+			int y;
+			int randomOffset = (int) (Math.random() * OBSTACLE_INCREASE);
+			
+			// X CALCULATION //
+			
+			// Place on second platform
+			if((float) i / 6 == 1) {
+				selectedPlatform++;
+				selectedXPart = 0;
+			}
+			// Place on third and last platform
+			if((float) i / 6 == 2) {
+				selectedPlatform++;
+				selectedXPart = 0;
+			}
+			// Next "third part section" of the platform 
+			if(i % 2 == 0) selectedXPart++;
+			
+			x = platform[selectedPlatform].getX() + (OBSTACLE_INCREASE * (selectedXPart - 1)) + randomOffset;
+			
+			// Y CALCULATION //
+			
+			if(i % 2 == 0) {
+				int temp = (int) (Math.random() * 10);
+				if(temp <= 5) y = ground[selectedPlatform].getY() - OBSTACLE_HEIGHT;
+				else y = platform[selectedPlatform].getY() + PLATFORM_HEIGHT;
+			}
+			else y = platform[selectedPlatform].getY() - OBSTACLE_HEIGHT;
+			
+			obstacle[i].setLocation(x, y);
+		}
+		
 		// Setting start values for character
 		character.setLocation((int) (resX * 0.15), resY - (GroundBlocks.getGroundHeight() + CHARACTER_HEIGHT));
 		character.setSize(CHARACTER_WIDTH, CHARACTER_HEIGHT);
 		character.setCharacterImage(imgChar);
-		cOrigin = resY - (GroundBlocks.getGroundHeight() + CHARACTER_HEIGHT);
-		cTempY = cOrigin;
-		
-		// Setting ground block size, starting location and image
-		for(int i = 0; i < ground.length; i++) {
-			ground[i].setLocation(groundX[i], resY - GROUND_HEIGHT);
-			ground[i].setSize(GROUND_WIDTH, GROUND_HEIGHT);
-			ground[i].setGroundImage(Engine.pickRandomImage(imgGround));
-		}
 		
 		// Adding Ground
 		for(int i = 0; i < ground.length; i++) this.add(ground[i]);
@@ -204,9 +245,15 @@ public class GamePanel extends JPanel implements ActionListener{
 			this.add(platformPath[i]);
 		}
 		
+		// Adding obstacles
+		for(int i = 0; i < obstacle.length; i++) {
+			this.add(obstacle[i]);
+		}
+		
 		// Adding Character
 		this.add(character);
 		timer.start();
+		charTimer.start();
 	}
 
 
@@ -218,6 +265,9 @@ public class GamePanel extends JPanel implements ActionListener{
 		for(int i = 0; i < platform.length; i++) {
 			if((platform[i].getX() == character.getX())) {
 				currentPlatform = i;
+				
+				if(i == 0) lastPlatform = 2;
+				else lastPlatform = i - 1;
 			}
 		}
 		
@@ -226,13 +276,6 @@ public class GamePanel extends JPanel implements ActionListener{
 			if(ground[i].getX() == character.getX()) {
 				currentGround = i;
 			}
-		}
-		
-		// Character falls off obstacle
-		if ((Engine.intersects(character, platformPath[currentPlatform]) == false) && (Engine.intersects(character, platformPath[currentPlatform + platform.length]) == false) || drop) {
-			jIncrease = 0.1;
-			onTopPlat = false;
-			onBotPlat = false;
 		}
 		
 		for(int i = 0; i < ground.length; i++) {
@@ -246,88 +289,49 @@ public class GamePanel extends JPanel implements ActionListener{
 			ground[i].setLocation(groundX[i] -= currentSpeed, resY - GROUND_HEIGHT);
 		}
 		
-		// Collision with bottom of platform
-		for(int i = platform.length; i < platformPath.length; i++) {
-			if(Engine.intersects(character, platformPath[i]) && !onBotPlat && !drop) {
-				onBotPlat = true;
-				temp = y;
-				drop = false;
-			}
-		}
-		
-		// Collision with top of platform
-		for(int i = 0; i < platform.length; i++) {
-			if(Engine.intersects(character, platformPath[i]) && !onTopPlat) {
-				onTopPlat = true;
-				jIncrease = 0;
-				drop = false;
-			}
-		}
-		
-		// Collision with collision part of platform.. Punishable by Death!
-		for(int i = 0; i < platform.length; i++) {
-			if(Engine.intersects(character, platformCollision[i]) && !onTopPlat) {
-				System.out.println("NOTE: Player collided with platform front");
-				System.exit(0);
-			}
-		}
-		
 		for (int i = 0; i < platform.length; i++) {
 			// Resetting platform block
 			if ((platformX[i] + PLATFORM_WIDTH) <= -10) {
 				platformX[i] = newCoord(0, i);
 				platformY[i] = newCoord(1, i);
-				oTop[i] = platform[i].getY();
-				oBot[i] = oTop[i] + PLATFORM_HEIGHT;
-				platform[i].setObstacleImage(Engine.pickRandomImage(imgPlatform));
+				platform[i].setPlatformImage(Engine.pickRandomImage(imgPlatform));
+				
+				// Resetting obstacle blocks
+				int selectedXPart = 0;
+				int x;
+				int y;
+				
+				for(int j = 6 * i; j < (6 * (i+1) - 1); j++) {
+					int randomOffset = (int) (Math.random() * OBSTACLE_INCREASE);
+					
+					// Next "third part section" of the platform 
+					if(j % 2 == 0) selectedXPart++;
+					
+					if(selectedXPart != 3) x = platformX[i] + (OBSTACLE_INCREASE * (selectedXPart - 1)) + randomOffset;
+					else x = platformX[i] + (OBSTACLE_INCREASE * (selectedXPart - 1)) + randomOffset - OBSTACLE_WIDTH;
+					
+					// Y CALCULATION //
+					
+					if(j % 2 == 0) {
+						int temp = (int) (Math.random() * 10);
+						if(temp <= 5) y = ground[i].getY() - OBSTACLE_HEIGHT;
+						else y = platformY[i] + PLATFORM_HEIGHT;
+					}
+					else y = platformY[i] - OBSTACLE_HEIGHT;
+					obstacle[j].setLocation(x, y);
+				}
+				
 			}
 			
 			// Animating platform block
 			platform[i].setLocation(platformX[i] -= currentSpeed, platformY[i]);
 			platformPath[i].setLocation(platformX[i], platformY[i] - PLATFORM_PATH_HEIGHT);
 			platformPath[i + platform.length].setLocation(platformX[i - platform.length + platform.length], platformY[i - platform.length + platform.length] + PLATFORM_HEIGHT);
-			platformCollision[i].setLocation(platformX[i] - PLATFORM_COLLISION_WIDTH, platformY[i]);
-			oX[i] = platform[i].getX();
+			platformCollision[i].setLocation(platformX[i] - PLATFORM_COLLISION_WIDTH, platform[i].getY() + (PLATFORM_COLLISION_HEIGHT / 2));
 		}
 		
-		// Jumping physics
-		if (jumping) {
-			y = (int) (((vZero * cClock) - ((a*Math.pow(cClock, 2))/2)) * scaleY); // y=V*t*(at^2)/2
-			
-			if (onBotPlat) {
-				if (y == temp) {
-					jIncrease = 0;
-				}
-				else {
-					jIncrease = 0.1;
-				}
-				y = temp;
-				cClock += jIncrease;
-				lastY = y;
-			}
-			else {
-//				System.out.println("cTempY = " + cTempY);
-//				System.out.println("temp = " + temp);
-//				System.out.println("y = " + y);
-//				System.out.println("Character = " + (cTempY - y) + "\n");
-				if(drop) {
-					if(Engine.intersects(character, ground[currentGround]) == false) {
-						character.setLocation(character.getX(), cTempY + (int) (280 * scaleY) - (y + temp));
-					}
-				}
-				else character.setLocation(character.getX(), cTempY - y);
-				cClock += jIncrease;
-				lastY = y;
-			}
-		}
-		
-		// Character stays on ground
-		if ((cTempY - y) >= cOrigin && jumping) {
-			character.setLocation(character.getX(), cOrigin);
-			cClock = 0;
-			y = 0;
-			jumping = false;
-			temp = 0;
+		for(int i = 0; i < obstacle.length; i++) {
+			obstacle[i].setLocation(obstacle[i].getX() - currentSpeed, obstacle[i].getY());
 		}
 	}
 
@@ -397,41 +401,6 @@ public class GamePanel extends JPanel implements ActionListener{
 			else Engine.playAudio("hard3.wav");
 		}
 	}
-
-	// Jump
-	public static boolean jumping() {
-		return jumping;
-	}
-
-	public static void jump() {
-		if(onTopPlat) {
-			character.setLocation(character.getX(), platform[currentPlatform].getY() - character.getHeight());
-		};
-		
-		cClock = 0.1;
-		jIncrease = 0.1;
-		y = 1;
-		cTempY = character.getY();
-		onTopPlat = false;
-		onBotPlat = false;
-		temp = 0;
-		drop = false;
-		jumping = true;
-	}
-	
-	public static void drop() {
-		drop = true;
-		onBotPlat = false;
-		jIncrease = 0.1;
-	}
-	
-	public static boolean onTopPlat() {
-		return onTopPlat;
-	}
-	
-	public static boolean onBotPlat() {
-		return onBotPlat;
-	}
 	
 	// Pausing & Resuming
 	public static void resumeGame() {
@@ -445,15 +414,14 @@ public class GamePanel extends JPanel implements ActionListener{
 	public static void reset() {
 		firstTimeSpawn = true;
 		currentPlatform = 0;
-		cClock = 0;
-		jIncrease = 0.1;
-		lastY = 0;
-		y = 0;
-		temp = 0;
-		jumping = false;
-		drop = false;
-		onBotPlat = false;
-		onTopPlat = false;
+		
+		for(int i = 0; i < ground.length; i++) {
+			groundX[i] = GROUND_WIDTH * i;
+			ground[i].setLocation(groundX[i], resY - GROUND_HEIGHT);
+			ground[i].setSize(GROUND_WIDTH, GROUND_HEIGHT);
+			ground[i].setGroundImage(Engine.pickRandomImage(imgGround));
+		}
+		
 		for (int i = 0; i < platform.length; i++) {
 			if(i == platform.length/2) firstTimeSpawn = false;
 			
@@ -462,20 +430,16 @@ public class GamePanel extends JPanel implements ActionListener{
 			
 			platform[i].setLocation(platformX[i], platformY[i]);
 			platform[i].setSize(PLATFORM_WIDTH, PLATFORM_HEIGHT);
-			platform[i].setObstacleImage(Engine.pickRandomImage(imgPlatform));
+			platform[i].setPlatformImage(Engine.pickRandomImage(imgPlatform));
 			
 			platformPath[i].setLocation(platformX[i], platformY[i] - PLATFORM_PATH_HEIGHT);
 			platformPath[i].setSize(PLATFORM_PATH_WIDTH, PLATFORM_PATH_HEIGHT);
 			
 			platformCollision[i].setLocation(platformX[i] - PLATFORM_COLLISION_WIDTH, platformY[i]);
 			platformCollision[i].setSize(PLATFORM_COLLISION_WIDTH, PLATFORM_COLLISION_HEIGHT);
-			
-			oTop[i] = platform[i].getY() + 2;
-			oBot[i] = oTop[i] + PLATFORM_HEIGHT - 4;
-			oX[i] = platform[i].getX();
 		}
+		CharacterTimer.fullReset();
 		character.setLocation((int) (resX * 0.15), resY - (GroundBlocks.getGroundHeight() + CHARACTER_HEIGHT));
-		cTempY = cOrigin;
 		startMusic();
 	}
 }
