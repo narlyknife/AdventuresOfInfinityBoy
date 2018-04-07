@@ -68,7 +68,14 @@ public class GamePanel extends JPanel implements ActionListener{
 											Engine.getScaledImage(Engine.getImage("obstacle2.png"), Init.getObstacleSize(0), Init.getObstacleSize(1)),
 											Engine.getScaledImage(Engine.getImage("obstacle3.png"), Init.getObstacleSize(0), Init.getObstacleSize(1)),
 											Engine.getScaledImage(Engine.getImage("obstacle4.png"), Init.getObstacleSize(0), Init.getObstacleSize(1))
-};
+	};
+	
+	// Images for the obstacles Large
+	private static Image[] imgObstacleLarge = {	Engine.getScaledImage(Engine.getImage("obstacle1.png"), Init.getObstacleLargeSize(0), Init.getObstacleLargeSize(1)), 
+												Engine.getScaledImage(Engine.getImage("obstacle2.png"), Init.getObstacleLargeSize(0), Init.getObstacleLargeSize(1)),
+												Engine.getScaledImage(Engine.getImage("obstacle3.png"), Init.getObstacleLargeSize(0), Init.getObstacleLargeSize(1)),
+												Engine.getScaledImage(Engine.getImage("obstacle4.png"), Init.getObstacleLargeSize(0), Init.getObstacleLargeSize(1))
+	};
 	
 	// Creating objects
 	public static Character character = new Character();
@@ -133,6 +140,9 @@ public class GamePanel extends JPanel implements ActionListener{
 	private final static int OBSTACLE_HEIGHT = (int) (Obstacle.getObstacleHeight() * scaleY);
 	private final static int OBSTACLE_WIDTH = (int) (Obstacle.getObstacleWidth() * scaleX);
 	
+	private final static int OBSTACLE_LARGE_HEIGHT = (int) (Obstacle.getObstacleLargeHeight() * scaleY);
+	private final static int OBSTACLE_LARGE_WIDTH = (int) (Obstacle.getObstacleLargeWidth() * scaleX);
+	
 	private final static int OBSTACLE_INCREASE = PLATFORM_WIDTH / 3;
 	
 	//###########//
@@ -190,8 +200,16 @@ public class GamePanel extends JPanel implements ActionListener{
 		int selectedPlatform = 0;
 		int selectedXPart = 0;
 		for(int i = 0; i < obstacle.length; i++) {
-			obstacle[i].setSize(OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
-			obstacle[i].setObstacleImage(Engine.pickRandomImage(imgObstacle));
+			if(i % 2 == 0) {
+				obstacle[i].setSize(OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
+				obstacle[i].setObstacleImage(Engine.pickRandomImage(imgObstacle));
+			}
+			else {
+				obstacle[i].setSize(OBSTACLE_LARGE_WIDTH, OBSTACLE_LARGE_HEIGHT);
+				obstacle[i].setObstacleImage(Engine.pickRandomImage(imgObstacleLarge));
+			}
+
+			
 			
 			int x;
 			int y;
@@ -212,7 +230,8 @@ public class GamePanel extends JPanel implements ActionListener{
 			// Next "third part section" of the platform 
 			if(i % 2 == 0) selectedXPart++;
 			
-			x = platform[selectedPlatform].getX() + (OBSTACLE_INCREASE * (selectedXPart - 1)) + randomOffset;
+			if(selectedXPart != 3) x = platform[selectedPlatform].getX() + (OBSTACLE_INCREASE * (selectedXPart - 1)) + randomOffset;
+			else x = platform[selectedPlatform].getX() + (OBSTACLE_INCREASE * (selectedXPart - 1)) + randomOffset - OBSTACLE_LARGE_WIDTH;
 			
 			// Y CALCULATION //
 			
@@ -221,7 +240,7 @@ public class GamePanel extends JPanel implements ActionListener{
 				if(temp <= 5) y = ground[selectedPlatform].getY() - OBSTACLE_HEIGHT;
 				else y = platform[selectedPlatform].getY() + PLATFORM_HEIGHT;
 			}
-			else y = platform[selectedPlatform].getY() - OBSTACLE_HEIGHT;
+			else y = platform[selectedPlatform].getY() - OBSTACLE_LARGE_HEIGHT;
 			
 			obstacle[i].setLocation(x, y);
 		}
@@ -317,7 +336,7 @@ public class GamePanel extends JPanel implements ActionListener{
 						if(temp <= 5) y = ground[i].getY() - OBSTACLE_HEIGHT;
 						else y = platformY[i] + PLATFORM_HEIGHT;
 					}
-					else y = platformY[i] - OBSTACLE_HEIGHT;
+					else y = platformY[i] - OBSTACLE_LARGE_HEIGHT;
 					obstacle[j].setLocation(x, y);
 				}
 				
@@ -438,8 +457,56 @@ public class GamePanel extends JPanel implements ActionListener{
 			platformCollision[i].setLocation(platformX[i] - PLATFORM_COLLISION_WIDTH, platformY[i]);
 			platformCollision[i].setSize(PLATFORM_COLLISION_WIDTH, PLATFORM_COLLISION_HEIGHT);
 		}
+		
+		// Setting values for obstacles
+		int selectedPlatform = 0;
+		int selectedXPart = 0;
+		for(int i = 0; i < obstacle.length; i++) {
+			if(i % 2 == 0) {
+				obstacle[i].setSize(OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
+				obstacle[i].setObstacleImage(Engine.pickRandomImage(imgObstacle));
+			}
+			else {
+				obstacle[i].setSize(OBSTACLE_LARGE_WIDTH, OBSTACLE_LARGE_HEIGHT);
+				obstacle[i].setObstacleImage(Engine.pickRandomImage(imgObstacleLarge));
+			}
+				
+			
+			int x;
+			int y;
+			int randomOffset = (int) (Math.random() * OBSTACLE_INCREASE);
+			
+			// X CALCULATION //
+			
+			// Place on second platform
+			if((float) i / 6 == 1) {
+				selectedPlatform++;
+				selectedXPart = 0;
+			}
+			// Place on third and last platform
+			if((float) i / 6 == 2) {
+				selectedPlatform++;
+				selectedXPart = 0;
+			}
+			// Next "third part section" of the platform 
+			if(i % 2 == 0) selectedXPart++;
+			
+			if(selectedXPart != 3) x = platform[selectedPlatform].getX() + (OBSTACLE_INCREASE * (selectedXPart - 1)) + randomOffset;
+			else x = platform[selectedPlatform].getX() + (OBSTACLE_INCREASE * (selectedXPart - 1)) + randomOffset - OBSTACLE_LARGE_WIDTH;
+			
+			// Y CALCULATION //
+			
+			if(i % 2 == 0) {
+				int temp = (int) (Math.random() * 10);
+				if(temp <= 5) y = ground[selectedPlatform].getY() - OBSTACLE_HEIGHT;
+				else y = platform[selectedPlatform].getY() + PLATFORM_HEIGHT;
+			}
+			else y = platform[selectedPlatform].getY() - OBSTACLE_LARGE_HEIGHT;
+			
+			obstacle[i].setLocation(x, y);
+		}
+	
 		CharacterTimer.fullReset();
 		character.setLocation((int) (resX * 0.15), resY - (GroundBlocks.getGroundHeight() + CHARACTER_HEIGHT));
-		startMusic();
 	}
 }

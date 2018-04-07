@@ -114,9 +114,15 @@ public class Main {
 		setPanel("mainmenu");
 		
 		getPanel("gamepanel").add(getSubPanel("pause"), 0);
+		getPanel("gamepanel").add(getSubPanel("gameover"), 0);
+		
 		getSubPanel("pause").setSize(Init.SCREEN_RES_X, Init.SCREEN_RES_Y);
 		getSubPanel("pause").setLocation(0, 0);
 		getSubPanel("pause").setVisible(false);
+		
+		getSubPanel("gameover").setSize(Init.SCREEN_RES_X, Init.SCREEN_RES_Y);
+		getSubPanel("gameover").setLocation(0, 0);
+		getSubPanel("gameover").setVisible(false);
 		
 		System.out.println("DONE: Primary GUI configuration");
 		
@@ -132,7 +138,7 @@ public class Main {
 	
 	// Show a splashscreen with selected panels before and after.
 	private static void showSplashScreen(String splashscreen, JFrame frame, int time) {
-//		Engine.playAudio("Splashscreen.wav");
+		Engine.playAudio("Splashscreen.wav");
 		
 		setPanel(splashscreen);
 		

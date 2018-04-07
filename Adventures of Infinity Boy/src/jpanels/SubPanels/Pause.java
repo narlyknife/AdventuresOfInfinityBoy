@@ -24,8 +24,6 @@ public class Pause extends JPanel{
 	static int resX = Init.getResX();
 	static int resY = Init.getResY();
 	
-	static Font font = Init.getFont();
-	
 	static float scaleX = Init.getScaleIndexX();
 	static float scaleY = Init.getScaleIndexY();	
 	

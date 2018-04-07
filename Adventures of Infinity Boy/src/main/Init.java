@@ -21,6 +21,7 @@ public class Init {
 	final static int[] GROUND_SIZE = {1920, 150};
 	final static int[] PLATFORM_SIZE = {1920, 50};
 	final static int[] OBSTACLE_SIZE = {50, 50};
+	final static int[] OBSTACLE_LARGE_SIZE = {75, 100};
 	final static int[] CHARACTER_SIZE = {150, 75};
 	public final static int[] SETTINGS_CHAR_SIZE = {340, 460};
 	public final static int[] SETTINGS_DIF_SIZE = {400, 300};
@@ -41,7 +42,7 @@ public class Init {
 	static float scaleIndexY = 1;
 	static int a = 35;
 	static int vZero = 140;
-	static int splashScreenTime = 0;	// Milliseconds
+	static int splashScreenTime = 5000;	// Milliseconds
 	
 	// Font on Text - Hombre
 	
@@ -92,6 +93,10 @@ public class Init {
 	
 	public static int getObstacleSize(int element) {
 		return OBSTACLE_SIZE[element];
+	}
+	
+	public static int getObstacleLargeSize(int element) {
+		return OBSTACLE_LARGE_SIZE[element];
 	}
 	
 	public static int getPlatformSize(int element) {

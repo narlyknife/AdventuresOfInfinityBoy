@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import jpanels.GamePanel;
 import main.Init;
+import main.Main;
 import gui.Character;
 import gui.GroundBlocks;
 
@@ -34,13 +35,13 @@ public class CharacterTimer implements ActionListener{
 		// Checking if character collides with front of platform
 		for(int i = 0; i < GamePanel.platform.length; i++) {
 			if(Engine.intersects(character, GamePanel.platformCollision[i])) {
-				System.exit(0);
+				gameOver();
 			}
 		}
 		
 		for(int i = 0; i < GamePanel.obstacle.length; i++) {
 			if(Engine.intersects(character, GamePanel.obstacle[i])) {
-				System.exit(0);
+				gameOver();
 			}
 		}
 
@@ -173,6 +174,13 @@ public class CharacterTimer implements ActionListener{
 		
 		onBotPlat = false; 			
 		onTopPlat = false;
+	}
+	
+	public static void gameOver(){
+		System.out.println("Game Over");
+		Engine.stopAudio();
+		Main.showSubPanel(Main.getSubPanel("gameover"), true);
+		GamePanel.pauseGame();
 	}
 	
 	public static void setFalling(boolean bool) {

@@ -153,6 +153,10 @@ public class Engine {
 				if(panelName.equals("gamepanel")) {
 					GamePanel.startMusic();
 					GamePanel.resumeGame();
+					GamePanel.reset();
+					KeyHandler.gamePaused = false;
+					Main.showSubPanel(Main.getSubPanel("pause"), false);
+					Main.showSubPanel(Main.getSubPanel("gameover"), false);
 				}
 				if(panelName.equals("settings")) {
 					Engine.readTxtFile(Init.SETTINGS_PATH);
@@ -180,7 +184,9 @@ public class Engine {
 				} else if(panelName.equals("retry")) {  // Retry
 					GamePanel.reset();
 					GamePanel.resumeGame();
+					GamePanel.startMusic();
 					Main.showSubPanel(Main.getSubPanel("pause"), false);
+					Main.showSubPanel(Main.getSubPanel("gameover"), false);
 					
 					KeyHandler.gamePaused = false;
           

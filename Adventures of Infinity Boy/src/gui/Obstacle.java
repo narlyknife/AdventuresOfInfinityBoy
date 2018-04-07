@@ -16,11 +16,16 @@ public class Obstacle extends JPanel{
 	
 	private static int obstacleWidth;
 	private static int obstacleHeight;
+	private static int obstacleLargeWidth;
+	private static int obstacleLargeHeight;
 	
 	private Image chosenImage;
 	
 	public Obstacle() {
-		setScaleIndex();
+		obstacleWidth = Init.getObstacleSize(0);
+		obstacleHeight = Init.getObstacleSize(1);
+		obstacleLargeWidth = Init.getObstacleLargeSize(0);
+		obstacleLargeHeight = Init.getObstacleLargeSize(1);
 	}
 		
 	public void paintComponent(Graphics g) {
@@ -29,19 +34,20 @@ public class Obstacle extends JPanel{
 		g.drawImage(chosenImage, 0, 0, this);
 	}
 	
-	// Applying the scaleIndex to the ground objects X and Y dimensions.
-	// Size changes can be made manually in Init.
-	public void setScaleIndex() {
-		obstacleWidth = (int) (Init.getObstacleSize(0) * Init.getScaleIndexX());
-		obstacleHeight = (int) (Init.getObstacleSize(1) * Init.getScaleIndexY());
-	}
-	
 	public static int getObstacleWidth() {
 		return obstacleWidth;
 	}
 	
 	public static int getObstacleHeight() {
 		return obstacleHeight;
+	}
+	
+	public static int getObstacleLargeWidth() {
+		return obstacleLargeWidth;
+	}
+	
+	public static int getObstacleLargeHeight() {
+		return obstacleLargeHeight;
 	}
 	
 	public void setObstacleImage(Image image) {
