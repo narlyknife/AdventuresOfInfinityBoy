@@ -32,7 +32,7 @@ public class ScoreBoard extends JPanel{
 	private Image img;
 	
 	public ScoreBoard() {
-		img = new ImageIcon(MainMenu.class.getResource("/Pictures/settingsBackground.png")).getImage();
+		img = new ImageIcon(MainMenu.class.getResource("/resources/settingsBackground.png")).getImage();
 		
 		this.setLayout(null);
 		

@@ -52,7 +52,7 @@ public class Init {
 	// Toggle music (0-1) 
 	// 0 = false, 1 = true
 	public static int[] settingsData = {1, 1, 1, 1, 34274566};
-	public final static String SETTINGS_PATH = "src/Settings/settings.txt";
+	public final static String SETTINGS_PATH = "Settings.txt";
 	
 	Init() {
 		// The Main threads FPS

@@ -7,14 +7,17 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -40,13 +43,13 @@ public class Engine {
 	// Write data to a specific file relative to the projects directory
 	public static void writeTxtFile(String path, int[] dataStream){
 		try {
-			PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(path)));		// Creating PrintWriter object from a selected file
-			
+			PrintWriter file = new PrintWriter(new BufferedWriter(new FileWriter(path)));
+	
 			for(int data : dataStream){
-				writer.println(data);
+				file.println(data);
 			}
 			
-			writer.close();
+			file.close();
 			System.out.println("\nDONE: New settings file created");
 		} catch (IOException e) {
 			System.out.println("\nERROR: Failed creating new settings file\t\t\tX");
@@ -76,7 +79,13 @@ public class Engine {
 	}
 	
 	public static Image getImage(String name) {
-		return new ImageIcon(Engine.class.getResource("/Pictures/" + name)).getImage();
+		try {
+			return ImageIO.read(Engine.class.getResourceAsStream("/resources/" + name));
+		} catch (IOException e) {
+			System.out.println("ERROR: Couldn't load image" + name);
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	// Get a scaled version of an image
@@ -95,8 +104,8 @@ public class Engine {
 		ImageIcon value[] = new ImageIcon[2];
 		
 		if(!name.toLowerCase().contains("title")) {
-			value[0] = new ImageIcon(Engine.getScaledImage(getImage(name + "def.png"), (int) x, (int) y));
-			value[1] = new ImageIcon(Engine.getScaledImage(getImage(name + "hov.png"), (int) x, (int) y));
+			value[0] = new ImageIcon(Engine.getScaledImage(getImage(name + "Def.png"), (int) x, (int) y));
+			value[1] = new ImageIcon(Engine.getScaledImage(getImage(name + "Hov.png"), (int) x, (int) y));
 		}
 		else {
 			value[0] = new ImageIcon(Engine.getScaledImage(getImage(name + ".png"), (int) x, (int) y));
@@ -109,9 +118,10 @@ public class Engine {
 		try {
 			System.out.println("NOTE: Playing audio");
 	        clip = AudioSystem.getClip();
-	        AudioInputStream inputStream = AudioSystem.getAudioInputStream(
-	        		Engine.class.getResourceAsStream("/Audio/" + name));
-	        clip.open(inputStream);
+	        InputStream audioSrc = Engine.class.getResourceAsStream("/Audio/" + name);
+	        InputStream bufferedIn = new BufferedInputStream(audioSrc);
+	        AudioInputStream audioStream = AudioSystem.getAudioInputStream(bufferedIn);
+	        clip.open(audioStream);
 	        clip.start();
 		} catch(Exception e) {
 			System.out.println("ERROR: Failed to load audio");

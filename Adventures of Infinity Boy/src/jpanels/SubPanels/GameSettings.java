@@ -15,10 +15,10 @@ import jpanels.Settings;
 
 public class GameSettings extends JPanel{
 	
-	static Image checkTrue = new ImageIcon(GameSettings.class.getResource("/Pictures/checktrue.png")).getImage();
-	static Image checkFalse = new ImageIcon(GameSettings.class.getResource("/Pictures/checkfalse.png")).getImage();
-	static Image textMusic = new ImageIcon(GameSettings.class.getResource("/Pictures/textMusic.png")).getImage();
-	static Image textSplashscreen = new ImageIcon(GameSettings.class.getResource("/Pictures/textSplashscreen.png")).getImage();
+	static Image checkTrue = new ImageIcon(GameSettings.class.getResource("/resources/checktrue.png")).getImage();
+	static Image checkFalse = new ImageIcon(GameSettings.class.getResource("/resources/checkfalse.png")).getImage();
+	static Image textMusic = new ImageIcon(GameSettings.class.getResource("/resources/textMusic.png")).getImage();
+	static Image textSplashscreen = new ImageIcon(GameSettings.class.getResource("/resources/textSplashscreen.png")).getImage();
 	
 	static ImageIcon checkTrueScaled;
 	static ImageIcon checkFalseScaled;
