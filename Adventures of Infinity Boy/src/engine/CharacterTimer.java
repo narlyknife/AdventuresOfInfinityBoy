@@ -39,6 +39,7 @@ public class CharacterTimer implements ActionListener{
 			}
 		}
 		
+		// Checking if character collides with an obstacle
 		for(int i = 0; i < GamePanel.obstacle.length; i++) {
 			if(Engine.intersects(character, GamePanel.obstacle[i])) {
 				gameOver();
@@ -118,13 +119,15 @@ public class CharacterTimer implements ActionListener{
 			else {
 				character.setLocation(character.getX(), nextY);
 				
-				// Collision with top of a platform
-				if(Engine.intersects(character, GamePanel.platformPath[GamePanel.currentPlatform])) {
-					character.setLocation(character.getX(), GamePanel.platformPath[GamePanel.currentPlatform].getY() - (int) (character.getHeight() * 0.9));
-					falling = false;
-					
-					resetPhys();
-					onTopPlat = true;
+				// Collision with top of current platform
+				for(int i = 0; i < GamePanel.platform.length; i++) {
+					if(Engine.intersects(character, GamePanel.platformPath[i])) {
+						character.setLocation(character.getX(), GamePanel.platformPath[i].getY() - (int) (character.getHeight() * 0.9));
+						falling = false;
+						
+						resetPhys();
+						onTopPlat = true;
+					}
 				}
 			}
 		}
@@ -177,7 +180,6 @@ public class CharacterTimer implements ActionListener{
 	}
 	
 	public static void gameOver(){
-		System.out.println("Game Over");
 		Engine.stopAudio();
 		Main.showSubPanel(Main.getSubPanel("gameover"), true);
 		GamePanel.pauseGame();

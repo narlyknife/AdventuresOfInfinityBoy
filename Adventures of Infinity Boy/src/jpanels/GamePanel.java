@@ -111,7 +111,7 @@ public class GamePanel extends JPanel implements ActionListener{
 	
 	//###########//
 	// Platforms //
-	private final static int PLATFORM_HEIGHT = (int) (Platform.getPlatformHeight() * scaleY);
+	private final static int PLATFORM_HEIGHT = Platform.getPlatformHeight();
 	public final static int PLATFORM_WIDTH = Platform.getPlatformWidth();
 	
 	public final static int PLATFORM_PATH_HEIGHT = PlatformPath.getPlatformPathHeight();
@@ -143,7 +143,8 @@ public class GamePanel extends JPanel implements ActionListener{
 	private final static int OBSTACLE_LARGE_HEIGHT = (int) (Obstacle.getObstacleLargeHeight() * scaleY);
 	private final static int OBSTACLE_LARGE_WIDTH = (int) (Obstacle.getObstacleLargeWidth() * scaleX);
 	
-	private final static int OBSTACLE_INCREASE = PLATFORM_WIDTH / 3;
+	// Divide each platform into 6 pieces
+	private final static int OBSTACLE_INCREASE = PLATFORM_WIDTH / 6;
 	
 	//###########//
 	// Character //
@@ -196,54 +197,7 @@ public class GamePanel extends JPanel implements ActionListener{
 			platformPath[i].setSize(PLATFORM_PATH_WIDTH, PLATFORM_PATH_HEIGHT);
 		}
 		
-		// Setting values for obstacles
-		int selectedPlatform = 0;
-		int selectedXPart = 0;
-		for(int i = 0; i < obstacle.length; i++) {
-			if(i % 2 == 0) {
-				obstacle[i].setSize(OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
-				obstacle[i].setObstacleImage(Engine.pickRandomImage(imgObstacle));
-			}
-			else {
-				obstacle[i].setSize(OBSTACLE_LARGE_WIDTH, OBSTACLE_LARGE_HEIGHT);
-				obstacle[i].setObstacleImage(Engine.pickRandomImage(imgObstacleLarge));
-			}
-
-			
-			
-			int x;
-			int y;
-			int randomOffset = (int) (Math.random() * OBSTACLE_INCREASE);
-			
-			// X CALCULATION //
-			
-			// Place on second platform
-			if((float) i / 6 == 1) {
-				selectedPlatform++;
-				selectedXPart = 0;
-			}
-			// Place on third and last platform
-			if((float) i / 6 == 2) {
-				selectedPlatform++;
-				selectedXPart = 0;
-			}
-			// Next "third part section" of the platform 
-			if(i % 2 == 0) selectedXPart++;
-			
-			if(selectedXPart != 3) x = platform[selectedPlatform].getX() + (OBSTACLE_INCREASE * (selectedXPart - 1)) + randomOffset;
-			else x = platform[selectedPlatform].getX() + (OBSTACLE_INCREASE * (selectedXPart - 1)) + randomOffset - OBSTACLE_LARGE_WIDTH;
-			
-			// Y CALCULATION //
-			
-			if(i % 2 == 0) {
-				int temp = (int) (Math.random() * 10);
-				if(temp <= 5) y = ground[selectedPlatform].getY() - OBSTACLE_HEIGHT;
-				else y = platform[selectedPlatform].getY() + PLATFORM_HEIGHT;
-			}
-			else y = platform[selectedPlatform].getY() - OBSTACLE_LARGE_HEIGHT;
-			
-			obstacle[i].setLocation(x, y);
-		}
+		setHardLevelObstacles();
 		
 		// Setting start values for character
 		character.setLocation((int) (resX * 0.15), resY - (GroundBlocks.getGroundHeight() + CHARACTER_HEIGHT));
@@ -271,6 +225,7 @@ public class GamePanel extends JPanel implements ActionListener{
 		
 		// Adding Character
 		this.add(character);
+		
 		timer.start();
 		charTimer.start();
 	}
@@ -315,31 +270,7 @@ public class GamePanel extends JPanel implements ActionListener{
 				platformY[i] = newCoord(1, i);
 				platform[i].setPlatformImage(Engine.pickRandomImage(imgPlatform));
 				
-				// Resetting obstacle blocks
-				int selectedXPart = 0;
-				int x;
-				int y;
-				
-				for(int j = 6 * i; j < (6 * (i+1) - 1); j++) {
-					int randomOffset = (int) (Math.random() * OBSTACLE_INCREASE);
-					
-					// Next "third part section" of the platform 
-					if(j % 2 == 0) selectedXPart++;
-					
-					if(selectedXPart != 3) x = platformX[i] + (OBSTACLE_INCREASE * (selectedXPart - 1)) + randomOffset;
-					else x = platformX[i] + (OBSTACLE_INCREASE * (selectedXPart - 1)) + randomOffset - OBSTACLE_WIDTH;
-					
-					// Y CALCULATION //
-					
-					if(j % 2 == 0) {
-						int temp = (int) (Math.random() * 10);
-						if(temp <= 5) y = ground[i].getY() - OBSTACLE_HEIGHT;
-						else y = platformY[i] + PLATFORM_HEIGHT;
-					}
-					else y = platformY[i] - OBSTACLE_LARGE_HEIGHT;
-					obstacle[j].setLocation(x, y);
-				}
-				
+				resetHarLevelObstacles(i);
 			}
 			
 			// Animating platform block
@@ -353,7 +284,84 @@ public class GamePanel extends JPanel implements ActionListener{
 			obstacle[i].setLocation(obstacle[i].getX() - currentSpeed, obstacle[i].getY());
 		}
 	}
+	
+	// Method for reseting a obstacle group - Hard Mode
+	public static void resetHarLevelObstacles(int platformIndex) {
+		// Resetting obstacle blocks
+		int selectedXPart = 0;
+		int x;
+		int y;
+		
+		for(int j = 6 * platformIndex; j < (6 * (platformIndex + 1) - 1); j++) {
+			int randomOffset = (int) (Math.random() * OBSTACLE_INCREASE);
+			
+			// Next "third part section" of the platform 
+			if(j % 2 == 0) selectedXPart += 2;
+			
+			if(selectedXPart != 6) x = platformX[platformIndex] + (OBSTACLE_INCREASE * (selectedXPart - 1)) + randomOffset;
+			else x = platformX[platformIndex] + (OBSTACLE_INCREASE * (selectedXPart - 1)) + randomOffset - OBSTACLE_WIDTH;
+			
+			// Y CALCULATION //
+			
+			if(j % 2 == 0) {
+				int temp = (int) (Math.random() * 10);
+				if(temp <= 5) y = ground[platformIndex].getY() - OBSTACLE_HEIGHT;
+				else y = platformY[platformIndex] + PLATFORM_HEIGHT;
+			}
+			else y = platformY[platformIndex] - OBSTACLE_LARGE_HEIGHT;
+			obstacle[j].setLocation(x, y);
+		}
+	}
 
+	// Method for setting the starting positions of all obstacles - Hard Mode
+	public static void setHardLevelObstacles() {
+		// Setting values for obstacles
+		int selectedPlatform = 0;
+		int selectedXPart = 0;
+		for(int i = 0; i < obstacle.length; i++) {
+			if(i % 2 == 0) {
+				obstacle[i].setSize(OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
+				obstacle[i].setObstacleImage(Engine.pickRandomImage(imgObstacle));
+			}
+			else {
+				obstacle[i].setSize(OBSTACLE_LARGE_WIDTH, OBSTACLE_LARGE_HEIGHT);
+				obstacle[i].setObstacleImage(Engine.pickRandomImage(imgObstacleLarge));
+			}
+
+			int x;
+			int y;
+			int randomOffset = (int) (Math.random() * OBSTACLE_INCREASE);
+				
+			// X CALCULATION //
+			
+			// Place on second platform
+			if((float) i / 6 == 1) {
+				selectedPlatform++;
+				selectedXPart = 0;
+			}
+			// Place on third and last platform
+			if((float) i / 6 == 2) {
+				selectedPlatform++;
+				selectedXPart = 0;
+			}
+			// Next "third part section" of the platform 
+			if(i % 2 == 0) selectedXPart += 2;
+			
+			if(selectedXPart != 6) x = platform[selectedPlatform].getX() + (OBSTACLE_INCREASE * (selectedXPart - 1)) + randomOffset;
+			else x = platform[selectedPlatform].getX() + (OBSTACLE_INCREASE * (selectedXPart - 1)) + randomOffset - OBSTACLE_LARGE_WIDTH;
+			// Y CALCULATION //
+			
+			if(i % 2 == 0) {
+				int temp = (int) (Math.random() * 10);
+				if(temp <= 5) y = ground[selectedPlatform].getY() - OBSTACLE_HEIGHT;
+				else y = platform[selectedPlatform].getY() + PLATFORM_HEIGHT;
+			}
+			else y = platform[selectedPlatform].getY() - OBSTACLE_LARGE_HEIGHT;
+			
+			obstacle[i].setLocation(x, y);
+		}
+	}
+	
 	// Method for getting new coordinates for obstacles
 	public static int newCoord(int axis, int index) {
 		int pos = 0;
@@ -458,53 +466,7 @@ public class GamePanel extends JPanel implements ActionListener{
 			platformCollision[i].setSize(PLATFORM_COLLISION_WIDTH, PLATFORM_COLLISION_HEIGHT);
 		}
 		
-		// Setting values for obstacles
-		int selectedPlatform = 0;
-		int selectedXPart = 0;
-		for(int i = 0; i < obstacle.length; i++) {
-			if(i % 2 == 0) {
-				obstacle[i].setSize(OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
-				obstacle[i].setObstacleImage(Engine.pickRandomImage(imgObstacle));
-			}
-			else {
-				obstacle[i].setSize(OBSTACLE_LARGE_WIDTH, OBSTACLE_LARGE_HEIGHT);
-				obstacle[i].setObstacleImage(Engine.pickRandomImage(imgObstacleLarge));
-			}
-				
-			
-			int x;
-			int y;
-			int randomOffset = (int) (Math.random() * OBSTACLE_INCREASE);
-			
-			// X CALCULATION //
-			
-			// Place on second platform
-			if((float) i / 6 == 1) {
-				selectedPlatform++;
-				selectedXPart = 0;
-			}
-			// Place on third and last platform
-			if((float) i / 6 == 2) {
-				selectedPlatform++;
-				selectedXPart = 0;
-			}
-			// Next "third part section" of the platform 
-			if(i % 2 == 0) selectedXPart++;
-			
-			if(selectedXPart != 3) x = platform[selectedPlatform].getX() + (OBSTACLE_INCREASE * (selectedXPart - 1)) + randomOffset;
-			else x = platform[selectedPlatform].getX() + (OBSTACLE_INCREASE * (selectedXPart - 1)) + randomOffset - OBSTACLE_LARGE_WIDTH;
-			
-			// Y CALCULATION //
-			
-			if(i % 2 == 0) {
-				int temp = (int) (Math.random() * 10);
-				if(temp <= 5) y = ground[selectedPlatform].getY() - OBSTACLE_HEIGHT;
-				else y = platform[selectedPlatform].getY() + PLATFORM_HEIGHT;
-			}
-			else y = platform[selectedPlatform].getY() - OBSTACLE_LARGE_HEIGHT;
-			
-			obstacle[i].setLocation(x, y);
-		}
+		setHardLevelObstacles();
 	
 		CharacterTimer.fullReset();
 		character.setLocation((int) (resX * 0.15), resY - (GroundBlocks.getGroundHeight() + CHARACTER_HEIGHT));

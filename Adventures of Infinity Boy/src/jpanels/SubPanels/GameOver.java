@@ -51,8 +51,8 @@ public class GameOver extends JPanel{
 		Engine.animateLabel(buttons[0], imgRetry, "retry");
 		Engine.animateLabel(buttons[1], imgMainmenu, "mainmenu");
 		
-		int yOffset = 400;
-		int yIncrease = 200;
+		int yOffset = (int) (400 * scaleY);
+		int yIncrease = (int) (200 * scaleY);
 		
 		for(int i = 0; i < buttons.length; i++) {
 			buttons[i].setSize((int) (Init.BUTTON_SET_SIZE[0] * scaleX), (int) (Init.BUTTON_SET_SIZE[1] * scaleY));
