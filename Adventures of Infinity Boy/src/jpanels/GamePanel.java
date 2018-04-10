@@ -18,6 +18,7 @@ import gui.Obstacle;
 import gui.Platform;
 import gui.PlatformCollision;
 import gui.PlatformPath;
+import gui.gameBackground;
 import main.Init;
 
 public class GamePanel extends JPanel implements ActionListener{
@@ -48,6 +49,9 @@ public class GamePanel extends JPanel implements ActionListener{
 	
 	// Image for the character
 	private static Image imgChar = Engine.getImage("Character1.png");
+	
+	// Image for the background
+	private static Image imgBack = Engine.getImage("gameplayBackground.png");
 
 	// Images for the ground blocks
 	private static Image[] imgGround = {Engine.getScaledImage(Engine.getImage("Ground1.png"), Init.getGroundSize(0), Init.getGroundSize(1)), 
@@ -80,6 +84,8 @@ public class GamePanel extends JPanel implements ActionListener{
 	// Creating objects
 	public static Character character = new Character();
 	
+	public static gameBackground[] background = {new gameBackground(), new gameBackground()};
+	
 	public static GroundBlocks[] ground = {new GroundBlocks(), new GroundBlocks(), new GroundBlocks()};
 
 	public static Platform[] platform = {new Platform(), new Platform(), new Platform()};
@@ -94,6 +100,16 @@ public class GamePanel extends JPanel implements ActionListener{
 											new PlatformPath(), new PlatformPath(), new PlatformPath()
 	};
 	public static JPanel[] platformCollision = {new PlatformCollision(), new PlatformCollision(), new PlatformCollision()};
+	
+	//############//
+	// Background //
+	
+	// Creating background dimensions
+	private final static int BACKGROUND_HEIGHT = gameBackground.getGameBackgroundHeight();
+	private final static int BACKGROUND_WIDTH = gameBackground.getGameBackgroundWidth();
+	
+	// Creating background positions
+	private static int[] backX = {0, BACKGROUND_WIDTH};
 	
 	//########//
 	// Ground //
@@ -123,7 +139,6 @@ public class GamePanel extends JPanel implements ActionListener{
 	// Used for storing unique coordinates for obstacles
 	private static int[] platformX = new int[MAX_PLATFORMS];
 	private static int[] platformY = new int[MAX_PLATFORMS];
-	
 
 	// Settings coordinate system for placement of platforms
 	private static int platformYOffset = groundY;
@@ -167,64 +182,34 @@ public class GamePanel extends JPanel implements ActionListener{
 		this.getActionMap().put("jump", keyHandler.getJumpAction());
 		this.getActionMap().put("drop", keyHandler.getDropAction());
 		
-		// Setting ground block size, starting location and image
-		for(int i = 0; i < ground.length; i++) {
-			ground[i].setLocation(groundX[i], resY - GROUND_HEIGHT);
-			ground[i].setSize(GROUND_WIDTH, GROUND_HEIGHT);
-			ground[i].setGroundImage(Engine.pickRandomImage(imgGround));
+		// Adding Background
+		for(int i = 0; i < background.length; i++) {
+			this.add(background[i]);
 		}
 		
-		// Setting start values for platforms
-		for (int i = 0; i < platform.length; i++) {
-			if(i == platform.length/2) firstTimeSpawn = false;
-			
-			platformX[i] = newCoord(0, i);
-			platformY[i] = newCoord(1, i);
-			
-			platform[i].setLocation(platformX[i], platformY[i]);
-			platform[i].setSize(PLATFORM_WIDTH, PLATFORM_HEIGHT);
-			platform[i].setPlatformImage(Engine.pickRandomImage(imgPlatform));
-			
-			platformPath[i].setLocation(platformX[i], platformY[i] - PLATFORM_PATH_HEIGHT);
-			platformPath[i].setSize(PLATFORM_PATH_WIDTH, PLATFORM_PATH_HEIGHT);
-			
-			platformCollision[i].setLocation(platformX[i] - PLATFORM_COLLISION_WIDTH, platformY[i] + (PLATFORM_COLLISION_HEIGHT / 2));
-			platformCollision[i].setSize(PLATFORM_COLLISION_WIDTH, PLATFORM_COLLISION_HEIGHT);
-		}
-		
-		for(int i = platform.length; i < platformPath.length; i++) {
-			platformPath[i].setLocation(platformX[i - platform.length], platformY[i - platform.length] + PLATFORM_PATH_HEIGHT);
-			platformPath[i].setSize(PLATFORM_PATH_WIDTH, PLATFORM_PATH_HEIGHT);
-		}
-		
-		setHardLevelObstacles();
-		
-		// Setting start values for character
-		character.setLocation((int) (resX * 0.15), resY - (GroundBlocks.getGroundHeight() + CHARACTER_HEIGHT));
-		character.setSize(CHARACTER_WIDTH, CHARACTER_HEIGHT);
-		character.setCharacterImage(imgChar);
+		// Adding Character
+		this.add(character, 0);
 		
 		// Adding Ground
-		for(int i = 0; i < ground.length; i++) this.add(ground[i]);
-		
-		// Adding Platforms
-		for(int i = 0; i < platform.length; i++) {
-			this.add(platform[i]);
-			this.add(platformPath[i]);
-			this.add(platformCollision[i]);
-		}
-		
-		for(int i = platform.length; i < platformPath.length; i++) {
-			this.add(platformPath[i]);
+		for(int i = 0; i < ground.length; i++) {
+			this.add(ground[i], 0);
 		}
 		
 		// Adding obstacles
 		for(int i = 0; i < obstacle.length; i++) {
-			this.add(obstacle[i]);
+			this.add(obstacle[i], 0);
 		}
 		
-		// Adding Character
-		this.add(character);
+		// Adding Platforms
+		for(int i = 0; i < platform.length; i++) {
+			this.add(platform[i], 0);
+			this.add(platformPath[i], 0);
+			this.add(platformCollision[i], 0);
+		}
+		
+		for(int i = platform.length; i < platformPath.length; i++) {
+			this.add(platformPath[i], 0);
+		}
 		
 		timer.start();
 		charTimer.start();
@@ -250,6 +235,17 @@ public class GamePanel extends JPanel implements ActionListener{
 			if(ground[i].getX() == character.getX()) {
 				currentGround = i;
 			}
+		}
+		
+		for(int i = 0; i < background.length; i++) {
+			// Respawning background
+			if(background[i].getX() <= -BACKGROUND_WIDTH) {
+				if(i == 0) background[0].setLocation(background[1].getX() + BACKGROUND_WIDTH, 0);
+				if(i == 1) background[1].setLocation(background[0].getX() + BACKGROUND_WIDTH, 0);;
+			}
+			
+			// Animating background
+			background[i].setLocation(background[i].getX() - (currentSpeed / 2), 0);
 		}
 		
 		for(int i = 0; i < ground.length; i++) {
@@ -439,16 +435,27 @@ public class GamePanel extends JPanel implements ActionListener{
 	}
 	
 	public static void reset() {
+		groundX[0] = 0;
+		groundX[1] = GROUND_WIDTH;
+		groundX[2] = GROUND_WIDTH * 2;
 		firstTimeSpawn = true;
 		currentPlatform = 0;
 		
+		// Settings background size, location and image
+		for(int i = 0; i < background.length; i++) {
+			background[i].setLocation(backX[i], 0);
+			background[i].setSize(BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
+			background[i].setGameBackgroundImage(imgBack);
+		}
+		
+		// Setting ground block size, starting location and image
 		for(int i = 0; i < ground.length; i++) {
-			groundX[i] = GROUND_WIDTH * i;
 			ground[i].setLocation(groundX[i], resY - GROUND_HEIGHT);
 			ground[i].setSize(GROUND_WIDTH, GROUND_HEIGHT);
 			ground[i].setGroundImage(Engine.pickRandomImage(imgGround));
 		}
 		
+		// Setting start values for platforms
 		for (int i = 0; i < platform.length; i++) {
 			if(i == platform.length/2) firstTimeSpawn = false;
 			
@@ -462,13 +469,21 @@ public class GamePanel extends JPanel implements ActionListener{
 			platformPath[i].setLocation(platformX[i], platformY[i] - PLATFORM_PATH_HEIGHT);
 			platformPath[i].setSize(PLATFORM_PATH_WIDTH, PLATFORM_PATH_HEIGHT);
 			
-			platformCollision[i].setLocation(platformX[i] - PLATFORM_COLLISION_WIDTH, platformY[i]);
+			platformCollision[i].setLocation(platformX[i] - PLATFORM_COLLISION_WIDTH, platformY[i] + (PLATFORM_COLLISION_HEIGHT / 2));
 			platformCollision[i].setSize(PLATFORM_COLLISION_WIDTH, PLATFORM_COLLISION_HEIGHT);
 		}
 		
+		for(int i = platform.length; i < platformPath.length; i++) {
+			platformPath[i].setLocation(platformX[i - platform.length], platformY[i - platform.length] + PLATFORM_PATH_HEIGHT);
+			platformPath[i].setSize(PLATFORM_PATH_WIDTH, PLATFORM_PATH_HEIGHT);
+		}
+		
 		setHardLevelObstacles();
-	
 		CharacterTimer.fullReset();
+		
+		// Setting start values for character
 		character.setLocation((int) (resX * 0.15), resY - (GroundBlocks.getGroundHeight() + CHARACTER_HEIGHT));
+		character.setSize(CHARACTER_WIDTH, CHARACTER_HEIGHT);
+		character.setCharacterImage(imgChar);
 	}
 }

@@ -18,6 +18,7 @@ public class Init {
 	final static Color TEXT_COLOR = new Color(255, 255, 255);
 	final int DEFAULT_X_VALUE = 1920;
 	final int DEFAULT_Y_VALUE = 1080;
+	final static int[] GAME_BACKGROUND_SIZE = {2000, 1080};
 	final static int[] GROUND_SIZE = {1920, 150};
 	final static int[] PLATFORM_SIZE = {1920, 50};
 	final static int[] OBSTACLE_SIZE = {50, 50};
@@ -85,6 +86,10 @@ public class Init {
 	
 	public static int getResY() {
 		return SCREEN_RES_Y;
+	}
+	
+	public static int getGameBackgroundSize(int element) {
+		return GAME_BACKGROUND_SIZE[element];
 	}
 	
 	public static int getGroundSize(int element) {
