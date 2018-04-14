@@ -17,21 +17,21 @@ import jpanels.Settings;
 public class DifficultySettings extends JPanel{
 
 	private static Image[] dif1 = {
-			new ImageIcon(DifficultySettings.class.getResource("/Pictures/dif1def.png")).getImage(),
-			new ImageIcon(DifficultySettings.class.getResource("/Pictures/dif1hov.png")).getImage(),
-			new ImageIcon(DifficultySettings.class.getResource("/Pictures/dif1pre.png")).getImage()
+			new ImageIcon(DifficultySettings.class.getResource("/resources/dif1def.png")).getImage(),
+			new ImageIcon(DifficultySettings.class.getResource("/resources/dif1hov.png")).getImage(),
+			new ImageIcon(DifficultySettings.class.getResource("/resources/dif1pre.png")).getImage()
 	};
 	
 	private static Image[] dif2 = {
-			new ImageIcon(DifficultySettings.class.getResource("/Pictures/dif2def.png")).getImage(),
-			new ImageIcon(DifficultySettings.class.getResource("/Pictures/dif2hov.png")).getImage(),
-			new ImageIcon(DifficultySettings.class.getResource("/Pictures/dif2pre.png")).getImage()
+			new ImageIcon(DifficultySettings.class.getResource("/resources/dif2def.png")).getImage(),
+			new ImageIcon(DifficultySettings.class.getResource("/resources/dif2hov.png")).getImage(),
+			new ImageIcon(DifficultySettings.class.getResource("/resources/dif2pre.png")).getImage()
 	};
 	
 	private static Image[] dif3 = {
-			new ImageIcon(DifficultySettings.class.getResource("/Pictures/dif3def.png")).getImage(),
-			new ImageIcon(DifficultySettings.class.getResource("/Pictures/dif3hov.png")).getImage(),
-			new ImageIcon(DifficultySettings.class.getResource("/Pictures/dif3pre.png")).getImage()
+			new ImageIcon(DifficultySettings.class.getResource("/resources/dif3def.png")).getImage(),
+			new ImageIcon(DifficultySettings.class.getResource("/resources/dif3hov.png")).getImage(),
+			new ImageIcon(DifficultySettings.class.getResource("/resources/dif3pre.png")).getImage()
 	};
 	
 	private static ImageIcon[] dif1Scaled = {new ImageIcon(), new ImageIcon(), new ImageIcon()};

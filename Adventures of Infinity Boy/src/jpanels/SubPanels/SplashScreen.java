@@ -10,7 +10,7 @@ import main.Init;
 public class SplashScreen extends JPanel{
 	
 	public SplashScreen() {
-		ImageIcon imageIcon = new ImageIcon(SplashScreen.class.getResource("/Pictures/splashscreen.gif"));
+		ImageIcon imageIcon = new ImageIcon(SplashScreen.class.getResource("/resources/splashscreen.gif"));
 		JLabel label = new JLabel(imageIcon);
 		
 		this.setLayout(null);

@@ -8,19 +8,19 @@ import javax.swing.JPanel;
 import main.Init;
 import main.Main;
 
-public class Platform extends JPanel{
+public class gameBackground extends JPanel{
 
 	// Declarations
 	static int resX = Init.getResX();
 	static int resY = Init.getResY();
 	
-	private static int platformWidth;
-	private static int platformHeight;
+	private static int gameBackgroundWidth;
+	private static int gameBackgroundHeight;
 
 	
 	private Image chosenImage;
 	
-	public Platform() {
+	public gameBackground() {
 		setScaleIndex();
 	}
 	
@@ -34,19 +34,19 @@ public class Platform extends JPanel{
 	// Applying the scaleIndex to the ground objects X and Y dimensions.
 	// Size changes can be made manually in Init.
 	public void setScaleIndex() {
-		platformWidth = (int) (Init.getPlatformSize(0) * Init.getScaleIndexX());
-		platformHeight = (int) (Init.getPlatformSize(1) * Init.getScaleIndexY());
+		gameBackgroundWidth = (int) (Init.getGameBackgroundSize(0) * Init.getScaleIndexX());
+		gameBackgroundHeight = (int) (Init.getGameBackgroundSize(1) * Init.getScaleIndexY());
 	}
 
-	public static int getPlatformWidth() {
-		return platformWidth;
+	public static int getGameBackgroundWidth() {
+		return gameBackgroundWidth;
 	}
 	
-	public static int getPlatformHeight() {
-		return platformHeight;
+	public static int getGameBackgroundHeight() {
+		return gameBackgroundHeight;
 	}
 	
-	public void setPlatformImage(Image image) {
+	public void setGameBackgroundImage(Image image) {
 		chosenImage = image;
 	}
 	

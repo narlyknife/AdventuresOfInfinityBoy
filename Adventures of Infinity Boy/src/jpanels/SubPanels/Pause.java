@@ -24,8 +24,6 @@ public class Pause extends JPanel{
 	static int resX = Init.getResX();
 	static int resY = Init.getResY();
 	
-	static Font font = Init.getFont();
-	
 	static float scaleX = Init.getScaleIndexX();
 	static float scaleY = Init.getScaleIndexY();	
 	
@@ -56,8 +54,8 @@ public class Pause extends JPanel{
 		Engine.animateLabel(buttons[1], imgRetry, "retry");
 		Engine.animateLabel(buttons[2], imgMainmenu, "mainmenu");
 		
-		int yOffset = 400;
-		int yIncrease = 200;
+		int yOffset = (int) (400 * scaleY);
+		int yIncrease = (int) (200 * scaleY);
 		
 		for(int i = 0; i < buttons.length; i++) {
 			buttons[i].setSize((int) (Init.BUTTON_SET_SIZE[0] * scaleX), (int) (Init.BUTTON_SET_SIZE[1] * scaleY));

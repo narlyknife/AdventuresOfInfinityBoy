@@ -33,8 +33,8 @@ public class Credits extends JPanel {
 	
 	// Music producers
 	JLabel labelProd = new JLabel();
-	JLabel[] musicProducersArtist = {	new JLabel("Arzee", SwingConstants.CENTER), 				new JLabel("Doze", SwingConstants.CENTER), 				new JLabel("Clever Girl", SwingConstants.CENTER),			new JLabel("James Stikå", SwingConstants.CENTER)};
-	JLabel[] musicProducersReal = {		new JLabel("\"Alex Gjersin\"", SwingConstants.CENTER), 		new JLabel("\"Niels Beese\"", SwingConstants.CENTER), 	new JLabel("\"Ryan Kennelley\"", SwingConstants.CENTER),	new JLabel("\"James Stikå\"", SwingConstants.CENTER)};
+	JLabel[] musicProducersArtist = {	new JLabel("Arzee", SwingConstants.CENTER), 				new JLabel("DOZE", SwingConstants.CENTER), 				new JLabel("Clever Girl", SwingConstants.CENTER),			new JLabel("James Stikå", SwingConstants.CENTER)};
+	JLabel[] musicProducersReal = {		new JLabel("\"Alex Gjersing\"", SwingConstants.CENTER), 		new JLabel("\"Niels Beese\"", SwingConstants.CENTER), 	new JLabel("\"Ryan Kennelley\"", SwingConstants.CENTER),	new JLabel("\"James Stikå\"", SwingConstants.CENTER)};
 	
 	// Graphical Artists
 	JLabel labelGrap = new JLabel();
@@ -58,7 +58,7 @@ public class Credits extends JPanel {
 	private Image img;
 	
 	public Credits() {
-		img = new ImageIcon(MainMenu.class.getResource("/Pictures/settingsBackground.png")).getImage();
+		img = new ImageIcon(MainMenu.class.getResource("/resources/settingsBackground.png")).getImage();
 		
 		this.setLayout(null);
 		

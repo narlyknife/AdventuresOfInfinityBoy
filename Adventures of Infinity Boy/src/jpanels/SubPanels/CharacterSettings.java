@@ -16,21 +16,21 @@ import jpanels.Settings;
 public class CharacterSettings extends JPanel{
 	
 	private static Image[] char1 = {
-			new ImageIcon(CharacterSettings.class.getResource("/Pictures/character1def.png")).getImage(),
-			new ImageIcon(CharacterSettings.class.getResource("/Pictures/character1hov.png")).getImage(),
-			new ImageIcon(CharacterSettings.class.getResource("/Pictures/character1pre.png")).getImage()
+			new ImageIcon(CharacterSettings.class.getResource("/resources/character1def.png")).getImage(),
+			new ImageIcon(CharacterSettings.class.getResource("/resources/character1hov.png")).getImage(),
+			new ImageIcon(CharacterSettings.class.getResource("/resources/character1pre.png")).getImage()
 	};
 	
 	private static Image[] char2 = {
-			new ImageIcon(CharacterSettings.class.getResource("/Pictures/character2def.png")).getImage(),
-			new ImageIcon(CharacterSettings.class.getResource("/Pictures/character2hov.png")).getImage(),
-			new ImageIcon(CharacterSettings.class.getResource("/Pictures/character2pre.png")).getImage()
+			new ImageIcon(CharacterSettings.class.getResource("/resources/character2def.png")).getImage(),
+			new ImageIcon(CharacterSettings.class.getResource("/resources/character2hov.png")).getImage(),
+			new ImageIcon(CharacterSettings.class.getResource("/resources/character2pre.png")).getImage()
 	};
 	
 	private static Image[] char3 = {
-			new ImageIcon(CharacterSettings.class.getResource("/Pictures/character3def.png")).getImage(),
-			new ImageIcon(CharacterSettings.class.getResource("/Pictures/character3hov.png")).getImage(),
-			new ImageIcon(CharacterSettings.class.getResource("/Pictures/character3pre.png")).getImage()
+			new ImageIcon(CharacterSettings.class.getResource("/resources/character3def.png")).getImage(),
+			new ImageIcon(CharacterSettings.class.getResource("/resources/character3hov.png")).getImage(),
+			new ImageIcon(CharacterSettings.class.getResource("/resources/character3pre.png")).getImage()
 	};
 	
 	private static ImageIcon[] char1Scaled = {new ImageIcon(), new ImageIcon(), new ImageIcon()};

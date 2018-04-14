@@ -45,7 +45,7 @@ public class Settings extends JPanel{
 	
 	public Settings() {
 		this.setLayout(null);
-		img = new ImageIcon(Settings.class.getResource("/Pictures/settingsBackground.png")).getImage();
+		img = new ImageIcon(Settings.class.getResource("/resources/settingsBackground.png")).getImage();
 		
 		Main.subPanelMap.put("gamesettings", new GameSettings());
 		Main.subPanelMap.put("charactersettings", new CharacterSettings());	

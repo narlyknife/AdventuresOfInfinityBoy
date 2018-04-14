@@ -18,9 +18,18 @@ public class Init {
 	final static Color TEXT_COLOR = new Color(255, 255, 255);
 	final int DEFAULT_X_VALUE = 1920;
 	final int DEFAULT_Y_VALUE = 1080;
+	final static int[] GAME_BACKGROUND_SIZE = {2000, 1080};
 	final static int[] GROUND_SIZE = {1920, 150};
-	final static int[] PLATFORM_SIZE = {1920, 50};
+	final static int[] PLATFORM_SIZE = {1920, 75};
+	final static int[] OBSTACLE_SIZE = {50, 75};
+	final static int[] OBSTACLE_LARGE_SIZE = {75, 100};
 	final static int[] CHARACTER_SIZE = {150, 75};
+	final static int CHARACTER_GROUND_OFFSET = (int) (CHARACTER_SIZE[1] * 0.65);
+	final static int CHARACTER_PLATFORM_OFFSET = (int) (CHARACTER_SIZE[1] * 0.7);
+	final static int CHARACTER_PLATFORM_UNDER_OFFSET = (int) (CHARACTER_SIZE[1] * 0.15);
+	final static int OBSTACLE_GROUND_OFFSET = (int) (OBSTACLE_SIZE[1] * 0.60);
+	final static int OBSTACLE_PLATFORM_OFFSET = (int) (OBSTACLE_SIZE[1] * 0.65);
+	final static int OBSTACLE_LARGE_PLATFORM_OFFSET = (int) (OBSTACLE_LARGE_SIZE[1] * 0.7);
 	public final static int[] SETTINGS_CHAR_SIZE = {340, 460};
 	public final static int[] SETTINGS_DIF_SIZE = {400, 300};
 	public final static int[] SETTINGS_TEXT_MUSIC_SIZE = {450, 150};
@@ -40,9 +49,9 @@ public class Init {
 	static float scaleIndexY = 1;
 	static int a = 35;
 	static int vZero = 140;
-	static int splashScreenTime = 0;	// Milliseconds
+	static int splashScreenTime = 5;	// Milliseconds
 	
-	// Hombre font on text
+	// Font on Text - Hombre
 	
 	// Difficulty selection (1-3)
 	// Character selection (1-3)
@@ -50,11 +59,12 @@ public class Init {
 	// Toggle music (0-1) 
 	// 0 = false, 1 = true
 	public static int[] settingsData = {1, 1, 1, 1, 34274566};
-	public final static String SETTINGS_PATH = "src/Settings/settings.txt";
+	public final static String SETTINGS_PATH = "Settings.txt";
 	
 	Init() {
 		// The Main threads FPS
 		setFps(0, 100);
+		setFps(1, 50);
 		
 		// Screen Resolutions in X and Y format
 		SCREEN_RES_X = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
@@ -84,8 +94,20 @@ public class Init {
 		return SCREEN_RES_Y;
 	}
 	
+	public static int getGameBackgroundSize(int element) {
+		return GAME_BACKGROUND_SIZE[element];
+	}
+	
 	public static int getGroundSize(int element) {
 		return GROUND_SIZE[element];
+	}
+	
+	public static int getObstacleSize(int element) {
+		return OBSTACLE_SIZE[element];
+	}
+	
+	public static int getObstacleLargeSize(int element) {
+		return OBSTACLE_LARGE_SIZE[element];
 	}
 	
 	public static int getPlatformSize(int element) {
@@ -98,6 +120,30 @@ public class Init {
 	
 	public static int getCharacterSize(int element) {
 		return CHARACTER_SIZE[element];
+	}
+	
+	public static int getCharacterGroundOffset() {
+		return CHARACTER_GROUND_OFFSET;
+	}
+	
+	public static int getCharacterPlatformOffset() {
+		return CHARACTER_PLATFORM_OFFSET;
+	}
+	
+	public static int getCharacterUnderPlatformOffset() {
+		return CHARACTER_PLATFORM_UNDER_OFFSET;
+	}
+	
+	public static int getObstacleGroundOffset() {
+		return OBSTACLE_GROUND_OFFSET;
+	}
+	
+	public static int getObstaclePlatformOffset() {
+		return OBSTACLE_PLATFORM_OFFSET;
+	}
+	
+	public static int getObstacleLargePlatformOffset() {
+		return OBSTACLE_LARGE_PLATFORM_OFFSET;
 	}
 	
 	public static int getGravity() {
