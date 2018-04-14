@@ -77,7 +77,7 @@ public class CharacterTimer implements ActionListener{
 			// collision with bottom of platform
 			for(int i = GamePanel.platform.length; i < GamePanel.platformPath.length; i++) {
 				if(Engine.intersects(character, GamePanel.platformPath[i])) {
-					character.setLocation(character.getX(), GamePanel.platformPath[i].getY() - (int) (character.getHeight() * 0.1));
+					character.setLocation(character.getX(), GamePanel.platformPath[i].getY() - Init.getCharacterUnderPlatformOffset());
 					jumping = false;
 					falling = false;
 					
@@ -111,7 +111,7 @@ public class CharacterTimer implements ActionListener{
 			
 			// Collision with ground, future position detecting due to preventing impact Y coordinate to not be inside the ground
 			if(nextY >= GamePanel.ground[GamePanel.currentGround].getY() - character.getHeight()) {
-				character.setLocation(character.getX(), GamePanel.ground[GamePanel.currentGround].getY() - character.getHeight());
+				character.setLocation(character.getX(), GamePanel.ground[GamePanel.currentGround].getY() - Init.getCharacterGroundOffset());
 				
 				resetPhys();
 				falling = false;
@@ -122,7 +122,7 @@ public class CharacterTimer implements ActionListener{
 				// Collision with top of current platform
 				for(int i = 0; i < GamePanel.platform.length; i++) {
 					if(Engine.intersects(character, GamePanel.platformPath[i])) {
-						character.setLocation(character.getX(), GamePanel.platformPath[i].getY() - (int) (character.getHeight() * 0.9));
+						character.setLocation(character.getX(), GamePanel.platformPath[i].getY() - Init.getCharacterPlatformOffset());
 						falling = false;
 						
 						resetPhys();

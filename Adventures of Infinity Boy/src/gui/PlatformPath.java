@@ -21,7 +21,7 @@ public class PlatformPath extends JPanel{
 	public PlatformPath() {
 		setScaleIndex();
 		
-		this.setBackground(Color.green);
+		this.setBackground(new Color(0, 255, 0, 0));
 	}
 	
 	// Applying the scaleIndex to the ground objects X and Y dimensions.

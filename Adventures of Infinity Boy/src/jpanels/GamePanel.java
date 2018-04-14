@@ -1,5 +1,6 @@
 package jpanels;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -142,7 +143,7 @@ public class GamePanel extends JPanel implements ActionListener{
 
 	// Settings coordinate system for placement of platforms
 	private static int platformYOffset = groundY;
-	private static int platformYIncrease = (int) (150 * scaleY);
+	private static int platformYIncrease = (int) (135 * scaleY);
 	private static int lastChoosenYPoint = 3;
 	private static boolean firstTimeSpawn = true;
 	
@@ -182,6 +183,16 @@ public class GamePanel extends JPanel implements ActionListener{
 		this.getActionMap().put("jump", keyHandler.getJumpAction());
 		this.getActionMap().put("drop", keyHandler.getDropAction());
 		
+		// Settings ground background color to transparent
+		for(int i = 0; i < ground.length; i++) {
+			ground[i].setBackground(new Color(0, 0, 0, 0));
+		}
+		
+		// Setting platform background to transparent
+		for(int i = 0; i < platform.length; i++) {
+			platform[i].setBackground(new Color(0, 0, 0, 0));
+		}
+		
 		// Adding Background
 		for(int i = 0; i < background.length; i++) {
 			this.add(background[i]);
@@ -190,14 +201,14 @@ public class GamePanel extends JPanel implements ActionListener{
 		// Adding Character
 		this.add(character, 0);
 		
-		// Adding Ground
-		for(int i = 0; i < ground.length; i++) {
-			this.add(ground[i], 0);
-		}
-		
 		// Adding obstacles
 		for(int i = 0; i < obstacle.length; i++) {
 			this.add(obstacle[i], 0);
+		}
+		
+		// Adding Ground
+		for(int i = 0; i < ground.length; i++) {
+			this.add(ground[i], 0);
 		}
 		
 		// Adding Platforms
@@ -273,7 +284,7 @@ public class GamePanel extends JPanel implements ActionListener{
 			platform[i].setLocation(platformX[i] -= currentSpeed, platformY[i]);
 			platformPath[i].setLocation(platformX[i], platformY[i] - PLATFORM_PATH_HEIGHT);
 			platformPath[i + platform.length].setLocation(platformX[i - platform.length + platform.length], platformY[i - platform.length + platform.length] + PLATFORM_HEIGHT);
-			platformCollision[i].setLocation(platformX[i] - PLATFORM_COLLISION_WIDTH, platform[i].getY() + (PLATFORM_COLLISION_HEIGHT / 2));
+			platformCollision[i].setLocation(platformX[i], platformY[i] + (PLATFORM_COLLISION_HEIGHT * 2));
 		}
 		
 		for(int i = 0; i < obstacle.length; i++) {
@@ -301,10 +312,10 @@ public class GamePanel extends JPanel implements ActionListener{
 			
 			if(j % 2 == 0) {
 				int temp = (int) (Math.random() * 10);
-				if(temp <= 5) y = ground[platformIndex].getY() - OBSTACLE_HEIGHT;
-				else y = platformY[platformIndex] + PLATFORM_HEIGHT;
+				if(temp <= 5) y = ground[platformIndex].getY() - Init.getObstacleGroundOffset();
+				else y = platformY[platformIndex] + Init.getObstaclePlatformOffset();
 			}
-			else y = platformY[platformIndex] - OBSTACLE_LARGE_HEIGHT;
+			else y = platformY[platformIndex] - Init.getObstacleLargePlatformOffset();
 			obstacle[j].setLocation(x, y);
 		}
 	}
@@ -345,14 +356,15 @@ public class GamePanel extends JPanel implements ActionListener{
 			
 			if(selectedXPart != 6) x = platform[selectedPlatform].getX() + (OBSTACLE_INCREASE * (selectedXPart - 1)) + randomOffset;
 			else x = platform[selectedPlatform].getX() + (OBSTACLE_INCREASE * (selectedXPart - 1)) + randomOffset - OBSTACLE_LARGE_WIDTH;
+			
 			// Y CALCULATION //
 			
 			if(i % 2 == 0) {
 				int temp = (int) (Math.random() * 10);
-				if(temp <= 5) y = ground[selectedPlatform].getY() - OBSTACLE_HEIGHT;
-				else y = platform[selectedPlatform].getY() + PLATFORM_HEIGHT;
+				if(temp <= 5) y = ground[selectedPlatform].getY() - Init.getObstacleGroundOffset();
+				else y = platform[selectedPlatform].getY() + Init.getObstaclePlatformOffset();
 			}
-			else y = platform[selectedPlatform].getY() - OBSTACLE_LARGE_HEIGHT;
+			else y = platform[selectedPlatform].getY() - Init.getObstacleLargePlatformOffset();
 			
 			obstacle[i].setLocation(x, y);
 		}
@@ -469,7 +481,7 @@ public class GamePanel extends JPanel implements ActionListener{
 			platformPath[i].setLocation(platformX[i], platformY[i] - PLATFORM_PATH_HEIGHT);
 			platformPath[i].setSize(PLATFORM_PATH_WIDTH, PLATFORM_PATH_HEIGHT);
 			
-			platformCollision[i].setLocation(platformX[i] - PLATFORM_COLLISION_WIDTH, platformY[i] + (PLATFORM_COLLISION_HEIGHT / 2));
+			platformCollision[i].setLocation(platformX[i], platformY[i] + (PLATFORM_COLLISION_HEIGHT * 2));
 			platformCollision[i].setSize(PLATFORM_COLLISION_WIDTH, PLATFORM_COLLISION_HEIGHT);
 		}
 		
@@ -482,7 +494,7 @@ public class GamePanel extends JPanel implements ActionListener{
 		CharacterTimer.fullReset();
 		
 		// Setting start values for character
-		character.setLocation((int) (resX * 0.15), resY - (GroundBlocks.getGroundHeight() + CHARACTER_HEIGHT));
+		character.setLocation((int) (resX * 0.15), resY - (GroundBlocks.getGroundHeight() + Init.getCharacterGroundOffset()));
 		character.setSize(CHARACTER_WIDTH, CHARACTER_HEIGHT);
 		character.setCharacterImage(imgChar);
 	}

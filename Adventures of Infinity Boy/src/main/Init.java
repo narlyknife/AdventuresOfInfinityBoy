@@ -20,10 +20,16 @@ public class Init {
 	final int DEFAULT_Y_VALUE = 1080;
 	final static int[] GAME_BACKGROUND_SIZE = {2000, 1080};
 	final static int[] GROUND_SIZE = {1920, 150};
-	final static int[] PLATFORM_SIZE = {1920, 50};
-	final static int[] OBSTACLE_SIZE = {50, 50};
+	final static int[] PLATFORM_SIZE = {1920, 75};
+	final static int[] OBSTACLE_SIZE = {50, 75};
 	final static int[] OBSTACLE_LARGE_SIZE = {75, 100};
 	final static int[] CHARACTER_SIZE = {150, 75};
+	final static int CHARACTER_GROUND_OFFSET = (int) (CHARACTER_SIZE[1] * 0.65);
+	final static int CHARACTER_PLATFORM_OFFSET = (int) (CHARACTER_SIZE[1] * 0.7);
+	final static int CHARACTER_PLATFORM_UNDER_OFFSET = (int) (CHARACTER_SIZE[1] * 0.15);
+	final static int OBSTACLE_GROUND_OFFSET = (int) (OBSTACLE_SIZE[1] * 0.60);
+	final static int OBSTACLE_PLATFORM_OFFSET = (int) (OBSTACLE_SIZE[1] * 0.65);
+	final static int OBSTACLE_LARGE_PLATFORM_OFFSET = (int) (OBSTACLE_LARGE_SIZE[1] * 0.7);
 	public final static int[] SETTINGS_CHAR_SIZE = {340, 460};
 	public final static int[] SETTINGS_DIF_SIZE = {400, 300};
 	public final static int[] SETTINGS_TEXT_MUSIC_SIZE = {450, 150};
@@ -43,7 +49,7 @@ public class Init {
 	static float scaleIndexY = 1;
 	static int a = 35;
 	static int vZero = 140;
-	static int splashScreenTime = 5000;	// Milliseconds
+	static int splashScreenTime = 5;	// Milliseconds
 	
 	// Font on Text - Hombre
 	
@@ -114,6 +120,30 @@ public class Init {
 	
 	public static int getCharacterSize(int element) {
 		return CHARACTER_SIZE[element];
+	}
+	
+	public static int getCharacterGroundOffset() {
+		return CHARACTER_GROUND_OFFSET;
+	}
+	
+	public static int getCharacterPlatformOffset() {
+		return CHARACTER_PLATFORM_OFFSET;
+	}
+	
+	public static int getCharacterUnderPlatformOffset() {
+		return CHARACTER_PLATFORM_UNDER_OFFSET;
+	}
+	
+	public static int getObstacleGroundOffset() {
+		return OBSTACLE_GROUND_OFFSET;
+	}
+	
+	public static int getObstaclePlatformOffset() {
+		return OBSTACLE_PLATFORM_OFFSET;
+	}
+	
+	public static int getObstacleLargePlatformOffset() {
+		return OBSTACLE_LARGE_PLATFORM_OFFSET;
 	}
 	
 	public static int getGravity() {
